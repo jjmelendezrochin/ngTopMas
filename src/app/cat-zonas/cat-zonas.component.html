@@ -1,0 +1,193 @@
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <br>
+        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected" (selectedIndexChange)=" tabClick($event)">
+
+            <mat-tab label="Lista de Zonas">
+                <p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group no-border">
+                                <input type="text" value="" class="form-control" placeholder="Buscar zona" (keyup)="changeText($event)">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                search
+                            </i>
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button mat-raised-button type="button" class="btn btn-info pull-right" (click)="selectNewCatZona();setSelectedTab(1)">Nuevo</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-info">
+                                    <h4 class="card-title ">Catalogo de zonas</h4>
+                                    <p class="card-category"> Aqui se muestra todas las zonas disponibles</p>
+                                    <br>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+
+                                        <a *ngIf="zonas != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(zonas, encabezados)">
+                                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
+                                            cloud_download
+                                        </i>
+                                        </a>
+
+                                        <div class="clearfix"></div>
+
+                                        <mat-paginator #pag *ngIf="zonas != null" [length]="zonas.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
+                                        </mat-paginator>
+
+                                        <table #tabla_zonas class="table">
+                                            <thead class=" text-primary">
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Letra de Zona
+                                                    <br>
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(2)">
+                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(1)">
+                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+                                                </th>
+                                                <!-- <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    descripci&oacute;n
+                                                </th> -->
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Estados
+                                                    <br>
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(4)">
+                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(3)">
+                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Uda
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Fda
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Udc
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Fdc
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Editar
+                                                </th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">
+                                                    Eliminar
+                                                </th>
+                                            </thead>
+                                            <tbody *ngIf="zonas != null">
+                                                <tr *ngFor="let zona of zonas | paginate:paginacion.page_size:paginacion.page_number">
+                                                    <td>{{ zona.letrazona }}</td>
+                                                    <!-- <td>{{ zona.descripcion }}</td> -->
+                                                    <td>{{ zona.estados}}</td>
+                                                    <td>{{ zona.uda }}</td>
+                                                    <td>{{ zona.fda_m }}</td>
+                                                    <td>{{ zona.udc }}</td>
+                                                    <td>{{ zona.fdc_m }}</td>
+                                                    <td style="text-align:center">
+                                                        <button mat-raised-button type="button" class="btn btn-warning pull-right" (click)="selectCatZona(zona);setSelectedTab(1)">Editar</button>
+                                                    </td>
+                                                    <td><button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatZona(zona.idzona)" [disabled]="noPermitido">Borrar</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </mat-tab>
+
+            <mat-tab label="Detalles de la Zona">
+                <p>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title">Editar zona</h4>
+                                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+                            </div>
+                            <div class="card-body">
+                                <form #f="ngForm">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Letra de Zona" type="text" name="letrazona" [(ngModel)]="selectedCatZona.letrazona">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Descripción" type="text" name="descripcion" [(ngModel)]="selectedCatZona.descripcion">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Estados" type="text" name="estados" [(ngModel)]="selectedCatZona.estados">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatZona.uda_c" readonly disabled>
+                                            </mat-form-field>
+                                            <input type="hidden" name="udc" [(ngModel)]="selectedCatZona.uda_c">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Fecha de actualización" type="text" name="fdc" [(ngModel)]="selectedCatZona.fdc" readonly disabled>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatZona.uda" readonly disabled>
+                                            </mat-form-field>
+                                            <input type="hidden" name="uda" [(ngModel)]="selectedCatZona.uda">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Fecha de creación" type="text" name="fda" [(ngModel)]="selectedCatZona.fda" readonly disabled>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatZona(f)" [disabled]="noPermitido">Guardar</button>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

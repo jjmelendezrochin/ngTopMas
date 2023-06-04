@@ -1,0 +1,235 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Busqueda de fotos</h4>
+                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+            </div>
+            <div class="card-body">
+                <form #f="ngForm">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <mat-form-field style="width:100px">
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
+                                    placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtradofotos.FechaInicial">
+                        </div>
+
+                        <div class="col-md-3">
+                            <mat-form-field style="width:100px">
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"
+                                    placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtradofotos.FechaFinal">
+                        </div>
+
+                        <div class="col-md-3">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                (click)="filtradofotos.orden=0; f.value.orden=0; consultar(f)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                    search
+                                </i>
+                            </a>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por actividad</mat-label>
+                                <mat-select #listaActividad [(value)]="filtradofotos.idoperacion" name="idoperacion"
+                                    [(ngModel)]="filtradofotos.idoperacion" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsActividad()">Todas las actividades
+                                    </mat-option>
+                                    <mat-option *ngFor="let actividad of actividades" [value]="actividad.idoperacion">
+                                        {{actividad.descripcion}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por promotor</mat-label>
+                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor"
+                                    [(ngModel)]="filtradofotos.idpromotor" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsPromotor()">Todos los promotores
+                                    </mat-option>
+                                    <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
+                                        {{promotor.nombrecompleto}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por tienda</mat-label>
+                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda"
+                                    [(ngModel)]="filtradofotos.Tienda" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsTienda()">Todas las tiendas
+                                    </mat-option>
+                                    <mat-option *ngFor="let catruta of catrutas" [value]="catruta.Tienda">
+                                        {{catruta.Tienda}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por cadena</mat-label>
+                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena"
+                                    [(ngModel)]="filtradofotos.idcadena" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsCadena()">Todas las cadenas
+                                    </mat-option>
+                                    <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
+                                        {{cadena.cadena}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <input matInput placeholder="Placeholder" name="orden" id="orden"
+                            [(ngModel)]="filtradofotos.orden" style="visibility: hidden;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h4 class="card-title ">Catalogo de Fotos</h4>
+                <p class="card-category"> Aqui se muestra todas las fotos disponibles</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="row">
+                        <!-- Paginador -->
+                        <mat-paginator #pag *ngIf="catfotos != null" [length]="catfotos.length"
+                            [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                            (page)="paginacion.handlePage($event)">
+                        </mat-paginator>
+
+                        <!-- Descarga de pdfs -->
+                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                            (click)="generarPdf.generarPDF(form.value)">
+                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
+                                data-md-tooltip="Descargar Pdf">
+                                picture_as_pdf
+                            </i>
+                        </a>
+                        <div class="clearfix"></div>
+
+                        <!-- Descarga de fotos -->
+                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                            (click)="generarZipFotos.generarZipFotos(form.value)">
+                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
+                                data-md-tooltip="Descargar Fotos">
+                                monochrome_photos
+                            </i>
+                        </a>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Foto
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Promotor
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Tienda
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                <!--<a *ngIf="form!=null" class="btn btn-info pull-right padding-boton"
+                                    href="javascript:void(0)"
+                                    (click)="filtradofotos.orden=1; f.value.orden=1; consultar(form);">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
+                                        arrow_drop_up
+                                    </i>
+                                    <div class="ripple-container"></div>
+                                </a>-->
+                                Fecha y Hora
+                                <!--<a *ngIf="form!=null" class="btn btn-info pull-right padding-boton"
+                                    href="javascript:void(0)"
+                                    (click)="filtradofotos.orden=0; f.value.orden=0; consultar(form);">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
+                                        arrow_drop_down
+                                    </i>
+                                    <div class="ripple-container"></div>
+                                </a>-->
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Fecha y Hora1
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Actividad
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Distancia
+                            </th>
+                        </thead>
+                        <tbody *ngIf="catfotos != null">
+                            <tr
+                                *ngFor="let foto of catfotos | paginate:paginacion.page_size:paginacion.page_number;let i = index">
+                                <td><img src="{{ foto.foto }}" style="width:100px;height:100px;"
+                                        (click)="abrirVentanaModal(foto.foto)"></td>
+                                <td>{{ foto.promotor }}</td>
+                                <td>{{ foto.Tienda }}</td>
+                                <td>{{ foto.FechaHora }}</td>
+                                <td>{{ foto.FechaHora1 }}</td>
+                                <td>{{ foto.actividad }}
+                                    <button class="btn btn-info pull-right"
+                                        (click)="verMapaUbicacion(foto.latitud_tienda,foto.longitud_tienda,foto.latitud_ubicacion,foto.longitud_ubicacion,foto.Tienda,foto.Direccion,foto.promotor,foto.actividad)">
+                                        <i class="material-icons" data-md-tooltip="Mapa">person_pin_circle</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </td>
+                                <td>{{ foto.Distancia }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ventanaImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!--<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal titl</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>-->
+            <div class="modal-body" style="overflow: auto">
+                <img id="imagen">
+            </div>
+            <!--<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>-->
+        </div>
+    </div>
+</div>

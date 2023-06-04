@@ -1,0 +1,199 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Busqueda de detalles</h4>
+                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+            </div>
+            <div class="card-body">
+                <form #f="ngForm">
+                    <div class="row">
+
+                        <div class="col">
+                            <mat-form-field style="width:150px">
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP" placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtradofotos.FechaInicial">
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field style="width:100px">
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP" placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtradofotos.FechaFinal">
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por promotor</mat-label>
+                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor" [(ngModel)]="filtradofotos.idpromotor" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsPromotor()">Todos los promotores
+                                    </mat-option>
+                                    <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
+                                        {{promotor.nombrecompleto}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por tienda</mat-label>
+                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda" [(ngModel)]="filtradofotos.Tienda" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsTienda()">Todas las tiendas
+                                    </mat-option>
+                                    <mat-option *ngFor="let catruta of catrutas" [value]="catruta.idruta">
+                                        {{catruta.Tienda}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por actividad</mat-label>
+                                <mat-select #listaActividad [(value)]="filtradofotos.Actividad" name="Actividad" [(ngModel)]="filtradofotos.Actividad" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsActividad()">Todas las actividades
+                                    </mat-option>
+                                    <mat-option *ngFor="let actividad of actividades" [value]="actividad.idoperacion">
+                                        {{actividad.descripcion}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por cadena</mat-label>
+                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena" [(ngModel)]="filtradofotos.idcadena" multiple>
+                                    <mat-option [value]="0" (click)="toggleAllItemsCadena()">Todas las cadenas
+                                    </mat-option>
+                                    <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
+                                        {{cadena.nombrecorto}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!--                     </div>
+
+                    <div class="row">
+ -->
+                        <div class="col">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="consultar(f)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                    search
+                                </i>
+                            </a>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="col">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="generarReporteExcel.generarReporteExcel(f.value)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Reporte Excel">
+                                    assignment_returned
+                                </i>
+                            </a>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <!-- <div class="col">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                (click)="exportarExcel1(f.value)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Reporte Excel 1">
+                                    equalizer
+                                </i>
+                            </a>
+                            <div class="clearfix"></div>                            
+                        </div> -->
+                        <div class="col"></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h4 class="card-title ">Lista de distancias de cada promotor</h4>
+                <p class="card-category"> Aqui se muestra todas las distancias</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <a *ngIf="fotodistancia != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(fotodistancia, encabezados)">
+                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
+                            cloud_download
+                        </i>
+                    </a>
+
+                    <div class="clearfix"></div>
+                    <mat-paginator #pag *ngIf="fotodistancia != null" [length]="fotodistancia.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
+                    </mat-paginator>
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Nombre
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Tienda
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Actividad
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Fecha y Hora
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Distancia
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Actividad 1
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Fecha y Hora 1
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Distancia 1
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Estancia
+                            </th>
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Estatus
+                            </th>
+                        </thead>
+                        <tbody *ngIf="fotodistancia != null">
+                            <tr *ngFor="let distancia of fotodistancia | paginate:paginacion.page_size:paginacion.page_number"> <!--
+                            | paginate:paginacion.page_size:paginacion.page_number-->                                <td>{{ distancia.Nombre }}</td>
+                                <td>{{ distancia.Tienda }}</td>
+                                <td>{{ distancia.Actividad }}</td>
+                                <td>{{ distancia.FechaHora }}</td>
+                                <td>{{ distancia.Distancia }}</td>
+                                <td>{{ distancia.Actividad1 }}</td>
+                                <td>{{ distancia.FechaHora1 }}</td>
+                                <td>{{ distancia.Distancia1 }}</td>
+                                <td>{{ distancia.Estancia }}</td>
+                                <td>{{ distancia.Estatus }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

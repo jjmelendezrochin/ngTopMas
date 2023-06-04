@@ -1,0 +1,641 @@
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <br>
+        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected"
+            (selectedIndexChange)="tabClick($event)">
+
+            <mat-tab label="Lista de tiendas">
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group no-border">
+                            <input type="text" value="" class="form-control" placeholder="Buscar rutas"
+                                (keyup)="changeText($event)">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                search
+                            </i>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <button mat-raised-button type="button" class="btn btn-info pull-right"
+                            (click)="selectNewCatRutas();setSelectedTab(1)">Nuevo</button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title ">Catalogo de tiendas</h4>
+                                <p class="card-category"> Aqui se muestra todos las rutas disponibles</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <a *ngIf="rutas != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                                        (click)="exportarExcel.exportarExcel(rutas, encabezados)">
+                                        <i class="material-icons" style="font-size: 20px"
+                                            data-md-tooltip="Exportar a Excel">
+                                            cloud_download
+                                        </i>
+                                    </a>
+
+                                    <div class="clearfix"></div>
+
+                                    <mat-paginator #pag *ngIf="rutas != null" [length]="rutas.length"
+                                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                                        (page)="paginacion.handlePage($event)">
+                                    </mat-paginator>
+
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Ruta
+                                                <!--<br>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(-1)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(-2)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>-->
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Determinante
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Tienda
+                                                <!--<br>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(2)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(1)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>-->
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Cluster
+                                                <!--<br>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(4)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(3)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>-->
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Direccion completa
+                                                <!--<br>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(6)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Desc">
+                                                        arrow_drop_down
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                    (click)="search(5)">
+                                                    <i class="material-icons" style="font-size: 20px"
+                                                        data-md-tooltip="Orden Asc">
+                                                        arrow_drop_up
+                                                    </i>
+                                                    <div class="ripple-container"></div>
+                                                </a>-->
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Intensidad
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Editar
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Eliminar
+                                            </th>
+                                        </thead>
+                                        <tbody *ngIf="rutas != null">
+                                            <tr
+                                                *ngFor="let ruta of rutas | paginate:paginacion.page_size:paginacion.page_number">
+                                                <td>{{ ruta.idruta }}</td>
+                                                <td>{{ ruta.determinante }}</td>
+                                                <td>{{ ruta.Tienda1 }}</td>
+                                                <td>{{ ruta.cluster }}</td>
+                                                <td>{{ ruta.direccioncompleta }}</td>
+                                                <td>{{ ruta.intensidad_str }}</td>
+                                                <!--<td><button mat-raised-button type="button" class="btn {{ruta.btn_estilo}} pull-right"
+                                                (click)="selectCatRutas(ruta,1)">
+                                                {{ ruta.estatus_btn }}</button>
+                                        </td>-->
+                                                <td>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-warning pull-right"
+                                                        (click)="selectCatRutas(ruta);setSelectedTab(1)">Editar</button>
+                                                </td>
+                                                <td><button mat-raised-button type="button"
+                                                        class="btn btn-danger pull-right"
+                                                        (click)="deleteCatRutas(ruta.idruta)"
+                                                        [disabled]="noPermitido">Borrar</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Detalles de la tienda">
+                <br>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title">Editar tiendas</h4>
+                            <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+                        </div>
+                        <div class="card-body">
+                            <form #f="ngForm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Ruta" type="text" name="ruta"
+                                                [(ngModel)]="selectedCatRutas.ruta">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Determinante" type="text" name="determinante"
+                                                [(ngModel)]="selectedCatRutas.determinante">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Cadena</mat-label>
+                                            <mat-select [(value)]="idempresa" name="idcadena"
+                                                [(ngModel)]="selectedCatRutas.idcadena"
+                                                (selectionChange)="ListaFormatos($event.value)">
+                                                <mat-option [value]="0">--Seleccione una cadena--</mat-option>
+                                                <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
+                                                    {{cadena.cadena}}
+                                                </mat-option>
+                                                <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!--<div class="col-md-4">
+                                --Campos temporalmente ocultos--
+                                <div style="display: none;">
+                                    <mat-form-field class="example-full-width" style="display: none">
+                                        <input matInput placeholder="Supervisor" type="text" name="idsupervisor"
+                                            [(ngModel)]="selectedCatPromotor.idsupervisor" style="display: none">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" style="display: none">
+                                        <input matInput placeholder="Rol" type="text" name="rol"
+                                            [(ngModel)]="selectedCatPromotor.rol" style="display: none">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" style="display: none">
+                                        <input matInput placeholder="Correo" type="text" name="correo"
+                                            [(ngModel)]="selectedCatPromotor.correo" style="display: none">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" style="display: none">
+                                        <input matInput placeholder="Estatus" type="text" name="estatus"
+                                            [(ngModel)]="selectedCatPromotor.estatus" style="display: none">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width" style="display: none">
+                                        <input matInput placeholder="QR" type="text" name="QR"
+                                            [(ngModel)]="selectedCatPromotor.QR" style="display: none">
+                                    </mat-form-field>
+                                </div>
+                                    --Fin de la seccion de campos temporalmente ocultos--
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Nombre" type="text" name="nombre"
+                                            [(ngModel)]="selectedCatPromotor.nombre">
+                                    </mat-form-field>
+                            </div>-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Formato</mat-label>
+                                            <mat-select [(value)]="idformato" name="idformato"
+                                                [(ngModel)]="selectedCatRutas.idformato">
+                                                <mat-option [value]="0">--Seleccione un formato--</mat-option>
+                                                <mat-option *ngFor="let formato of formatos"
+                                                    [value]="formato.idformato">
+                                                    {{formato.formato}}
+                                                </mat-option>
+                                                <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Tienda" type="text" name="Tienda"
+                                                [(ngModel)]="selectedCatRutas.Tienda">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Direccion completa" type="text"
+                                                name="direccioncompleta"
+                                                [(ngModel)]="selectedCatRutas.direccioncompleta">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Municipio" type="text" name="idmunicipio"
+                                                [(ngModel)]="selectedCatRutas.idmunicipio">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Estado" type="text" name="idestado"
+                                                [(ngModel)]="selectedCatRutas.idestado">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Cluster" type="text" name="cluster"
+                                                [(ngModel)]="selectedCatRutas.cluster">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select [(value)]="intensidad" name="intensidad"
+                                                [(ngModel)]="selectedCatRutas.intensidad">
+                                                <mat-option *ngFor="let cintensidad of cintensidad"
+                                                    [value]="cintensidad.intensidad">
+                                                    {{cintensidad.descripcion}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Latitud" type="text" name="latitud"
+                                                [(ngModel)]="selectedCatRutas.latitud">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Longitud" type="text" name="longitud"
+                                                [(ngModel)]="selectedCatRutas.longitud">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Usuario de actualización" type="text"
+                                                name="udc1" [(ngModel)]="selectedCatRutas.uda_c" readonly disabled>
+                                        </mat-form-field>
+                                        <input type="hidden" name="udc" [(ngModel)]="selectedCatRutas.uda_c">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Fecha de actualización" type="text" name="fdc"
+                                                [(ngModel)]="selectedCatRutas.fdc" readonly disabled>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Usuario de creación" type="text" name="uda1"
+                                                [(ngModel)]="selectedCatRutas.uda" readonly disabled>
+                                        </mat-form-field>
+                                        <input type="hidden" name="uda" [(ngModel)]="selectedCatRutas.uda">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Fecha de creación" type="text" name="fda"
+                                                [(ngModel)]="selectedCatRutas.fda" readonly disabled>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <button *ngIf="selectedCatRutas.idruta != null" mat-raised-button type="submit"
+                                    class="btn btn-info pull-right" (click)="setSelectedTab(2)">Lista de
+                                    productos</button>
+                                <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                    (click)="createOrUpdateCatRutas(f)" [disabled]="noPermitido">Guardar</button>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="maps" #maps style="width:600px;height:600px"></div>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- ****************************************** -->
+            <!-- Lista de Productos -->
+            <!-- ****************************************** -->
+            <mat-tab label="Lista de productos">
+                <br>
+                <div class="row" *ngIf="selectedCatRutas.idruta != null">
+                    <div class="col-md-12">
+                        <div class="input-group no-border" style="width: 30%">
+                            <input id="frc" type="text" value="" class="form-control"
+                                placeholder="Buscar productos a asignar" (keyup)="changeTextSProd($event)">
+
+                            <button mat-raised-button type="submit" id="btnfrc"
+                                class="btn btn-white btn-round btn-just-icon" (click)="searchSProd()"
+                                style="visibility: hidden;">
+                                <i class="material-icons">search</i>
+                                <div class="ripple-container"></div>
+                            </button>
+
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="searchSR()">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                    search
+                                </i>
+                                <div class="ripple-container"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="selectedCatRutas.idruta == null">
+                    <div class="col-md-12">
+                        <h6>No hay ninguna tienda seleccionada.</h6>
+                    </div>
+                </div>
+                <div class="row" *ngIf="selectedCatRutas.idruta != null">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title ">Productos Asignados a: {{selectedCatRutas.Tienda1}}
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <mat-paginator #pag2 *ngIf="productosPorTienda != null"
+                                        [length]="productosPorTienda.length" [pageSize]="paginacion2.page_size"
+                                        [pageSizeOptions]="paginacion2.pageSizeOptions"
+                                        (page)="paginacion2.handlePage($event)">
+                                    </mat-paginator>
+                                    <table class="table" style="display:table">
+                                        <thead class=" text-primary">
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Descripción</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Upc</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Categoría</th>
+                                            <!--<th style="background-color: #007A87; color: #FFFFFF;">Categoría 1</th>-->
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Cantidad caja</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Cantidad kgs</th>
+                                            <th style="text-align: center;background-color: #007A87; color: #FFFFFF;">
+                                                Ver Precios</th>
+                                            <!-- <th style="text-align: center;background-color: #007A87; color: #FFFFFF;">Desasignar</th> -->
+                                        </thead>
+                                        <tbody *ngIf="productosPorTienda != null">
+                                            <tr
+                                                *ngFor="let productoPorTienda of productosPorTienda | paginate:paginacion2.page_size:paginacion2.page_number">
+                                                <td>
+                                                    {{productoPorTienda.descripcion}}
+                                                </td>
+                                                <td>
+                                                    {{productoPorTienda.upc}}
+                                                </td>
+                                                <!--<td>
+                                                    {{productoPorTienda.categoria1}}
+                                                </td>-->
+                                                <td>
+                                                    {{productoPorTienda.categoria2}}
+                                                </td>
+                                                <td>
+                                                    {{productoPorTienda.cantidad_caja}}
+                                                </td>
+                                                <td>
+                                                    {{productoPorTienda.cantidad_kgs}}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-warning pull-right"
+                                                        (click)="ListaRutaProductoFechaPrecio(productoPorTienda.idruta, productoPorTienda.idproducto, productoPorTienda.descripcion); setSelectedTab(3);"
+                                                        [disabled]="noPermitido">Ver Precios producto
+                                                    </button>
+                                                </td>
+                                                <!-- <td style="text-align: center">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-warning pull-right"
+                                                        (click)="desasignarProductoATienda(productoPorTienda.idproductoruta)"
+                                                        [disabled]="noPermitido">Desasignar Producto
+                                                    </button>
+                                                </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- ****************************************** -->
+            <!-- Ver precios productos -->
+            <!-- ****************************************** -->
+            <mat-tab label="Ver precios productos">
+                <br>
+                <div class="row" *ngIf="selectedCatRutas.idruta != null">
+                    <div class="col-md-12">
+                        <div class="input-group no-border" style="width: 30%">
+                            <input id="frc" type="text" value="" class="form-control"
+                                placeholder="Buscar productos a asignar" (keyup)="changeTextSProd($event)">
+
+                            <button mat-raised-button type="submit" id="btnfrc"
+                                class="btn btn-white btn-round btn-just-icon" (click)="searchSProd()"
+                                style="visibility: hidden;">
+                                <i class="material-icons">search</i>
+                                <div class="ripple-container"></div>
+                            </button>
+
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="searchSR()">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                    search
+                                </i>
+                                <div class="ripple-container"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="selectedCatRutas.idruta == null">
+                    <div class="col-md-12">
+                        <h6>No hay ninguna tienda seleccionada.</h6>
+                    </div>
+                </div>
+                <div class="row" *ngIf="selectedCatRutas.idruta != null">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h5 class="card-title ">Precios de la tienda: {{selectedCatRutas.Tienda1}} del producto:
+                                    {{this.producto_seleccionado}} por fechas
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <a *ngIf="productosTiendaFechaPrecio != null" class="btn btn-info pull-right"
+                                        href="javascript:void(0)"
+                                        (click)="exportarExcel.exportarExcel(productosTiendaFechaPrecio, encabezados_productosTiendaFechaPrecio)">
+                                        <i class="material-icons" style="font-size: 20px"
+                                            data-md-tooltip="Exportar a Excel">
+                                            cloud_download
+                                        </i>
+                                    </a>
+
+                                    <div class="clearfix"></div>
+
+                                    <mat-paginator #pag2 *ngIf="productosTiendaFechaPrecio != null"
+                                        [length]="productosTiendaFechaPrecio.length" [pageSize]="paginacion3.page_size"
+                                        [pageSizeOptions]="paginacion3.pageSizeOptions"
+                                        (page)="paginacion3.handlePage($event)">
+                                    </mat-paginator>
+                                    <table class="table" style="display:table">
+                                        <thead class=" text-primary">
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Descripción</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Inve. Inicial</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Inve. Final</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Precio Sugerido</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Precio Anaquel</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Diferencia</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Fecha</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Promotor</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Tienda</th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">Observaciones</th>
+                                        </thead>
+                                        <tbody *ngIf="productosTiendaFechaPrecio != null">
+                                            <tr
+                                                *ngFor="let productostiendafechaprecion of productosTiendaFechaPrecio | paginate:paginacion3.page_size:paginacion3.page_number">
+                                                <td>
+                                                    {{productostiendafechaprecion.descripcion}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.invinicial}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.invfinal}}
+                                                </td>
+                                                <td align="right">
+                                                    ${{productostiendafechaprecion.precio}}
+                                                </td>
+                                                <td align="right">
+                                                    ${{productostiendafechaprecion.precioreal}}
+                                                </td>
+                                                <td align="right">
+                                                    ${{productostiendafechaprecion.diferencia}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.Fecha}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.Nombre}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.Tienda}}
+                                                </td>
+                                                <td>
+                                                    {{productostiendafechaprecion.observaciones}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- ****************************************** -->
+            <!-- Importar tiendas -->
+            <!-- ****************************************** -->
+            <mat-tab label="Importar tiendas">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title ">Importación de tiendas</h4>
+                            <p class="card-category">Proceso de Importación de tiendas</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6" style="padding-left: 200px;">
+                                        <a class="btn btn-info pull-left" href="{{ this.url_descarga }}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            <i class="material-icons" style="font-size: 20px"
+                                                data-md-tooltip="Descargar Formato">
+                                                download
+                                            </i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="file" Text="Importar"
+                                            (change)="cargandoImagen($event.target.files)"
+                                            class="btn btn-info pull-right"
+                                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

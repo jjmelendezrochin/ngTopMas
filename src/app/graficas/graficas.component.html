@@ -1,0 +1,197 @@
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Generar gr&aacute;ficas</h4>
+                <p class="card-category">
+                    Ingrese la informaci&oacute;n solicitada para generar las gr&aacute;ficas.
+                </p>
+            </div>
+            <div class="card-body">
+                <form id="frm" #f="ngForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100px;">
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicial0" placeholder="Fecha inicial" [(ngModel)]="filtrado.FechaInicial" disabled />
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtrado.FechaInicial" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100px;">
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinal0" placeholder="Fecha final" [(ngModel)]="filtrado.FechaFinal" disabled />
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtrado.FechaFinal" />
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [(value)]="filtrado.idpromotor" name="idpromotor" [(ngModel)]="filtrado.idpromotor">
+                                    <mat-option [value]="0">Todos los promotores</mat-option>
+                                    <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
+                                        {{ promotor.nombrecompleto }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="grafica1(f.value)">
+                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Grafica visitas">
+                  poll
+                </i>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a id="g2" class="btn btn-info pull-right" href="javascript:void(0)" (click)="mostrarVentana(f.value)">
+                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Ver asistencias">
+                  list
+                </i>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a id="g2" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel(f.value)">
+                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Exportar a excel">
+                  cloud_download
+                </i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <p class="card-title">Gr&aacute;fica de asistencias</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Cadena</th>
+                                        <th align="right">Objetivo</th>
+                                        <th align="right">Checkin</th>
+                                        <th align="right">Checkout</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let asistencia of asistencias">
+                                        <td>{{ asistencia.cadena }}</td>
+                                        <td align="right">{{ asistencia.elobjetivo }}</td>
+                                        <td align="right">{{ asistencia.ctacheckin }}</td>
+                                        <td align="right">{{ asistencia.ctacheckout }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <p class="card-title">Gr&aacute;fica de efectividad</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Cadena</th>
+                                        <th align="right">% Checkin</th>
+                                        <th align="right">% Checkout</th>
+                                        <th align="right">% Efectividad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let efectividad of efectividad">
+                                        <td>{{ efectividad.cadena }}</td>
+                                        <td align="right">{{ efectividad.checkin }}</td>
+                                        <td align="right">{{ efectividad.checkout }}</td>
+                                        <td align="right">{{ efectividad.efectividad }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="overflow: auto;">
+                <div id="grafica1" style="margin-left: 25px;"></div>
+            </div>
+            <div class="col-md-6" style="overflow: auto;">
+                <div id="grafica2" style="padding-right: 25px !important; margin-right: 25px !important;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ventanaRA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!--<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal titl</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>-->
+            <div class="modal-body" style="overflow: auto">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <p class="card-title">Lista de asistencias</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <a *ngIf="asistencias_t != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="_exportarExcel.exportarExcel(asistencias_t, encabezados)">
+                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
+                  cloud_download
+                </i>
+                            </a>
+
+                            <div class="clearfix"></div>
+
+                            <mat-paginator #pag *ngIf="asistencias_t != null" [length]="asistencias_t.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
+                            </mat-paginator>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th align="left">Fecha</th>
+                                        <th align="left">Promotor</th>
+                                        <th align="left">Avance (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let asistencia of asistencias_t | paginate:paginacion.page_size:paginacion.page_number">
+                                        <td align="left" style="font-size: 10px !important;">{{ asistencia.fecha }}</td>
+                                        <td align="left" style="font-size: 10px !important;">{{ asistencia.promotor }}</td>
+                                        <td align="left" style="font-size: 10px !important;">{{ asistencia.avance }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>-->
+        </div>
+    </div>
+</div>

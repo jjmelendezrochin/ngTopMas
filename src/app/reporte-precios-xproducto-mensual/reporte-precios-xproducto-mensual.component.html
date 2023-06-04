@@ -1,0 +1,117 @@
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h5 class="card-title">Generar gr&aacute;ficas de precios mensuales</h5>
+                <!-- <p class="card-category">
+                    Ingrese la informaci&oacute;n solicitada para generar las
+                    gr&aacute;ficas de los precios mensuales de un producto.
+                </p> -->
+            </div>
+            <div class="card-body">
+                <form id="frm" #f="ngForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width ancho_lista">
+                                <mat-label>Año</mat-label>
+                                <mat-select #anio [(value)]="filtrado.anio" name="anio" [(ngModel)]="filtrado.anio">
+                                    <mat-option *ngFor="let anio of anios" [value]="anio.anio">
+                                        {{ anio.anio }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Mes</mat-label>
+                                <mat-select #mes [(value)]="filtrado.mes" name="mes" [(ngModel)]="filtrado.mes">
+                                    <mat-option *ngFor="let mes of meses" [value]="mes.idmes">
+                                        {{ mes.nombre }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="example-full-width ancho_lista2">
+                                <mat-label>Producto</mat-label>
+                                <mat-select [(value)]="filtrado.producto" name="producto"
+                                    [(ngModel)]="filtrado.producto">
+                                    <mat-option *ngFor="let producto of productos" [value]="producto.idproducto">
+                                        {{ producto.descripcion }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="ExportarGrafica()">
+                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Busqueda">
+                                    search
+                                </i>
+                            </a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- <div class="card-header card-header-info">
+                <h5 class="card-title ">Reporte de precios por producto al mes</h5>
+                <p class="card-category"> Aqui se muestra todos los precios durante este mes</p>
+            </div> -->
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <a *ngIf="precios != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                        (click)="ExportarGrafica(1)">
+                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
+                            cloud_download
+                        </i>
+                    </a>
+
+                    <div class="clearfix"></div>
+                    <mat-paginator #pag *ngIf="precios != null" [length]="precios.length"
+                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                        (page)="paginacion.handlePage($event)">
+                    </mat-paginator>
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                Cadena
+                            </th>
+                            <!-- <th style="background-color: #007A87; color: #FFFFFF;">
+                                Producto
+                            </th> -->
+                            <th *ngFor="let dia of dias" style="width:15px;background-color: #007A87; color: #FFFFFF;">
+                                {{ dia.dia }}
+                            </th>
+                        </thead>
+                        <tbody *ngIf="precios != null">
+                            <tr *ngFor="let precio of precios | paginate:paginacion.page_size:paginacion.page_number">
+                                <td>{{ precio.cadena }}</td>
+                                <!-- <td>{{ precio.producto }}</td> -->
+                                <td *ngFor="let dia of dias">
+                                    {{ precio[dia.dia] }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" style="overflow: auto;">
+        <div id="grafica" style="margin-left: 0;width:100%;height:600px;"></div>
+    </div>
+</div>

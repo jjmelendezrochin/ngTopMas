@@ -1,0 +1,137 @@
+<div class="logo">
+
+    <div class="logo-img" style="align-content:center;">
+        <img src="/assets/img/logo.png" />
+    </div>
+    <br><br>
+    <!-- <br>Top Marketing -->
+    <a href="#" class="simple-text"></a>
+</div>
+<div class="sidebar-wrapper">
+    <div *ngIf="isMobileMenu()">
+        <!-- <form class="navbar-form">
+      <span class="bmd-form-group">
+        <div class="input-group no-border">
+          <input type="text" value="" class="form-control" placeholder="Search...">
+          <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </span>
+    </form> -->
+        <ul class="nav navbar-nav nav-mobile-menu">
+            <!-- 
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+                <i class="material-icons">Panel</i>
+                <p>
+                    <span class="d-lg-none d-md-block">Stats</span>
+                </p>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">notifications</i>
+                <span class="notification">5</span>
+                <p>
+                    <span class="d-lg-none d-md-block">Some Actions</span>
+                </p>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                <a class="dropdown-item" href="#">Another Notification</a>
+                <a class="dropdown-item" href="#">Another One</a>
+            </div>
+        </li> 
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+                <i class="material-icons">person</i>
+                <p>
+                    <span class="d-lg-none d-md-block">Account</span>
+                </p>
+            </a>
+        </li>-->
+        </ul>
+    </div>
+    <ul id="menus" class="nav">
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems; let index = index"
+            class="{{menuItem.class}} nav-item" id="mi_{{(index+1)}}">
+            <a class="nav-link" [routerLink]="[menuItem.path]"
+                (click)="removerReferenciaTabAsginacionRutas(menuItem.title)">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+        <!-- Menu personal -->
+        <li *ngFor="let menuItem1 of menuItems1" class="{{menuItem1.class}} nav-item">
+            <a class="nav-link" (click)="mostrarOcultarMenu();removerReferenciaTabAsginacionRutas(menuItem1.title)">
+                <i class="material-icons">{{ menuItem1.icon }}</i>
+                <p>{{ menuItem1.title }}</p>
+            </a>
+            <ul *ngIf="menuItem1.subitems != null" id="submenu" class="nav" style="padding-left: 20px">
+                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem1.subitems"
+                    class="{{submenuItem.class}} nav-item">
+                    <a class="nav-link" [routerLink]="[submenuItem.path]"
+                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
+                        <i class="material-icons">{{ submenuItem.icon }}</i>
+                        <p>{{ submenuItem.title }}</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Menu pesonal -->
+        <li *ngFor="let menuItem2 of menuItems2" class="{{menuItem2.class}} nav-item">
+            <a class="nav-link" (click)="mostrarOcultarMenu1();removerReferenciaTabAsginacionRutas(menuItem2.title)">
+                <i class="material-icons">{{ menuItem2.icon }}</i>
+                <p>{{ menuItem2.title }}</p>
+            </a>
+            <ul *ngIf="menuItem2.subitems != null" id="submenu1" class="nav" style="padding-left: 20px">
+                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem2.subitems"
+                    class="{{submenuItem.class}} nav-item">
+                    <a class="nav-link" [routerLink]="[submenuItem.path]"
+                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
+                        <i class="material-icons">{{ submenuItem.icon }}</i>
+                        <p>{{ submenuItem.title }}</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li routerLinkActive="active" *ngFor="let menuItem3 of menuItems3" class="{{ menuItem3.class }} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem3.path]"
+                (click)="removerReferenciaTabAsginacionRutas(menuItem3.title)">
+                <i class="material-icons">{{menuItem3.icon}}</i>
+                <p>{{menuItem3.title}}</p>
+            </a>
+        </li>
+        <!-- Menu busqueda -->
+        <li *ngFor="let menuItem4 of menuItems4" class="{{menuItem4.class}} nav-item">
+            <a class="nav-link" (click)="mostrarOcultarMenu2();removerReferenciaTabAsginacionRutas(menuItem4.title)">
+                <i class="material-icons">{{ menuItem4.icon }}</i>
+                <p>{{ menuItem4.title }}</p>
+            </a>
+            <ul *ngIf="menuItem4.subitems != null" id="submenu2" class="nav" style="padding-left: 20px">
+                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem4.subitems"
+                    class="{{submenuItem.class}} nav-item">
+                    <a class="nav-link" [routerLink]="[submenuItem.path]"
+                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
+                        <i class="material-icons">{{ submenuItem.icon }}</i>
+                        <p>{{ submenuItem.title }}</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li routerLinkActive="active" *ngFor="let menuItem5 of menuItems5" class="{{ menuItem5.class }} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem5.path]"
+                (click)="removerReferenciaTabAsginacionRutas(menuItem5.title)">
+                <i class="material-icons">{{menuItem5.icon}}</i>
+                <p>{{menuItem5.title}}</p>
+            </a>
+        </li>
+
+    </ul>
+</div>
+<!-- -->

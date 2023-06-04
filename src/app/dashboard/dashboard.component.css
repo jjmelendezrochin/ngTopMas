@@ -1,0 +1,9 @@
+th {
+    background-color: #007A87;
+    color: #FFFFFF;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

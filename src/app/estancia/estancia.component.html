@@ -1,0 +1,136 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Busqueda de estancias</h4>
+                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+            </div>
+            <div class="card-body">
+                <form #f="ngForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field style="width:150px">
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
+                                    placeholder="Todas las fechas" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtradofotos.FechaInicial">
+                        </div>
+                        <!--<div class="col-md-3" >
+                            <mat-form-field style="width:100px">
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"  
+                                    placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtradofotos.FechaFinal">
+                        </div>-->
+                        <!--<div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [(value)]="filtradofotos.idoperacion" name="idoperacion" [(ngModel)]="filtradofotos.idoperacion">
+                                    <mat-option [value]="0">Todas las actividades</mat-option>
+                                    <mat-option *ngFor="let actividad of actividades" [value]="actividad.idoperacion">
+                                        {{actividad.descripcion}}
+                                    </mat-option>
+                                    --Seccion para cargar datos desde el catalogo de empresa--
+                                </mat-select>
+                            </mat-form-field>
+                        </div>-->
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [(value)]="filtradofotos.idpromotor" name="idpromotor"
+                                    [(ngModel)]="filtradofotos.idpromotor">
+                                    <mat-option [value]="0">Todos los promotores</mat-option>
+                                    <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
+                                        {{promotor.nombrecompleto}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [(value)]="filtradofotos.Tienda" name="Tienda"
+                                    [(ngModel)]="filtradofotos.Tienda">
+                                    <mat-option value="0">Todas las tiendas</mat-option>
+                                    <mat-option *ngFor="let catruta of catrutas" [value]="catruta.idruta">
+                                        {{catruta.Tienda}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!--<div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [(value)]="filtradofotos.idcadena" name="idcadena" [(ngModel)]="filtradofotos.idcadena">
+                                    <mat-option [value]="0">Todas las cadenas</mat-option>
+                                    <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
+                                        {{cadena.cadena}}
+                                    </mat-option>
+                                    --Seccion para cargar datos desde el catalogo de empresa--
+                                </mat-select>
+                            </mat-form-field>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                (click)="consultar(f)">Consultar</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h4 class="card-title ">Lista de estancias de cada promotor</h4>
+                <p class="card-category"> Aqui se muestra todas las estancias</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <a *ngIf="fotoestancia != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(fotoestancia, encabezados)">Exportar
+                        a excel</a>
+                    <div class="clearfix"></div>
+                    <mat-paginator *ngIf="fotoestancia != null" [length]="fotoestancia.length"
+                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                        (page)="paginacion.handlePage($event)">
+                    </mat-paginator>
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th>
+                                Promotor
+                            </th>
+                            <th>
+                                Tienda
+                            </th>
+                            <th>
+                                Estancia
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                        </thead>
+                        <tbody *ngIf="fotoestancia != null">
+                            <tr
+                                *ngFor="let estancia of fotoestancia | paginate:paginacion.page_size:paginacion.page_number">
+                                <td>{{ estancia.promotor }}</td>
+                                <td>{{ estancia.Tienda }}</td>
+                                <td>{{ estancia.estancia }}</td>
+                                <td>{{ estancia.fecha }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

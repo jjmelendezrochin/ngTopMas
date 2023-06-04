@@ -1,0 +1,21 @@
+
+::ng-deep .mat-tab-label {
+    min-width: 25px !important;
+    padding: 5px;
+    background-color: transparent;
+    font-weight: 700;
+    color: #007A87;
+    background-color: #ffffff;
+    border-color:#ffffff;
+}
+
+/* Styles for the active tab label */
+::ng-deep .mat-tab-label.mat-tab-label-active {
+    min-width: 25px !important;
+    padding: 5px;
+    color: #ffffff;
+    font-weight: 700;
+    background-color: #007A87;
+    background-image: none;
+    border-color: #007A87;
+}

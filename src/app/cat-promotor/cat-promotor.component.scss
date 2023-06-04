@@ -1,0 +1,74 @@
+::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
+}
+
+.a_estatus{
+    background-color:green;
+    color: white;
+    font-size: 15px;
+}
+
+.a_estatus:hover{
+    background-color:green;
+    color: white;
+    font-size: 15px;
+}
+
+.a_estatus:active{
+    background-color:green;
+    color: white;
+    font-size: 15px;
+}
+
+.a_estatus:focus{
+    background-color:green;
+    color: white;
+    font-size: 15px;
+}
+
+.i_estatus{
+    background-color:#595A5A;
+    color: white;
+    font-size: 15px;
+}
+
+.i_estatus:hover{
+    background-color:#595A5A;
+    color: white;
+    font-size: 15px;
+}
+
+.i_estatus:active{
+    background-color:#595A5A;
+    color: white;
+    font-size: 15px;
+}
+
+.i_estatus:focus{
+    background-color:#595A5A;
+    color: white;
+    font-size: 15px;
+}
+
+[data-md-tooltip] {
+    position: relative;
+   }
+   [data-md-tooltip]:before {
+      content: attr(data-md-tooltip);
+      position: absolute;
+      bottom: -35px;
+      left: 70%;
+      padding: 8px;
+      transform: translateX(-50%) scale(0);
+      transition: transform 0.3s ease-in-out;
+      transform-origin: top;
+      background: #595A5A;
+      color: white;
+      border-radius: 2px;
+      font-size: 12px;
+      font-family: Arial;
+      font-weight: 400;
+   }
+   [data-md-tooltip]:hover:before {
+    transform: translateX(-50%) scale(1);
+   }

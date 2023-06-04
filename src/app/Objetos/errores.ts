@@ -1,0 +1,30 @@
+export class Errores {
+    iderror: number;
+    fabricante: string;
+    marca: string;
+    modelo: string;
+    board: string;
+    hardware: string;
+    serie: string;
+    uid: string;
+    android_id: string;
+    resolucion: string;
+    tamaniopantalla: string;
+    densidad: string;
+    bootloader: string;
+    user_value: string;
+    host_value: string;
+    version: string;
+    api_value: string;
+    build_id: string;
+    build_time: string;
+    fingerprint: string;
+    usuario: string;
+    error: string;
+    fechahora: string;
+    seccion: string;
+    idatendido: number;
+    idatendidopor: number;
+    versionsolucion: string;
+    solucion: string;
+}
