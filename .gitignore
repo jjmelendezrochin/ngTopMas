@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 documentation/
 dist/
@@ -17,3 +18,23 @@ dist/
 *.ppt
 *.pptx
 *.pdf
+=======
+node_modules/
+dist/
+*.zip
+*.log
+*.txt
+*.xlsx
+*.xls
+*.csv
+*.doc
+*.docx
+*.rar
+*.zip
+*.7z
+*.iso
+*.exe
+*.ppt
+*.pptx
+*.pdf
+>>>>>>> 162de95fb8d8f0422bf391a33dfbbbbea53b8188
