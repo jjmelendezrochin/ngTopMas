@@ -10,6 +10,8 @@ import { environment } from 'environments/environment';
 export class GraficasService {
   PHP_API_SERVER = environment.servidor.TAG_SERVIDOR;    // Definiciòn de los servicios de base de datos
 
+  idempresa: number = Number(localStorage.getItem('idempresa'));
+
   //PHP_API_SERVER = "http://localhost";
 
   constructor(private httpClient: HttpClient) { }
@@ -17,7 +19,7 @@ export class GraficasService {
   // https://www.topmas.mx/#/graficas
   getCmbPromotorservicios(): Observable<CatPromotor[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
-    return this.httpClient.get<CatPromotor[]>(`${this.PHP_API_SERVER}/CatalogoFotos/getPromotorCmbServicio.php?idEmpresa=${environment.servidor.TAG_IDEMPRESA}`);
+    return this.httpClient.get<CatPromotor[]>(`${this.PHP_API_SERVER}/CatalogoFotos/getPromotorCmbServicio.php?idEmpresa=${this.idempresa}`);
   }
 
   // ***************************************************

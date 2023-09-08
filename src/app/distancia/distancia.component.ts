@@ -34,7 +34,7 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
   selectAllItemsPromotor: boolean = false;
   selectAllItemsActividad: boolean = false;
   selectAllItemsCadena: boolean = false;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion = new Paginacion();
 
@@ -96,7 +96,7 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
     /*if (form.value.FechaInicial != "") {*/
     this.fotosService.getFotosDistanciaServicios(form.value).subscribe((fotodistancia: any[]) => {
       this.fotodistancia = fotodistancia;
-       console.log("Lista de distancias: ", this.fotodistancia);
+      console.log("Lista de distancias: ", this.fotodistancia);
     });
     /* } else {
        this.toaster.warning("Debe establecer la fecha inicial y la fecha final", "", {

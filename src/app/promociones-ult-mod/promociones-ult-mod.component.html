@@ -1,0 +1,255 @@
+<br><br><br>
+<div class="card">
+    <div class="card-header card-header-info">
+        <h4 class="card-title ">Campaña punto de venta</h4>
+        <br>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <form #f="ngForm">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field style="width:150px">
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
+                                    placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtradofotos.FechaInicial" required>
+                        </div>
+
+
+                        <div class="col">
+                            <mat-form-field style="width:100px">
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"
+                                    placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtradofotos.FechaFinal" required>
+                        </div>
+
+                        <div class="col" id="campo_cadena">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por cadena</mat-label>
+                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena"
+                                    [(ngModel)]="filtradofotos.idcadena" required>
+                                    <mat-option value="" disabled> -- Seleccione una cadena --
+                                    </mat-option>
+                                    <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
+                                        {{cadena.cadena}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info pull-right" (click)="buscarPromociones(false)"
+                                [disabled]="!f.valid" matTooltip="Buscar Promociones"
+                                [matTooltipClass]="'mat-tooltip-promociones-ult-mod'">
+                                <i class="material-icons" style="font-size: 20px;">
+                                    manage_search
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                    <ng-template [ngIf]="competencias_promociones != null">
+                        <div class="row">
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                                <button *ngIf="competencias_promociones.length > 0" (click)="descargarZIPPPTS()"
+                                    class="btn btn-info pull-right" href="javascript:void(0)">
+
+                                    <i class="material-icons" style="font-size: 20px;"
+                                        matTooltip="Descargar zip con los powerpoint"
+                                        matTooltipClass="mat-tooltip-promociones-ult-mod">
+                                        <span class="material-icons-outlined pull-left">
+                                            view_in_ar
+                                        </span>
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button *ngIf="competencias_promociones.length > 0" class="btn btn-info pull-left"
+                                    href="javascript:void(0)" (click)="descargarExcel()">
+                                    <i class="material-icons" style="font-size: 20px" matTooltip="Descargar excel"
+                                        matTooltipClass="mat-tooltip-promociones-ult-mod">
+                                        <span class="material-icons-outlined pull-left">
+                                            cloud_download
+                                        </span>
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button *ngIf="competencias_promociones.length > 0" class="btn btn-info pull-left"
+                                    (click)="descargarZipFotos()" href="javascript:void(0)">
+                                    <i class="material-icons" style="font-size: 20px" matTooltip="Descargar Fotos"
+                                        matTooltipClass="mat-tooltip-promociones-ult-mod">
+                                        <span class="material-icons-outlined pull-left">
+                                            monochrome_photos
+                                        </span>
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                            </div>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label><b>*Para descargar la informacion en las presentaciones, favor de seleccionar al menos un
+                        registro</b></label>
+                <br>
+                <label><b>Nota: Se tiene que tener en cuenta que si quiere descargar toda la información solamente hay
+                        que
+                        <br>
+                        activar la caja de verificacion que se encuentra arriba en la primera columna en el encabezado
+                        de la tabla.
+                    </b>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div style="width: 100%;height: 100%;">
+                            <a *ngIf="url_zip.trim() != ''" [href]="url_zip" style="float: left;">Descargar {{ que
+                                }}</a>
+                            <!-- Paginador -->
+                            <mat-paginator #pag *ngIf="competencias_promociones != null"
+                                [length]="paginacion.total_records" [pageSize]="paginacion.page_size"
+                                [pageSizeOptions]="paginacion.page_size_options" (page)="irAlaPagina($event)"
+                                style="float: right;">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
+                                    <th *ngIf="competencias_promociones.length > 0"
+                                        style="background-color: #007A87; color: #FFFFFF;">
+                                        <mat-checkbox #optAll color="primary" [(ngModel)]="_seleccionarTodos"
+                                            (change)="seleccionarTodos($event)"></mat-checkbox>
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Exhibición
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Competencia
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Tienda
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Producto
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Fecha
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        % participación
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        No. Frentes
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Participación
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Precio
+                                    </th>
+                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                        Comentarios
+                                    </th>
+                                </thead>
+                                <tbody *ngIf="competencias_promociones != null">
+                                    <tr *ngFor="let cp of competencias_promociones; let i = index">
+                                        <td>
+                                            <mat-checkbox #opt color="primary" (change)="seleccionar(cp)"
+                                                [(ngModel)]="cp.generar_ppt"></mat-checkbox>
+                                        </td>
+                                        <td><img src="{{ cp.foto_exhibicion }}" style="width:100px;height:100px;"
+                                                (click)="abrirVentanaModal(cp.foto_exhibicion)">
+                                        </td>
+                                        <td><img src="{{ cp.foto_competencia }}" style="width:100px;height:100px;"
+                                                (click)="abrirVentanaModal(cp.foto_competencia)"></td>
+                                        <td>{{ cp.tienda }}</td>
+                                        <td>{{ cp.producto }}</td>
+                                        <td>{{ cp.fecha }}</td>
+                                        <td>{{ cp.porparticipacion }}</td>
+                                        <td>{{ cp.nofrentes }} </td>
+                                        <td>{{ cp.conosinparticipacion }}</td>
+                                        <td>{{ cp.precio }}</td>
+                                        <td>{{ cp.comentarios }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Inicia bloqueador mientras procesa-->
+        <div id="bloqueador_tabla_competencias_promociones" class="row"
+            style="position: absolute;width:100%;top:0;left:0;width:100%;height:100%">
+            <div class="col"
+                style="background-color:rgba(10, 9, 9, 0.062);z-index:1;display: flex;align-items: center;">
+                <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" diameter="85" strokeWidth="10">
+                </mat-progress-spinner>
+                <div style="position:absolute;left:calc((100% /2) - 4%);margin:0 auto;color:blue">
+                    Cargando...
+                </div>
+            </div>
+        </div>
+        <!--Fin bloqueador mientras procesa -->
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ventanaImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!--<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal titl</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>-->
+            <div class="modal-body" style="overflow: auto">
+                <img id="imagen" width="400" height="550">
+            </div>
+            <!--<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>-->
+        </div>
+    </div>
+</div>

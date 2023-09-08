@@ -22,7 +22,7 @@ import { FotosComponent } from '../../fotos/fotos.component';
 import { EstanciaComponent } from '../../estancia/estancia.component';
 import { DistanciaComponent } from '../../distancia/distancia.component';
 import { GenerarReporteExcelComponent } from '../../generar-reporte-excel/generar-reporte-excel.component';
-import { MatTabsModule, MatPaginatorIntl, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { MatTabsModule, MatPaginatorIntl, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule } from '@angular/material';
 import { PaginatePipe } from '../../pipes/paginate.pipe';
 
 const MY_DATE_FORMATS = {
@@ -76,6 +76,7 @@ import { PromocionesTiendasComponent } from '../../promociones-tiendas/promocion
 import { CatEmpresasComponent } from '../../cat-empresas/cat-empresas.component';
 import { CaducidadComponent } from '../../caducidad/caducidad.component';
 import { ErroresComponent } from 'app/errores/errores.component';
+import { PromocionesUltModComponent } from '../../promociones-ult-mod/promociones-ult-mod.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -93,6 +94,7 @@ import { ErroresComponent } from 'app/errores/errores.component';
     MatTabsModule,
     MatTooltipModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
     NgbModule
   ],
@@ -125,7 +127,8 @@ import { ErroresComponent } from 'app/errores/errores.component';
     CaducidadComponent,
     PromocionesTiendasComponent,
     CatEmpresasComponent,
-    ErroresComponent
+    ErroresComponent,
+    PromocionesUltModComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },

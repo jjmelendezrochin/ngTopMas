@@ -8,6 +8,7 @@ import { FotosService } from '../Servicios/fotos.service'
 import { Mapas } from 'app/Objetos/mapas';
 import { ThrowStmt } from '@angular/compiler';
 import { environment } from 'environments/environment';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -18,13 +19,45 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('map', { static: false }) map: ElementRef;
-  usr: any;
+
+
+  bsVer_ubicaciones_tiendas: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ver_ubicaciones_tiendas = this.bsVer_ubicaciones_tiendas.asObservable();
+
+  bsTodos_usuarios_checkin_out_y_sin_checkout: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  todos_usuarios_checkin_out_y_sin_checkout = this.bsTodos_usuarios_checkin_out_y_sin_checkout.asObservable();
+
+  bsTodos_usuarios_checkin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  todos_usuarios_checkin = this.bsTodos_usuarios_checkin.asObservable();
+
+  bsTodos_usuarios_checkin_out: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  todos_usuarios_checkin_out = this.bsTodos_usuarios_checkin.asObservable();
+
+  bsTodos_usuarios_en_transito: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  todos_usuarios_en_transito = this.bsTodos_usuarios_en_transito.asObservable();
+
+  bsRanking_capturas_usuarios: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ranking_capturas_usuarios = this.bsRanking_capturas_usuarios.asObservable();
+
+  bsRanking_promotor_actividad_hora: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ranking_promotor_actividad_hora = this.bsRanking_promotor_actividad_hora.asObservable();
+
+  bsConsulta_distancia_checkin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  consulta_distancia_checkin = this.bsConsulta_distancia_checkin.asObservable();
+
+  bsConsulta_checkin_sin_checkout: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  consulta_checkin_sin_checkout = this.bsConsulta_checkin_sin_checkout.asObservable();
+
+  bsConsulta_usuarios_sin_actividad_hoy: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  consulta_usuarios_sin_actividad_hoy = this.bsConsulta_usuarios_sin_actividad_hoy.asObservable();
+
+  usr: usuario;
   mapas: Mapas;
   titulo: string;
   Total_usuarios: string;
   Total_usuarios_activos: string;
   Total_usuarios_inactivos: string;
-  Usuarios_transito: string;  
+  Usuarios_transito: string;
   Total_tiendas: string;
   Tiendas_visitadas: string;
   Tiendas_sin_visitar: string;
@@ -40,8 +73,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   id: any = '';
   usuario: any = '';
   observacion: any = '';
-  empresa : any;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  empresa: any;
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   //  paginacion = new Paginacion();
 
@@ -51,10 +84,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private router: Router,
     private fotosservice: FotosService
   ) {
+    this.usr = this.obtenerUsuario();
+    console.log(this.usr);
   }
 
   public obtenerUsuario() {
-    return this.userService.usserLogged;
+    return this.userService.getUserLoggedIn();
   }
 
   startAnimationForLineChart(chart) {
@@ -202,9 +237,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    $('#m-mapa').hide();
     this.mapas = new Mapas();
-    this.mapas.Maps_Tiendas(this.fotosservice);
-    this.mapas.iniciarGMaps_ListaUbicacionesTiedas(this.map);
+    this.ver_ubicaciones_tiendas.subscribe((click) => {
+      if (click == true) {
+        $('#m-mapa').show();
+        this.mapas.Maps_Tiendas(this.fotosservice);
+        this.mapas.iniciarGMaps_ListaUbicacionesTiedas(this.map);
+      }
+    });
+
     this.fotosservice.obtenerdatospanel(this.idempresa).subscribe((gfoto: any[]) => {
       this.Total_tiendas = gfoto[0].Total_tiendas;
       this.Tiendas_visitadas = gfoto[0].Tiendas_visitadas;
@@ -215,120 +257,192 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.Total_usuarios_inactivos = gfoto[0].Total_usuarios_inactivos;
       this.Usuarios_transito = gfoto[0].Usuarios_transito;
       this.FechaHora = gfoto[0].FechaHora;
-      this.empresa= gfoto[0].NombreEmpresa;
+      this.empresa = gfoto[0].NombreEmpresa;
     });
-    /*Muestra todos los usuarios que tienen check-in y check-out e incluyendo los que no tienen check-out*/
-    this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios().subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
-      this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+
+    this.todos_usuarios_checkin_out_y_sin_checkout.subscribe((click) => {
+      if (click == true) {
+        /*Muestra todos los usuarios que tienen check-in y check-out e incluyendo los que no tienen check-out*/
+        this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios().subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
+          this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
+          <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
+          </tr>`;
+              $('#regs_').append(tr);
+            }
+          }
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
+          <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
+          <td>${supervisorPromotorConCheckInOut.Promotor}</td>
+          </tr>`;
+              $('#regs').append(tr);
+            }
+          }
+          $('#regs,#regs_').show();
+          $('#regs1,#regs_1').hide();
+          $('#regs2,#regs_2').hide();
+          $('#regs3,#regs_3').hide();
+          $('#ventanaSP').modal('show');
+        });
+      }
+    });
+
+    this.todos_usuarios_checkin.subscribe((click) => {
+      if (click == true) {
+        /*Muestra todos los usuarios que solo tienen check-in*/
+        this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(1).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
+          this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
             <td>${supervisorPromotorConCheckInOut.letrazona}</td>
             <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
             </tr>`;
-          $('#regs_').append(tr);
-        }
-      }
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+              $('#regs_1').append(tr);
+            }
+          }
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
             <td>${supervisorPromotorConCheckInOut.letrazona}</td>
             <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
             <td>${supervisorPromotorConCheckInOut.Promotor}</td>
             </tr>`;
-          $('#regs').append(tr);
-        }
+              $('#regs1').append(tr);
+            }
+          }
+          $('#regs,#regs_').hide();
+          $('#regs1,#regs_1').show();
+          $('#regs2,#regs_2').hide();
+          $('#regs3,#regs_3').hide();
+          $('#ventanaSP').modal('show');
+        });
       }
     });
-    /*Muestra todos los usuarios que solo tienen check-in*/
-    this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(1).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
-      this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+
+    this.todos_usuarios_checkin_out.subscribe((click) => {
+      if (click == true) {
+        /*Muestra todos los usuarios que tienen check-in y check-out*/
+        this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(2).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
+          this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
             <td>${supervisorPromotorConCheckInOut.letrazona}</td>
             <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
             </tr>`;
-          $('#regs_1').append(tr);
-        }
-      }
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-            <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-            </tr>`;
-          $('#regs1').append(tr);
-        }
-      }
-    });
-    /*Muestra todos los usuarios que tienen check-in y check-out*/
-    this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(2).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
-      this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-            </tr>`;
-          $('#regs_2').append(tr);
-        }
-      }
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+              $('#regs_2').append(tr);
+            }
+          }
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
                 <td>${supervisorPromotorConCheckInOut.letrazona}</td>
                 <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
                 <td>${supervisorPromotorConCheckInOut.Promotor}</td>
                 </tr>`;
-          $('#regs2').append(tr);
-        }
+              $('#regs2').append(tr);
+            }
+          }
+          $('#regs,#regs_').hide();
+          $('#regs1,#regs_1').hide();
+          $('#regs2,#regs_2').show();
+          $('#regs3,#regs_3').hide();
+          $('#ventanaSP').modal('show');
+        });
       }
     });
-    /*Muestra todos los usuarios en Transito*/
-    this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(3).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
-      this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-            </tr>`;
-          $('#regs_3').append(tr);
-        }
+
+    this.todos_usuarios_en_transito.subscribe((click) => {
+      if (click == true) {
+        /*Muestra todos los usuarios en Transito*/
+        this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(3).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
+          this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
+          <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
+          </tr>`;
+              $('#regs_3').append(tr);
+            }
+          }
+          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
+            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
+              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
+                <td>${supervisorPromotorConCheckInOut.letrazona}</td>
+                <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
+                <td>${supervisorPromotorConCheckInOut.Promotor}</td>
+                </tr>`;
+              $('#regs3').append(tr);
+            }
+          }
+          $('#regs,#regs_').hide();
+          $('#regs1,#regs_1').hide();
+          $('#regs2,#regs_2').hide();
+          $('#regs3,#regs_3').show();
+          $('#ventanaSP').modal('show');
+        });
       }
-      if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-        for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-          let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-                  <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-                  <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-                  <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-                  </tr>`;
-          $('#regs3').append(tr);
-        }
+    });
+
+    /* this.fotosservice.getcountUsuariosSinActividadServicios().subscribe((gUsuariosSinActividad: any[]) => {
+       this.usuariosSinActividad = gUsuariosSinActividad[0].usuarios_sin_actividad;
+     });
+   }*/
+
+    this.ranking_capturas_usuarios.subscribe((click) => {
+      if (click == true) {
+        this.fotosservice.getRankingCapturasUsuarios().subscribe((gRankingCapturasUsuarios: any[]) => {
+          this.rankingCapturasUsuarios = gRankingCapturasUsuarios;
+          $('#ventanaRC').modal('show');
+        });
       }
     });
-    this.fotosservice.getcountUsuariosSinActividadServicios().subscribe((gUsuariosSinActividad: any[]) => {
-      this.usuariosSinActividad = gUsuariosSinActividad[0].usuarios_sin_actividad;
+
+    this.ranking_promotor_actividad_hora.subscribe((click) => {
+      if (click == true) {
+        this.fotosservice.getRankingPromotorActividadHora().subscribe((gRankingPromotorActividadHora: any[]) => {
+          this.rankingPromotorActividadHora = gRankingPromotorActividadHora;
+          $('#ventanaRU').modal('show');
+        });
+      }
     });
-    this.fotosservice.getRankingCapturasUsuarios().subscribe((gRankingCapturasUsuarios: any[]) => {
-      this.rankingCapturasUsuarios = gRankingCapturasUsuarios;
+
+    this.consulta_distancia_checkin.subscribe((click) => {
+      if (click == true) {
+        this.fotosservice.getvw_consuta_distanciachekin().subscribe((getvw_consuta_distanciachekin: any[]) => {
+          this.ggetvw_consuta_distanciachekin = getvw_consuta_distanciachekin;
+          $('#ventanaODM').modal('show');
+        });
+      }
     });
-    this.fotosservice.getRankingPromotorActividadHora().subscribe((gRankingPromotorActividadHora: any[]) => {
-      this.rankingPromotorActividadHora = gRankingPromotorActividadHora;
+
+    this.consulta_usuarios_sin_actividad_hoy.subscribe((click) => {
+      if (click == true) {
+        this.fotosservice.getvw_usuariossinactividad_hoy().subscribe((getvw_usuariossinactividad_hoy: any[]) => {
+          this.ggetvw_usuariossinactividad_hoy = getvw_usuariossinactividad_hoy;
+          $('#ventanaRSA').modal('show');
+        });
+      }
     });
-    this.fotosservice.getvw_consuta_distanciachekin().subscribe((getvw_consuta_distanciachekin: any[]) => {
-      this.ggetvw_consuta_distanciachekin = getvw_consuta_distanciachekin;
+
+    this.consulta_checkin_sin_checkout.subscribe((click) => {
+      if (click == true) {
+        // Checkin sin Checkout
+        this.fotosservice.getvw_checkinsincheckout(this.idempresa).subscribe((resultado: any[]) => {
+          this.getvw_checkinsincheckout = resultado;
+          $('#ventanachecinsincheckout').modal('show');
+        });
+      }
     });
-    this.fotosservice.getvw_usuariossinactividad_hoy().subscribe((getvw_usuariossinactividad_hoy: any[]) => {
-      this.ggetvw_usuariossinactividad_hoy = getvw_usuariossinactividad_hoy;
-    });
-    // ********************
-    // Checkin sin Checkout
-    this.fotosservice.getvw_checkinsincheckout(this.idempresa).subscribe((resultado: any[]) => {
-      this.getvw_checkinsincheckout = resultado;
-    });
+
     $('#tbl_obs').hide();
   }
 
@@ -336,56 +450,44 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     switch (operacion) {
       case 0:
         this.titulo = "con/sin Actividad";
-        $('#regs,#regs_').show();
-        $('#regs1,#regs_1').hide();
-        $('#regs2,#regs_2').hide();
-        $('#regs3,#regs_3').hide();
+        this.bsTodos_usuarios_checkin_out_y_sin_checkout.next(true);
         break;
       case 1:
         this.titulo = "con Actividad";
-        $('#regs,#regs_').hide();
-        $('#regs1,#regs_1').show();
-        $('#regs2,#regs_2').hide();
-        $('#regs3,#regs_3').hide();
+        this.bsTodos_usuarios_checkin.next(true);
         break;
       case 2:
         this.titulo = "sin actividad";
-        $('#regs,#regs_').hide();
-        $('#regs1,#regs_1').hide();
-        $('#regs2,#regs_2').show();
-        $('#regs3,#regs_3').hide();
+        this.bsTodos_usuarios_checkin_out.next(true);
         break;
       case 3:
         this.titulo = "en tránsito";
-        $('#regs,#regs_').hide();
-        $('#regs1,#regs_1').hide();
-        $('#regs2,#regs_2').hide();
-        $('#regs3,#regs_3').show();
+        this.bsTodos_usuarios_en_transito.next(true);
         break;
     }
-    $('#ventanaSP').modal('show');
   }
 
   abrirVentanaModalRC() {
-    $('#ventanaRC').modal('show');
+    this.bsRanking_capturas_usuarios.next(true);
   }
   abrirVentanaModalRU() {
-    $('#ventanaRU').modal('show');
+    this.bsRanking_promotor_actividad_hora.next(true);
   }
 
   abrirVentanaModalODM() {
-    $('#ventanaODM').modal('show');
+    this.bsConsulta_distancia_checkin.next(true);
   }
 
   abrirVentanaModalRSA() {
+    $('#ventanaRSA').off('hide.bs.modal');
     $('#ventanaRSA').on('hide.bs.modal', () => {
       $('#tbl_obs').hide();
     });
-    $('#ventanaRSA').modal('show');
+    this.bsConsulta_usuarios_sin_actividad_hoy.next(true);
   }
 
   abrirVentanachecinsincheckout() {
-    $('#ventanachecinsincheckout').modal('show');
+    this.bsConsulta_checkin_sin_checkout.next(true);
   }
 
   selectObservaciones(idpromotor: any, usuario: any, observacion: any) {
@@ -412,6 +514,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   scroll(el: any) {
     el.scrollIntoView();
+  }
+
+  verUbicaciones() {
+    this.bsVer_ubicaciones_tiendas.next(true);
   }
 
 }

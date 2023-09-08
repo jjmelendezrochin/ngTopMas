@@ -14,7 +14,8 @@
 
                         <div class="col">
                             <mat-form-field style="width:150px">
-                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP" placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
+                                    placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
                                 <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -23,7 +24,8 @@
 
                         <div class="col">
                             <mat-form-field style="width:100px">
-                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP" placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"
+                                    placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
                                 <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -33,7 +35,8 @@
                         <div class="col">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por promotor</mat-label>
-                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor" [(ngModel)]="filtradofotos.idpromotor" multiple>
+                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor"
+                                    [(ngModel)]="filtradofotos.idpromotor" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsPromotor()">Todos los promotores
                                     </mat-option>
                                     <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
@@ -47,7 +50,8 @@
                         <div class="col">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por tienda</mat-label>
-                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda" [(ngModel)]="filtradofotos.Tienda" multiple>
+                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda"
+                                    [(ngModel)]="filtradofotos.Tienda" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsTienda()">Todas las tiendas
                                     </mat-option>
                                     <mat-option *ngFor="let catruta of catrutas" [value]="catruta.idruta">
@@ -61,7 +65,8 @@
                         <div class="col">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por actividad</mat-label>
-                                <mat-select #listaActividad [(value)]="filtradofotos.Actividad" name="Actividad" [(ngModel)]="filtradofotos.Actividad" multiple>
+                                <mat-select #listaActividad [(value)]="filtradofotos.Actividad" name="Actividad"
+                                    [(ngModel)]="filtradofotos.Actividad" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsActividad()">Todas las actividades
                                     </mat-option>
                                     <mat-option *ngFor="let actividad of actividades" [value]="actividad.idoperacion">
@@ -75,7 +80,8 @@
                         <div class="col">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por cadena</mat-label>
-                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena" [(ngModel)]="filtradofotos.idcadena" multiple>
+                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena"
+                                    [(ngModel)]="filtradofotos.idcadena" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsCadena()">Todas las cadenas
                                     </mat-option>
                                     <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
@@ -100,7 +106,8 @@
                         </div>
 
                         <div class="col">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="generarReporteExcel.generarReporteExcel(f.value)">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                (click)="generarReporteExcel.generarReporteExcel(f.value,idempresa)">
                                 <i class="material-icons" style="font-size: 20px" data-md-tooltip="Reporte Excel">
                                     assignment_returned
                                 </i>
@@ -135,14 +142,17 @@
             <div class="card-body">
                 <div class="table-responsive">
 
-                    <a *ngIf="fotodistancia != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(fotodistancia, encabezados)">
+                    <a *ngIf="fotodistancia != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                        (click)="exportarExcel.exportarExcel(fotodistancia, encabezados)">
                         <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
                             cloud_download
                         </i>
                     </a>
 
                     <div class="clearfix"></div>
-                    <mat-paginator #pag *ngIf="fotodistancia != null" [length]="fotodistancia.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
+                    <mat-paginator #pag *ngIf="fotodistancia != null" [length]="fotodistancia.length"
+                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                        (page)="paginacion.handlePage($event)">
                     </mat-paginator>
                     <table class="table">
                         <thead class=" text-primary">
@@ -178,8 +188,11 @@
                             </th>
                         </thead>
                         <tbody *ngIf="fotodistancia != null">
-                            <tr *ngFor="let distancia of fotodistancia | paginate:paginacion.page_size:paginacion.page_number"> <!--
-                            | paginate:paginacion.page_size:paginacion.page_number-->                                <td>{{ distancia.Nombre }}</td>
+                            <tr
+                                *ngFor="let distancia of fotodistancia | paginate:paginacion.page_size:paginacion.page_number">
+                                <!--
+                            | paginate:paginacion.page_size:paginacion.page_number-->
+                                <td>{{ distancia.Nombre }}</td>
                                 <td>{{ distancia.Tienda }}</td>
                                 <td>{{ distancia.Actividad }}</td>
                                 <td>{{ distancia.FechaHora }}</td>

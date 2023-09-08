@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 import { usuario } from 'app/Objetos/usuario';
@@ -13,7 +13,7 @@ declare var $: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   username: string;
   password: string;
@@ -37,6 +37,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    let s1 = localStorage.getItem('saliendo');
+    let s2 = sessionStorage.getItem('saliendo');
+
+    if ((s1 != null || s1 != undefined) && (s2 != null || s2 != undefined)) {
+      localStorage.removeItem('saliendo');
+      sessionStorage.removeItem('saliendo');
+      window.location.reload();
+    }
+  }
+
   logIn(form) {
     //alert(form.value.username.trim().length);
     //alert(form.value.password.trim().length);
@@ -56,26 +67,26 @@ export class LoginComponent implements OnInit {
     else {
       this.loginService.login1a(form.value).subscribe((usr: usuario) => {
         this.userService.setUserLoggedIn(usr);
-        console.log("empresa ", form.value.idempresa);        
+        console.log("empresa ", form.value.idempresa);
         console.log("usuario obtenido, ", usr);
-        localStorage.setItem ('idempresa', form.value.idempresa);
-        
+
+        localStorage.setItem('idempresa', form.value.idempresa);
+
         if (usr.idUsuario > 0) {
           // environment.servidor.TAG_IDEMPRESA = this.userService.getUserLoggedIn().idempresa;
-          if(usr.idempresa==0 || (usr.idempresa==form.value.idempresa)){
+          if (usr.idempresa == 0 || (usr.idempresa == form.value.idempresa)) {
             environment.servidor.TAG_IDEMPRESA = form.value.idempresa;
-            localStorage.setItem ('idempresa', form.value.idempresa);
-            sessionStorage.setItem ('idempresa', form.value.idempresa);
+            localStorage.setItem('idempresa', form.value.idempresa);
+            sessionStorage.setItem('idempresa', form.value.idempresa);
             //console.log("empresa 1, ", this.userService.getUserLoggedIn().idempresa);
-            this.router.navigate(['dashboard']);            
+            this.router.navigate(['dashboard']);
           }
-          else
-          {
+          else {
             this.toaster.error("Acceso denegado", "", {
               timeOut: 3000,
               positionClass: 'toast-bottom-center'
             });
-          }          
+          }
         }
         else {
           this.toaster.error("Acceso denegado", "", {
