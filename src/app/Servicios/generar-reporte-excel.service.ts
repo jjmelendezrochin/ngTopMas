@@ -4,6 +4,7 @@ import { Observable, from } from 'rxjs';
 import { environment } from 'environments/environment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { usuario } from 'app/Objetos/usuario';
 const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 const EXCEL_EXT = "xlsx";
 
@@ -25,8 +26,9 @@ export class GenerarReporteExcelService {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/ReportesExcel/getReportesExcel.php`, filtro);
   }
 
-  generarReporteExcel(form: any) {
+  generarReporteExcel(form: any, idempresa: any) {
     var date = new Date();
+    form.idempresa = idempresa;
     this.getReporteExcelServicio(form).subscribe((tabs: any) => {
       if (tabs.Estancia.length > 0 /*&& tabs.Cadenas.length > 0*/) {
         let cadenas = {};
@@ -46,7 +48,7 @@ export class GenerarReporteExcelService {
         /* Hoja de estancia */
         book.SheetNames.push("Estancia");
 
-        tabla = [["Fecha", "Promotor", "Cadena", "Formato", "Tienda", "CHECK IN", "Distancia", "CHECK OUT", "Distancia 2", "Estancia",  "Objetivo", "Checkin", "Checkout"]];
+        tabla = [["Fecha", "Promotor", "Cadena", "Formato", "Tienda", "CHECK IN", "Distancia", "CHECK OUT", "Distancia 2", "Estancia", "Objetivo", "Checkin", "Checkout"]];
 
         for (let estancia of tabs.Estancia) {
           row = [];

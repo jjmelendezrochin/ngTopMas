@@ -11,7 +11,7 @@ import { environment } from 'environments/environment';
 export class FotosService {
 
   PHP_API_SERVER = environment.servidor.TAG_SERVIDOR;    // Definiciòn de los servicios de base de datos
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   //PHP_API_SERVER = "http://localhost";
 
@@ -46,7 +46,7 @@ export class FotosService {
     return this.httpClient.post<any[]>(`${this.PHP_API_SERVER}/CatalogoFotos/getFotosDistanciaServicio_Ajustes.php`, fotoestancia);
   }
 
-  obtenerdatospanel(idEmpresa:number): Observable<any[]> {
+  obtenerdatospanel(idEmpresa: number): Observable<any[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
     //return this.httpClient.get<any[]>(`${this.PHP_API_SERVER}/CatalogoFotos/getCountUsuariosFotosServicio1.php?idEmpresa=${this.idempresa}`);
     return this.httpClient.get<any[]>(`${this.PHP_API_SERVER}/obtenerdatospanel.php?idEmpresa=${idEmpresa}`);
@@ -71,6 +71,8 @@ export class FotosService {
   // Enlista las fotos de acuerdo a fechas, promotor y cadena en http://www.topmas.mx/#/fotos
   getCatFotosServicios(catfotos: any): Observable<any[]> {
     catfotos.idEmpresa = this.idempresa;
+    catfotos.Tienda = 0;
+    console.log(catfotos);
     return this.httpClient.post<any[]>(`${this.PHP_API_SERVER}/CatalogoFotos/getCatFotosServicio_Ajustes.php`, catfotos);
   }
 

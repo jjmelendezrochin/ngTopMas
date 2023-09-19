@@ -10,18 +10,20 @@ import { environment } from 'environments/environment';
 export class CatcadenaService {
   PHP_API_SERVER = environment.servidor.TAG_SERVIDOR;    // Definiciòn de los servicios de base de datos
 
+  idempresa: number = Number(localStorage.getItem('idempresa'));
+
   //PHP_API_SERVER = "http://localhost";
 
   constructor(private httpClient: HttpClient) { }
 
-  getcadenaservicios(idEmpresa:number): Observable<catcadena[]> {
+  getcadenaservicios(idEmpresa: number): Observable<catcadena[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
     //return this.httpClient.get<catcadena[]>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${environment.servidor.TAG_IDEMPRESA}`);
     return this.httpClient.get<catcadena[]>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
   }
   getcadenaserviciosPorCadena(cadena: string, orden: number): Observable<catcadena[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
-    return this.httpClient.get<catcadena[]>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?cadena=${cadena}&orden=${orden}?idEmpresa=${environment.servidor.TAG_IDEMPRESA}`);
+    return this.httpClient.get<catcadena[]>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?cadena=${cadena}&orden=${orden}?idEmpresa=${this.idempresa}`);
   }
 
   createCadenaServicios(catcadena: catcadena): Observable<catcadena> {

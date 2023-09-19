@@ -18,7 +18,7 @@ export class CatRutasService {
 
   getrutasservicios(/*idEmpresa:number*/): Observable<CatRutas[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
-    return this.httpClient.get<CatRutas[]>(`${this.PHP_API_SERVER}/CatalogoRutas/getRutasServicio.php?idEmpresa=${this.idempresa}`);
+    return this.httpClient.get<CatRutas[]>(`${this.PHP_API_SERVER}/CatalogoRutas/getcmbrutas.php?idEmpresa=${this.idempresa}`);
   }
 
   getrutasPorIdServicios(idruta: number): Observable<CatRutas[]> {
