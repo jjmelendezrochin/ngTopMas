@@ -20,8 +20,17 @@ declare var $: any;
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('map', { static: false }) map: ElementRef;
 
-  supervisores: any[] = [];
-  supervisores_promotores: any[] = [];
+  supervisores_0: any[] = [];
+  supervisores_promotores_0: any[] = [];
+
+  supervisores_1: any[] = [];
+  supervisores_promotores_1: any[] = [];
+
+  supervisores_2: any[] = [];
+  supervisores_promotores_2: any[] = [];
+
+  supervisores_3: any[] = [];
+  supervisores_promotores_3: any[] = [];
 
   bsVer_ubicaciones_tiendas: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   ver_ubicaciones_tiendas = this.bsVer_ubicaciones_tiendas.asObservable();
@@ -33,7 +42,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   todos_usuarios_checkin = this.bsTodos_usuarios_checkin.asObservable();
 
   bsTodos_usuarios_checkin_out: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  todos_usuarios_checkin_out = this.bsTodos_usuarios_checkin.asObservable();
+  todos_usuarios_checkin_out = this.bsTodos_usuarios_checkin_out.asObservable();
 
   bsTodos_usuarios_en_transito: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   todos_usuarios_en_transito = this.bsTodos_usuarios_en_transito.asObservable();
@@ -267,8 +276,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         /*Muestra todos los usuarios que tienen check-in y check-out e incluyendo los que no tienen check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios().subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
-          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          this.supervisores_0 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores_0 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
           $('#ventanaSP').modal('show');
         });
       }
@@ -279,9 +288,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         /*Muestra todos los usuarios que solo tienen check-in*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(1).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
-          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
-          $('#ventanaSP').modal('show');
+          this.supervisores_1 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores_1 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          $('#ventanaSP1').modal('show');
         });
       }
     });
@@ -291,9 +300,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         /*Muestra todos los usuarios que tienen check-in y check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(2).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
-          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
-          $('#ventanaSP').modal('show');
+          this.supervisores_2 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores_2 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          $('#ventanaSP2').modal('show');
         });
       }
     });
@@ -303,9 +312,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         /*Muestra todos los usuarios en Transito*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(3).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
-          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
-          $('#ventanaSP').modal('show');
+          this.supervisores_3 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores_3 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          $('#ventanaSP3').modal('show');
         });
       }
     });

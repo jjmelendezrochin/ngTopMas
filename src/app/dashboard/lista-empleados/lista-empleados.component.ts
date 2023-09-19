@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ListaEmpleadosComponent implements OnInit {
 
+  @Input() ventana: string = '';
   @Input() titulo: string = '';
   @Input() supervisores: any[] = [];
   @Input() supervisores_promotores: any[] = [];
