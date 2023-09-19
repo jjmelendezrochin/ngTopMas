@@ -20,6 +20,8 @@ declare var $: any;
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('map', { static: false }) map: ElementRef;
 
+  supervisores: any[] = [];
+  supervisores_promotores: any[] = [];
 
   bsVer_ubicaciones_tiendas: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   ver_ubicaciones_tiendas = this.bsVer_ubicaciones_tiendas.asObservable();
@@ -262,40 +264,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin_out_y_sin_checkout.subscribe((click) => {
       if (click == true) {
-        $('#regs_').empty();
-        $('#regs').empty();
-        $('#regs_1').empty();
-        $('#regs1').empty();
-        $('#regs_2').empty();
-        $('#regs2').empty();
-        $('#regs_3').empty();
-        $('#regs3').empty();
         /*Muestra todos los usuarios que tienen check-in y check-out e incluyendo los que no tienen check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios().subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-          <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-          </tr>`;
-              $('#regs_').append(tr);
-            }
-          }
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-          <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-          <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-          </tr>`;
-              $('#regs').append(tr);
-            }
-          }
-          $('#regs,#regs_').show();
-          $('#regs1,#regs_1').hide();
-          $('#regs2,#regs_2').hide();
-          $('#regs3,#regs_3').hide();
+          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
           $('#ventanaSP').modal('show');
         });
       }
@@ -303,40 +276,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin.subscribe((click) => {
       if (click == true) {
-        $('#regs_').empty();
-        $('#regs').empty();
-        $('#regs_1').empty();
-        $('#regs1').empty();
-        $('#regs_2').empty();
-        $('#regs2').empty();
-        $('#regs_3').empty();
-        $('#regs3').empty();
         /*Muestra todos los usuarios que solo tienen check-in*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(1).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-            </tr>`;
-              $('#regs_1').append(tr);
-            }
-          }
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-            <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-            </tr>`;
-              $('#regs1').append(tr);
-            }
-          }
-          $('#regs,#regs_').hide();
-          $('#regs1,#regs_1').show();
-          $('#regs2,#regs_2').hide();
-          $('#regs3,#regs_3').hide();
+          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
           $('#ventanaSP').modal('show');
         });
       }
@@ -344,40 +288,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin_out.subscribe((click) => {
       if (click == true) {
-        $('#regs_').empty();
-        $('#regs').empty();
-        $('#regs_1').empty();
-        $('#regs1').empty();
-        $('#regs_2').empty();
-        $('#regs2').empty();
-        $('#regs_3').empty();
-        $('#regs3').empty();
         /*Muestra todos los usuarios que tienen check-in y check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(2).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-            <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-            <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-            </tr>`;
-              $('#regs_2').append(tr);
-            }
-          }
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-                <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-                <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-                <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-                </tr>`;
-              $('#regs2').append(tr);
-            }
-          }
-          $('#regs,#regs_').hide();
-          $('#regs1,#regs_1').hide();
-          $('#regs2,#regs_2').show();
-          $('#regs3,#regs_3').hide();
+          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
           $('#ventanaSP').modal('show');
         });
       }
@@ -385,40 +300,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_en_transito.subscribe((click) => {
       if (click == true) {
-        $('#regs_').empty();
-        $('#regs').empty();
-        $('#regs_1').empty();
-        $('#regs1').empty();
-        $('#regs_2').empty();
-        $('#regs2').empty();
-        $('#regs_3').empty();
-        $('#regs3').empty();
         /*Muestra todos los usuarios en Transito*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(3).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-          <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-          <td colspan="2">${supervisorPromotorConCheckInOut.Supervisor}</td>
-          </tr>`;
-              $('#regs_3').append(tr);
-            }
-          }
-          if (this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores != null) {
-            for (let supervisorPromotorConCheckInOut of this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores) {
-              let tr = `<tr style="color:${supervisorPromotorConCheckInOut.color}">
-                <td>${supervisorPromotorConCheckInOut.letrazona}</td>
-                <td>${supervisorPromotorConCheckInOut.Supervisor}</td>
-                <td>${supervisorPromotorConCheckInOut.Promotor}</td>
-                </tr>`;
-              $('#regs3').append(tr);
-            }
-          }
-          $('#regs,#regs_').hide();
-          $('#regs1,#regs_1').hide();
-          $('#regs2,#regs_2').hide();
-          $('#regs3,#regs_3').show();
+          this.supervisores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
+          this.supervisores_promotores = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
           $('#ventanaSP').modal('show');
         });
       }

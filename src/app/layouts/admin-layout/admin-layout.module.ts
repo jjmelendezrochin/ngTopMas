@@ -77,6 +77,7 @@ import { CatEmpresasComponent } from '../../cat-empresas/cat-empresas.component'
 import { CaducidadComponent } from '../../caducidad/caducidad.component';
 import { ErroresComponent } from 'app/errores/errores.component';
 import { PromocionesUltModComponent } from '../../promociones-ult-mod/promociones-ult-mod.component';
+import { ListaEmpleadosComponent } from 'app/dashboard/lista-empleados/lista-empleados.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -128,7 +129,8 @@ import { PromocionesUltModComponent } from '../../promociones-ult-mod/promocione
     PromocionesTiendasComponent,
     CatEmpresasComponent,
     ErroresComponent,
-    PromocionesUltModComponent
+    PromocionesUltModComponent,
+    ListaEmpleadosComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },

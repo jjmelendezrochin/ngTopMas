@@ -38,6 +38,7 @@ import { FotosUbicacionComponent } from './fotos/fotos.component';
 import { FotosUbicacion1Component } from './competencia/competencia.component';
 import { FotosUbicacion2Component } from './caducidad/caducidad.component';
 import { FotosUbicacion3Component } from './promociones-tiendas/promociones-tiendas.component';
+import { ListaEmpleadosComponent } from './dashboard/lista-empleados/lista-empleados.component';
 //import { ErroresComponent } from './errores/errores.component';
 
 @NgModule({
@@ -73,7 +74,7 @@ import { FotosUbicacion3Component } from './promociones-tiendas/promociones-tien
     FotosUbicacionComponent,
     FotosUbicacion1Component,
     FotosUbicacion2Component,
-    FotosUbicacion3Component,
+    FotosUbicacion3Component
     //ErroresComponent
   ],
   providers: [

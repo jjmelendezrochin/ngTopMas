@@ -1,0 +1,75 @@
+<!-- Modal -->
+<div class="modal fade" id="ventanaSP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="overflow: auto">
+                <div style="min-height:auto;max-height:800px;overflow:auto;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <th colspan="4"
+                                            style="background-color: #007A87; color: #FFFFFF; text-align: center;">
+                                            <h5>Lista de Supervisores {{titulo}}</h5>
+                                        </th>
+                                    </thead>
+                                    <thead class=" text-primary">
+                                        <th style="background-color: #007A87; color: #FFFFFF;">#</th>
+                                        <th style="background-color: #007A87; color: #FFFFFF;">
+                                            Zona
+                                        </th>
+                                        <th colspan="2" style="background-color: #007A87; color: #FFFFFF;">
+                                            Supervisor
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <ng-template [ngIf]="supervisores != null || supervisores != undefined">
+                                            <tr *ngFor="let item of supervisores; let i = index"
+                                                [ngStyle]="{'color':item.color}">
+                                                <td>{{ (i + 1) }}</td>
+                                                <td>{{ item.letrazona }}</td>
+                                                <td>{{ item.Supervisor }}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </tbody>
+                                    <thead class=" text-primary">
+                                        <th colspan="4"
+                                            style="background-color: #007A87; color: #FFFFFF; text-align: center;">
+                                            <h5>Lista de Supervisores y promotores {{titulo}}</h5>
+                                        </th>
+                                    </thead>
+                                    <thead class=" text-primary">
+                                        <th style="background-color: #007A87; color: #FFFFFF;">#</th>
+                                        <th style="background-color: #007A87; color: #FFFFFF;">
+                                            Zona
+                                        </th>
+                                        <th style="background-color: #007A87; color: #FFFFFF;">
+                                            Supervisor
+                                        </th>
+                                        <th style="background-color: #007A87; color: #FFFFFF;">
+                                            Promotor
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <ng-template
+                                            [ngIf]="supervisores_promotores != null || supervisores_promotores != undefined">
+                                            <tr *ngFor="let item of supervisores_promotores; let i = index"
+                                                [ngStyle]="{'color':item.color}">
+                                                <td>{{ (i + 1) }}</td>
+                                                <td>{{ item.letrazona }}</td>
+                                                <td>{{ item.Supervisor }}</td>
+                                                <td>{{ item.Promotor }}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
