@@ -262,7 +262,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin_out_y_sin_checkout.subscribe((click) => {
       if (click == true) {
-<<<<<<< HEAD
         $('#regs_').empty();
         $('#regs').empty();
         $('#regs_1').empty();
@@ -271,8 +270,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         $('#regs2').empty();
         $('#regs_3').empty();
         $('#regs3').empty();
-=======
->>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
         /*Muestra todos los usuarios que tienen check-in y check-out e incluyendo los que no tienen check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios().subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
@@ -306,7 +303,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin.subscribe((click) => {
       if (click == true) {
-<<<<<<< HEAD
         $('#regs_').empty();
         $('#regs').empty();
         $('#regs_1').empty();
@@ -315,8 +311,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         $('#regs2').empty();
         $('#regs_3').empty();
         $('#regs3').empty();
-=======
->>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
         /*Muestra todos los usuarios que solo tienen check-in*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(1).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
@@ -350,7 +344,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_checkin_out.subscribe((click) => {
       if (click == true) {
-<<<<<<< HEAD
         $('#regs_').empty();
         $('#regs').empty();
         $('#regs_1').empty();
@@ -359,8 +352,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         $('#regs2').empty();
         $('#regs_3').empty();
         $('#regs3').empty();
-=======
->>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
         /*Muestra todos los usuarios que tienen check-in y check-out*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(2).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
@@ -394,7 +385,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.todos_usuarios_en_transito.subscribe((click) => {
       if (click == true) {
-<<<<<<< HEAD
         $('#regs_').empty();
         $('#regs').empty();
         $('#regs_1').empty();
@@ -403,8 +393,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         $('#regs2').empty();
         $('#regs_3').empty();
         $('#regs3').empty();
-=======
->>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
         /*Muestra todos los usuarios en Transito*/
         this.fotosservice.getSupervisoresPromotoresConCheckInOutServicios(3).subscribe((gSupervisoresPromotoresConCheckInOutServicios: any[]) => {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
