@@ -8,15 +8,21 @@ export const environment = {
   servidor: {
     TAG_IDEMPRESA: 0,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TAG_SERVIDOR: "http://localhost:4200/apiTopMas",
     //TAG_SERVIDOR: 'https://www.topmas.mx/TopMas',
     //TAG_SERVIDOR_W: "https://www.topmas.mx",
     TAG_SERVIDOR_W: "http://localhost:4200"
 =======
+=======
+>>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
     //TAG_SERVIDOR: "http://localhost:4200/apiTopMas",
     TAG_SERVIDOR: 'https://www.topmas.mx/TopMas',
     TAG_SERVIDOR_W: "https://www.topmas.mx",
     //TAG_SERVIDOR_W: "http://localhost:4200"
+<<<<<<< HEAD
+>>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
+=======
 >>>>>>> 6dab91803a7f739cc6f7232a354873712430b2d0
   },
 };
