@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 import { ToastrService } from 'ngx-toastr';
 import { usuario } from './Objetos/usuario';
 import { UserService } from './user.service';

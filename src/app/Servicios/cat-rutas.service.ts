@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { CatRutas } from '../Objetos/catrutas';
 import { catcadenaJoinCatRutas } from '../Objetos/catcadenajoincatrutas';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 
 @Injectable({
   providedIn: 'root'

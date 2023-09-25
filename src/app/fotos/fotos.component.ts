@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatOption, MatPaginator, MatSelect } from '@angular/material';
 import { GenerarPdfService } from 'app/Servicios/generar-pdf.service';
 import { GenerarZipFotosService } from 'app/Servicios/generar-zip-fotos.service';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 
 declare var $: any;
 

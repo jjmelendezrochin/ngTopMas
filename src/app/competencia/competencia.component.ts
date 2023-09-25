@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatOption, MatPaginator, MatSelect } from '@angular/material';
 import { GenerarPdf1Service } from 'app/Servicios/generar-pdf1.service';
 import { GenerarZipFotosService } from 'app/Servicios/generar-zip-fotos.service';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 import { CompetenciaService } from 'app/Servicios/competencia.service';
 import { GenerarZipFotos1Service } from 'app/Servicios/generar-zip-fotos1.service';
 import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';

@@ -21,7 +21,7 @@
                         </div>
 
 
-                        <p class="card-category">Total de Tiendas</p>
+                        <p class="card-category">Objetivo total de tiendas</p>
                         <h3 class="card-title">{{Total_tiendas}}</h3>
                     </div>
 
@@ -40,13 +40,23 @@
                         </div>
 
 
-                        <p class="card-category">Tiendas Visitadas</p>
+                        <p class="card-category">Acumulado</p>
                         <h3 class="card-title">{{Tiendas_visitadas}}</h3>
                     </div>
 
                 </div>
             </div>
 
+            <div class="col">
+                <div class="card card-stats">
+                    <div class="card-header">
+                        <p class="card-category">Visitas registradas al dia {{FechaHora}}<br>
+                        <h3 class="card-title">{{Visitas_Diarias}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--            
             <ng-template [ngIf]="usr.idperfil != 3">
                 <div class="col">
                     <div class="card card-stats">
@@ -66,15 +76,9 @@
                     </div>
                 </div>
 
-                <div class="col">
-                    <div class="card card-stats">
-                        <div class="card-header">
-                            <p class="card-category">Visitas/Diarias registradas al dia {{FechaHora}}<br>
-                            <h3 class="card-title">{{Visitas_Diarias}}</h3>
-                        </div>
-                    </div>
-                </div>
+                
             </ng-template>
+            -->
         </div>
 
         <!-- ***************************************************** -->

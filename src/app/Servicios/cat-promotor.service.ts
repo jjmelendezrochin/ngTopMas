@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { CatPromotor } from '../Objetos/catpromotor';
 import { RutasAsignadasAPromotor } from '../Objetos/rutas_asignadas_a_promotor';
 import { RutasPromotorDias } from 'app/Objetos/rutas_promotor_dias';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 import { PromotoresAsignadosASupervisor } from 'app/Objetos/promotores_asignados_a_supervisor';
 
 

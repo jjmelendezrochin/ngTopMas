@@ -15,7 +15,7 @@ import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';
 import { CatUsohorarioService } from 'app/Servicios/cat-usohorario.service';
 import { MatDatepicker, MatPaginator } from '@angular/material';
 import { CatRutas } from 'app/Objetos/catrutas';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 
 declare var $;
 

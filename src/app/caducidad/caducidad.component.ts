@@ -11,7 +11,7 @@ import { CatcadenaService } from 'app/Servicios/catcadena.service';
 import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';
 import { GenerarPdf2Service } from 'app/Servicios/generar-pdf2.service';
 import { GenerarZipFotos2Service } from 'app/Servicios/generar-zip-fotos2.service';
-import { environment } from 'environments/environment';
+import { environment } from "environments/environment";
 import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
