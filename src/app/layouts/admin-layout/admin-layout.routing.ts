@@ -30,6 +30,7 @@ import { CatEmpresasComponent } from "app/cat-empresas/cat-empresas.component";
 import { CaducidadComponent } from "app/caducidad/caducidad.component";
 import { ErroresComponent } from "app/errores/errores.component";
 import { PromocionesUltModComponent } from "app/promociones-ult-mod/promociones-ult-mod.component";
+import { GestionAjusteAcumuladoComponent } from "app/gestion-ajuste-acumulado/gestion-ajuste-acumulado.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -60,8 +61,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "promocionestiendas", component: PromocionesTiendasComponent },
   { path: "graficas", component: GraficasComponent },
   { path: "errores", component: ErroresComponent },
-  {
-    path: "reporteprecioxproductomensual",
-    component: ReportePreciosXproductoMensualComponent,
-  },
+  { path: "gestion-ajuste-acumulado", component: GestionAjusteAcumuladoComponent },
+  { path: "reporteprecioxproductomensual", component: ReportePreciosXproductoMensualComponent },
 ];

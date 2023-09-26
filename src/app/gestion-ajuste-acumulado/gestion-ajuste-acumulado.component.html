@@ -1,0 +1,56 @@
+<br><br><br>
+<div class="card">
+    <div class="card-header card-header-info">
+        <h4 class="card-title ">Ajuste acumulado</h4>
+        <br>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <form #f="ngForm">
+                    <div class="row">
+                        <div class="col" id="campo_cadena">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Filtrar por cliente</mat-label>
+                                <mat-select #listaCadena [(value)]="filtrado.idempresa" name="idempresa"
+                                    [(ngModel)]="filtrado.idempresa" required>
+                                    <mat-option value="" disabled> -- Seleccione un cliente --
+                                    </mat-option>
+                                    <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                                        {{empresa.nombreempresa}}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="Fecha" type="text" name="Fecha" placeholder="Fecha"
+                                    [(ngModel)]="filtrado.fecha" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="Fecha"></mat-datepicker-toggle>
+                                <mat-datepicker #Fecha disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="Fecha" [(ngModel)]="filtrado.fecha" required>
+                        </div>
+                        <div class="col">
+                            <mat-form-field style="width:150px">
+                                <input matInput type="text" name="ajuste_acumulado" pattern="[0-9]*"
+                                    placeholder="Ajuste de acumulado" [(ngModel)]="filtrado.ajuste_acumulado" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-info pull-right" (click)="GuardarAjusteAcumulado()"
+                                [disabled]="!f.valid" matTooltip="Guardar"
+                                [matTooltipClass]="'mat-tooltip-promociones-ult-mod'">
+                                <i class="material-icons" style="font-size: 20px;">
+                                    save
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

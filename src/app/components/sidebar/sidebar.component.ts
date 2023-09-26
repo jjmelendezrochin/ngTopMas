@@ -205,6 +205,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         class: "",
         subitems: [
           {
+            path: "/gestion-ajuste-acumulado",
+            title: "Administracion",
+            icon: "assignment",
+            class: "",
+            subitems: null,
+          },
+          {
             path: "/catalogopromotor",
             title: "Promotores",
             icon: "account_circle",
