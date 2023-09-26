@@ -78,6 +78,7 @@ import { CaducidadComponent } from '../../caducidad/caducidad.component';
 import { ErroresComponent } from 'app/errores/errores.component';
 import { PromocionesUltModComponent } from '../../promociones-ult-mod/promociones-ult-mod.component';
 import { ListaEmpleadosComponent } from 'app/dashboard/lista-empleados/lista-empleados.component';
+import { GestionAjusteAcumuladoComponent } from '../../gestion-ajuste-acumulado/gestion-ajuste-acumulado.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -130,7 +131,8 @@ import { ListaEmpleadosComponent } from 'app/dashboard/lista-empleados/lista-emp
     CatEmpresasComponent,
     ErroresComponent,
     PromocionesUltModComponent,
-    ListaEmpleadosComponent
+    ListaEmpleadosComponent,
+    GestionAjusteAcumuladoComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },
