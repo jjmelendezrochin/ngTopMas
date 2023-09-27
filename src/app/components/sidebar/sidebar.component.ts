@@ -200,13 +200,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       };
       this.menuItems2[0] = {
         path: "",
-        title: "Personal",
+        title: "Administración",
         icon: "assignment_ind",
         class: "",
         subitems: [
           {
             path: "/gestion-ajuste-acumulado",
-            title: "Administracion",
+            title: "Ajuste de acumulado",
             icon: "assignment",
             class: "",
             subitems: null,

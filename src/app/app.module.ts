@@ -70,11 +70,11 @@ import { ListaEmpleadosComponent } from './dashboard/lista-empleados/lista-emple
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
-    LogoutComponent, 
+    LogoutComponent,
     FotosUbicacionComponent,
     FotosUbicacion1Component,
     FotosUbicacion2Component,
-    FotosUbicacion3Component
+    FotosUbicacion3Component,
     //ErroresComponent
   ],
   providers: [
