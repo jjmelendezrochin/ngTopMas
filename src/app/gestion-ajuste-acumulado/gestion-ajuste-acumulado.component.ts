@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material';
 import { CatEmpresaService } from 'app/Servicios/cat-empresa.service';
 import { GestionAjusteAcumuladoService } from 'app/Servicios/gestion-ajuste-acumulado.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,14 +13,31 @@ import { ToastrService } from 'ngx-toastr';
     DatePipe
   ]
 })
-export class GestionAjusteAcumuladoComponent implements OnInit {
+export class GestionAjusteAcumuladoComponent implements OnInit, AfterViewInit {
+  @ViewChild('pag', { static: false }) pag: MatPaginator;
+
+  @Output() buscar: EventEmitter<any> = new EventEmitter<any>();
 
   empresas: any[] = [];
+
+  informacion_ajustes_acumulados: any[] = [];
+
+  paginacion = {
+    page_number: 0,
+    page_size: 10,
+    page_size_options: [10],
+    total_records: 0
+  };
 
   filtrado = {
     idempresa: '',
     fecha: '',
     ajuste_acumulado: ''
+  }
+
+  filtro_buscar = {
+    page: 0,
+    resultsForPage: '10'
   }
 
   constructor(
@@ -32,9 +50,30 @@ export class GestionAjusteAcumuladoComponent implements OnInit {
       this.empresas = gempresa;
       // console.log("lista de empresas, ", this.empresas);
     });
+    this.buscar.subscribe((filtrado: any) => {
+      this.gestionAjusteAcumuladoService
+        .ObtenerInformacionAjustesAcumulados(filtrado)
+        .subscribe((response: any) => {
+
+          this.paginacion.total_records = response.totalRecords;
+          this.paginacion.page_number = response.currentPage;
+          this.paginacion.page_size = response.resultsForPage;
+          this.paginacion.page_size_options = [response.resultsForPage];
+          this.informacion_ajustes_acumulados = response.regs;
+          //console.log(response);
+          $('#bloqueador_tabla_ac').hide();
+          //    console.log(response.regs);
+        });
+    });
+
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    $('#bloqueador_tabla_ac').hide();
+    this.ObtenerInformacionAjustesAcumulados();
   }
 
   GuardarAjusteAcumulado() {
@@ -45,6 +84,7 @@ export class GestionAjusteAcumuladoComponent implements OnInit {
           timeOut: 1000,
           positionClass: 'toast-bottom-center'
         });
+        this.ObtenerInformacionAjustesAcumulados(false);
       } else {
         this.toaster.error(res.Mensaje, "", {
           timeOut: 1000,
@@ -52,6 +92,29 @@ export class GestionAjusteAcumuladoComponent implements OnInit {
         });
       }
     });
+  }
+
+  ObtenerInformacionAjustesAcumulados(nav: boolean = false) {
+
+    $('#bloqueador_tabla_ac').show();
+
+    if (this.pag != null) {
+      if (nav == false) {
+        this.filtro_buscar.page = this.filtro_buscar.page = this.paginacion.page_number = 0;
+        this.pag.firstPage();
+        this.buscar.emit(this.filtro_buscar);
+      } else {
+        this.buscar.emit(this.filtro_buscar);
+      }
+    }
+  }
+
+  irAlaPagina(event: any) {
+    let wait = setTimeout(() => {
+      this.filtro_buscar.page = event.pageIndex + 1;
+      this.ObtenerInformacionAjustesAcumulados(true);
+      clearTimeout(wait);
+    }, 0);
   }
 
 }

@@ -17,7 +17,19 @@ export class GestionAjusteAcumuladoService {
       "Content-Type": "application/json",
     });
     return this.httpClient.post<any>(
-      `${this.PHP_API_SERVER}/gestion_ajuste_Acumulado.php`,
+      `${this.PHP_API_SERVER}/gestion_ajuste_acumulado.php`,
+      filtro,
+      { headers: headers }
+    );
+
+  }
+
+  ObtenerInformacionAjustesAcumulados(filtro) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any>(
+      `${this.PHP_API_SERVER}/obtener_informacion_ajustes_acumulados.php`,
       filtro,
       { headers: headers }
     );
