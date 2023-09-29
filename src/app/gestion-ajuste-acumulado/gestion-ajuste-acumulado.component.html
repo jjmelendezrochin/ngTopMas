@@ -78,7 +78,7 @@
                                         Empresa
                                     </th>
                                     <th style="background-color: #007A87; color: #FFFFFF;">
-                                        Mes/A&ntilde;o;
+                                        Fecha
                                     </th>
                                     <th style="background-color: #007A87; color: #FFFFFF;">
                                         Ajuste acumulado
@@ -87,7 +87,7 @@
                                 <tbody *ngIf="informacion_ajustes_acumulados != null">
                                     <tr *ngFor="let ac of informacion_ajustes_acumulados">
                                         <td>{{ ac.nombreempresa }}</td>
-                                        <td>{{ ac['mes/anio'] }}</td>
+                                        <td>{{ ac.fecha }}</td>
                                         <td>{{ ac.ajuste_acumulado }}</td>
                                     </tr>
                                 </tbody>
