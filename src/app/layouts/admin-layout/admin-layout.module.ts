@@ -79,6 +79,7 @@ import { ErroresComponent } from 'app/errores/errores.component';
 import { PromocionesUltModComponent } from '../../promociones-ult-mod/promociones-ult-mod.component';
 import { ListaEmpleadosComponent } from 'app/dashboard/lista-empleados/lista-empleados.component';
 import { GestionAjusteAcumuladoComponent } from '../../gestion-ajuste-acumulado/gestion-ajuste-acumulado.component';
+import { CargaInformacionComponent } from 'app/dashboard/carga-informacion/carga-informacion.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -132,7 +133,8 @@ import { GestionAjusteAcumuladoComponent } from '../../gestion-ajuste-acumulado/
     ErroresComponent,
     PromocionesUltModComponent,
     ListaEmpleadosComponent,
-    GestionAjusteAcumuladoComponent
+    GestionAjusteAcumuladoComponent,
+    CargaInformacionComponent,
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },
