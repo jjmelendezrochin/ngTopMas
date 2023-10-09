@@ -9,7 +9,23 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
+  supervisores_0: any[] = [];
+  supervisores_promotores_0: any[] = [];
+
+  supervisores_1: any[] = [];
+  supervisores_promotores_1: any[] = [];
+
+  supervisores_2: any[] = [];
+  supervisores_promotores_2: any[] = [];
+
+  supervisores_3: any[] = [];
+  supervisores_promotores_3: any[] = [];
+
   idempresa: number = Number(localStorage.getItem('idempresa'));
+
+  empresa: string = '';
+
+  titulo: string;
 
   titulo_contador_objetivo_tiendas: string = '';
   titulo_contador_acumulado: string = '';

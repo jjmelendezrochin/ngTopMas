@@ -1,7 +1,47 @@
-<app-carga-informacion [titulo_contador_objetivo_tiendas]="titulo_contador_objetivo_tiendas"
-    [titulo_contador_acumulado]="titulo_contador_acumulado"
-    [titulo_contador_avance_al_dia]="titulo_contador_avance_al_dia"
-    [titulo_contador_total_usuarios]="titulo_contador_total_usuarios"
-    [titulo_contador_usuarios_activos]="titulo_contador_usuarios_activos"
-    [titulo_contador_usuarios_inactivos]="titulo_contador_usuarios_inactivos"
-    [titulo_contador_usuarios_en_transito]="titulo_contador_usuarios_en_transito"></app-carga-informacion>
+<div class="main-content">
+    <div class="container-fluid">
+
+        <!-- ***************************************************** -->
+        <!-- Seccion de tiendas -->
+        <div class="center">
+            <h2>{{empresa}}</h2>
+        </div>
+
+
+        <app-carga-informacion [titulo_contador_objetivo_tiendas]="titulo_contador_objetivo_tiendas"
+            [titulo_contador_acumulado]="titulo_contador_acumulado"
+            [titulo_contador_avance_al_dia]="titulo_contador_avance_al_dia"
+            [titulo_contador_total_usuarios]="titulo_contador_total_usuarios"
+            [titulo_contador_usuarios_activos]="titulo_contador_usuarios_activos"
+            [titulo_contador_usuarios_inactivos]="titulo_contador_usuarios_inactivos"
+            [titulo_contador_usuarios_en_transito]="titulo_contador_usuarios_en_transito"
+            (ajusta_empresa)="empresa = $event" (ajusta_supervisores_0)="supervisores_0 = $event"
+            (ajusta_supervisores_promotores_0)="supervisores_promotores_0 = $event"
+            (ajusta_supervisores_1)="supervisores_1 = $event"
+            (ajusta_supervisores_promotores_1)="supervisores_promotores_1 = $event"
+            (ajusta_supervisores_2)="supervisores_2 = $event"
+            (ajusta_supervisores_promotores_2)="supervisores_promotores_2 = $event"
+            (ajusta_supervisores_3)="supervisores_3 = $event"
+            (ajusta_supervisores_promotores_3)="supervisores_promotores_3 = $event"></app-carga-informacion>
+
+    </div>
+</div>
+
+<!-- ***************************************************** -->
+
+
+<app-lista-empleados ventana="ventanaSP" [titulo]="titulo" [supervisores]="supervisores_0"
+    [supervisores_promotores]="supervisores_promotores_0">
+</app-lista-empleados>
+
+<app-lista-empleados ventana="ventanaSP1" [titulo]="titulo" [supervisores]="supervisores_1"
+    [supervisores_promotores]="supervisores_promotores_1">
+</app-lista-empleados>
+
+<app-lista-empleados ventana="ventanaSP2" [titulo]="titulo" [supervisores]="supervisores_2"
+    [supervisores_promotores]="supervisores_promotores_2">
+</app-lista-empleados>
+
+<app-lista-empleados ventana="ventanaSP3" [titulo]="titulo" [supervisores]="supervisores_3"
+    [supervisores_promotores]="supervisores_promotores_3">
+</app-lista-empleados>

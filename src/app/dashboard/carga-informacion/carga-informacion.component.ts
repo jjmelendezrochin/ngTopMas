@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ToastrService } from 'ngx-toastr';
 import { usuario } from 'app/Objetos/usuario';
@@ -19,6 +19,21 @@ declare var $: any;
 })
 export class CargaInformacionComponent implements OnInit {
   @ViewChild('map', { static: false }) map: ElementRef;
+
+  @Output() ajusta_empresa: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output() ajusta_supervisores_0: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() ajusta_supervisores_promotores_0: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+  @Output() ajusta_supervisores_1: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() ajusta_supervisores_promotores_1: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+  @Output() ajusta_supervisores_2: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() ajusta_supervisores_promotores_2: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+  @Output() ajusta_supervisores_3: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() ajusta_supervisores_promotores_3: EventEmitter<any[]> = new EventEmitter<any[]>();
+
 
   @Input() titulo_contador_objetivo_tiendas: string = '';
   @Input() titulo_contador_acumulado: string = '';
@@ -278,6 +293,7 @@ export class CargaInformacionComponent implements OnInit {
       this.Usuarios_transito = gfoto[0].Usuarios_transito;
       this.FechaHora = gfoto[0].FechaHora;
       this.empresa = gfoto[0].NombreEmpresa;
+      this.ajusta_empresa.emit(this.empresa);
     });
 
     this.todos_usuarios_checkin_out_y_sin_checkout.subscribe((click) => {
@@ -287,6 +303,8 @@ export class CargaInformacionComponent implements OnInit {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
           this.supervisores_0 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
           this.supervisores_promotores_0 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          this.ajusta_supervisores_0.emit(this.supervisores_0);
+          this.ajusta_supervisores_promotores_0.emit(this.supervisores_promotores_0);
           $('#ventanaSP').modal('show');
         });
       }
@@ -299,6 +317,8 @@ export class CargaInformacionComponent implements OnInit {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
           this.supervisores_1 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
           this.supervisores_promotores_1 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          this.ajusta_supervisores_1.emit(this.supervisores_1);
+          this.ajusta_supervisores_promotores_1.emit(this.supervisores_promotores_1);
           $('#ventanaSP1').modal('show');
         });
       }
@@ -311,6 +331,8 @@ export class CargaInformacionComponent implements OnInit {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
           this.supervisores_2 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
           this.supervisores_promotores_2 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          this.ajusta_supervisores_2.emit(this.supervisores_2);
+          this.ajusta_supervisores_promotores_2.emit(this.supervisores_promotores_2);
           $('#ventanaSP2').modal('show');
         });
       }
@@ -323,6 +345,8 @@ export class CargaInformacionComponent implements OnInit {
           this.supervisoresPromotoresConCheckInOutServicios = gSupervisoresPromotoresConCheckInOutServicios;
           this.supervisores_3 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores;
           this.supervisores_promotores_3 = this.supervisoresPromotoresConCheckInOutServicios[0].supervisores_promotores;
+          this.ajusta_supervisores_3.emit(this.supervisores_3);
+          this.ajusta_supervisores_promotores_3.emit(this.supervisores_promotores_3);
           $('#ventanaSP3').modal('show');
         });
       }
