@@ -56,82 +56,30 @@
         </li>-->
         </ul>
     </div>
+
     <ul id="menus" class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems; let index = index"
-            class="{{menuItem.class}} nav-item" id="mi_{{(index+1)}}">
-            <a class="nav-link" [routerLink]="[menuItem.path]"
-                (click)="removerReferenciaTabAsginacionRutas(menuItem.title)">
+        <li *ngFor="let menuItem of menuItems; let index = index" class="{{menuItem.class}} nav-item"
+            id="mi_{{(index+1)}}" [routerLinkActive]="routerLinkActive(menuItem.subitems)">
+            <a *ngIf="menuItem.subitems == null" class="nav-link" [routerLink]="[menuItem.path]">
                 <i class="material-icons">{{menuItem.icon}}</i>
                 <p>{{menuItem.title}}</p>
             </a>
-        </li>
-        <!-- Menu personal -->
-        <li *ngFor="let menuItem1 of menuItems1" class="{{menuItem1.class}} nav-item">
-            <a class="nav-link" (click)="mostrarOcultarMenu();removerReferenciaTabAsginacionRutas(menuItem1.title)">
-                <i class="material-icons">{{ menuItem1.icon }}</i>
-                <p>{{ menuItem1.title }}</p>
+            <a *ngIf="menuItem.subitems != null && esAdmin() == '1'" class="nav-link"
+                (click)="mostrarOcultarMenu('submenu_'+index)">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
             </a>
-            <ul *ngIf="menuItem1.subitems != null" id="submenu" class="nav" style="padding-left: 20px">
-                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem1.subitems"
+            <ul *ngIf="menuItem.subitems != null  && esAdmin() == '1'" id="submenu_{{index}}" class="nav"
+                style="padding-left: 20px" ocultado>
+                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem.subitems"
                     class="{{submenuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[submenuItem.path]"
-                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
+                    <a class="nav-link" [routerLink]="[submenuItem.path]">
                         <i class="material-icons">{{ submenuItem.icon }}</i>
                         <p>{{ submenuItem.title }}</p>
                     </a>
                 </li>
             </ul>
         </li>
-
-        <!-- Menu pesonal -->
-        <li *ngFor="let menuItem2 of menuItems2" class="{{menuItem2.class}} nav-item">
-            <a class="nav-link" (click)="mostrarOcultarMenu1();removerReferenciaTabAsginacionRutas(menuItem2.title)">
-                <i class="material-icons">{{ menuItem2.icon }}</i>
-                <p>{{ menuItem2.title }}</p>
-            </a>
-            <ul *ngIf="menuItem2.subitems != null" id="submenu1" class="nav" style="padding-left: 20px">
-                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem2.subitems"
-                    class="{{submenuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[submenuItem.path]"
-                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
-                        <i class="material-icons">{{ submenuItem.icon }}</i>
-                        <p>{{ submenuItem.title }}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li routerLinkActive="active" *ngFor="let menuItem3 of menuItems3" class="{{ menuItem3.class }} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem3.path]"
-                (click)="removerReferenciaTabAsginacionRutas(menuItem3.title)">
-                <i class="material-icons">{{menuItem3.icon}}</i>
-                <p>{{menuItem3.title}}</p>
-            </a>
-        </li>
-        <!-- Menu busqueda -->
-        <li *ngFor="let menuItem4 of menuItems4" class="{{menuItem4.class}} nav-item">
-            <a class="nav-link" (click)="mostrarOcultarMenu2();removerReferenciaTabAsginacionRutas(menuItem4.title)">
-                <i class="material-icons">{{ menuItem4.icon }}</i>
-                <p>{{ menuItem4.title }}</p>
-            </a>
-            <ul *ngIf="menuItem4.subitems != null" id="submenu2" class="nav" style="padding-left: 20px">
-                <li routerLinkActive="active" *ngFor="let submenuItem of menuItem4.subitems"
-                    class="{{submenuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[submenuItem.path]"
-                        (click)="removerReferenciaTabAsginacionRutas(submenuItem.title)">
-                        <i class="material-icons">{{ submenuItem.icon }}</i>
-                        <p>{{ submenuItem.title }}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li routerLinkActive="active" *ngFor="let menuItem5 of menuItems5" class="{{ menuItem5.class }} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem5.path]"
-                (click)="removerReferenciaTabAsginacionRutas(menuItem5.title)">
-                <i class="material-icons">{{menuItem5.icon}}</i>
-                <p>{{menuItem5.title}}</p>
-            </a>
-        </li>
-
     </ul>
 </div>
 <!-- -->

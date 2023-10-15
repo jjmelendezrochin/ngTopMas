@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { usuario } from "app/Objetos/usuario";
 import { UserService } from "app/user.service";
 import { ToastrService } from "ngx-toastr";
 
@@ -12,99 +13,8 @@ declare interface RouteInfo {
   class: string;
   subitems: RouteInfo[];
 }
-export const ROUTES: RouteInfo[] = [
-  {
-    path: "/dashboard",
-    title: "Panel de Control",
-    icon: "dashboard",
-    class: "",
-    subitems: null,
-  },
-];
 
-export const ROUTES1: RouteInfo[] = [];
-
-export const ROUTES2: RouteInfo[] = [];
-
-export const ROUTES3: RouteInfo[] = [];
-
-export const ROUTES4: RouteInfo[] = [
-  {
-    path: "",
-    title: "Consultas",
-    icon: "search",
-    class: "",
-    subitems: [
-      {
-        path: "/fotos",
-        title: "Fotos",
-        icon: "photo",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/competencia",
-        title: "Competencia",
-        icon: "photo",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/caducidad",
-        title: "Caducidad",
-        icon: "photo",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/distancia",
-        title: "Detalles",
-        icon: "my_location",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/promocionestiendas",
-        title: "Promociones tienda",
-        icon: "assignment",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/promociones",
-        title: "Campaña punto de venta",
-        icon: "assignment",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/graficas",
-        title: "Graficas",
-        icon: "poll",
-        class: "",
-        subitems: null,
-      },
-      {
-        path: "/reporteprecioxproductomensual",
-        title: "Precio por Producto",
-        icon: "poll",
-        class: "",
-        subitems: null,
-      },
-    ],
-  },
-];
-
-export const ROUTES5: RouteInfo[] = [
-  //{ path: '/catalogoempresas', title: 'empresas', icon: 'address', class: '', subitems: null },
-  {
-    path: "/logout",
-    title: "Salir",
-    icon: "exit_to_app",
-    class: "",
-    subitems: null,
-  },
-];
+export let ROUTES: RouteInfo[] = [];
 
 @Component({
   selector: "app-sidebar",
@@ -112,12 +22,231 @@ export const ROUTES5: RouteInfo[] = [
   styleUrls: ["./sidebar.component.css"],
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
+  ROUTES: RouteInfo[] = [
+    {
+      path: "/dashboard",
+      title: "Panel de Control",
+      icon: "dashboard",
+      class: "",
+      subitems: null,
+    },
+    {
+      path: "/catusuarios",
+      title: "Usuarios",
+      icon: "account_box",
+      class: "",
+      subitems: null,
+    },
+    {
+      path: "/catalogoproductos",
+      title: "Productos",
+      icon: "assignment",
+      class: "",
+      subitems: null,
+    },
+    {
+      path: "",
+      title: "Rutas",
+      icon: "directions_bus",
+      class: "",
+      subitems: [
+        {
+          path: "/catalogocadena",
+          title: "Cadenas",
+          icon: "explore",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogoformatos",
+          title: "Formatos",
+          icon: "explore",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogorutas",
+          title: "Tiendas",
+          icon: "address",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogozonas",
+          title: "Zonas",
+          icon: "my_location",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogopromociones",
+          title: "Promociones",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+      ],
+    },
+    {
+      path: "",
+      title: "Administración",
+      icon: "assignment_ind",
+      class: "",
+      subitems: [
+        {
+          path: "/gestion-ajuste-acumulado",
+          title: "Ajuste de acumulado",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogopromotor",
+          title: "Promotores",
+          icon: "account_circle",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/catalogosupervisor",
+          title: "Supervisores",
+          icon: "supervisor_account",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/errores",
+          title: "Bitácora de errores",
+          icon: "description",
+          class: "",
+          subitems: null,
+        },
+      ],
+    },
+    {
+      path: "",
+      title: "Reportes Santa Clara",
+      icon: "assignment_ind",
+      class: "",
+      subitems: [
+        {
+          path: "/reporte_scl/reporte_asistencia",
+          title: "Reporte de asistencia",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/reporte_scl/presentaciones_canjes",
+          title: "Presentaciones Canjes",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/reporte_scl/reporte_historico",
+          title: "Reporte Histórico",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/reporte_scl/reporte_desplazamiento",
+          title: "Reporte Desplazamiento",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+      ],
+    },
+    {
+      path: "/maps",
+      title: "Mapas",
+      icon: "location_on",
+      class: "",
+      subitems: null,
+    },
+    {
+      path: "",
+      title: "Consultas",
+      icon: "search",
+      class: "",
+      subitems: [
+        {
+          path: "/fotos",
+          title: "Fotos",
+          icon: "photo",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/competencia",
+          title: "Competencia",
+          icon: "photo",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/caducidad",
+          title: "Caducidad",
+          icon: "photo",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/distancia",
+          title: "Detalles",
+          icon: "my_location",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/promocionestiendas",
+          title: "Promociones tienda",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/promociones",
+          title: "Campaña punto de venta",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/graficas",
+          title: "Graficas",
+          icon: "poll",
+          class: "",
+          subitems: null,
+        },
+        {
+          path: "/reporteprecioxproductomensual",
+          title: "Precio por Producto",
+          icon: "poll",
+          class: "",
+          subitems: null,
+        },
+      ],
+    },
+    {
+      path: "/catalogoempresas",
+      title: "empresas",
+      icon: "address",
+      class: "",
+      subitems: null,
+    },
+    {
+      path: "/logout",
+      title: "Salir",
+      icon: "exit_to_app",
+      class: "",
+      subitems: null,
+    }
+  ];
+
   menuItems: any[];
-  menuItems1: any[];
-  menuItems2: any[];
-  menuItems3: any[];
-  menuItems4: any[];
-  menuItems5: any[];
   constructor(
     private toaster: ToastrService,
     private router: Router,
@@ -134,143 +263,55 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter((menuItem) => menuItem);
-    this.menuItems1 = ROUTES1.filter((menuItem) => menuItem);
-    this.menuItems2 = ROUTES2.filter((menuItem) => menuItem);
-    this.menuItems3 = ROUTES3.filter((menuItem) => menuItem);
-    this.menuItems4 = ROUTES4.filter((menuItem) => menuItem);
-    this.menuItems5 = ROUTES5.filter((menuItem) => menuItem);
-    if (this.obtenerUsuario().idperfil == 1) {
-      this.menuItems[1] = {
-        path: "/catusuarios",
-        title: "Usuarios",
-        icon: "account_box",
-        class: "",
-        subitems: null,
-      };
-      this.menuItems[2] = {
-        path: "/catalogoproductos",
-        title: "Productos",
-        icon: "assignment",
-        class: "",
-        subitems: null,
-      };
-      this.menuItems1[0] = {
-        path: "",
-        title: "Rutas",
-        icon: "directions_bus",
-        class: "",
-        subitems: [
-          {
-            path: "/catalogocadena",
-            title: "Cadenas",
-            icon: "explore",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogoformatos",
-            title: "Formatos",
-            icon: "explore",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogorutas",
-            title: "Tiendas",
-            icon: "address",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogozonas",
-            title: "Zonas",
-            icon: "my_location",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogopromociones",
-            title: "Promociones",
-            icon: "assignment",
-            class: "",
-            subitems: null,
-          },
-        ],
-      };
-      this.menuItems2[0] = {
-        path: "",
-        title: "Administración",
-        icon: "assignment_ind",
-        class: "",
-        subitems: [
-          {
-            path: "/gestion-ajuste-acumulado",
-            title: "Ajuste de acumulado",
-            icon: "assignment",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogopromotor",
-            title: "Promotores",
-            icon: "account_circle",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/catalogosupervisor",
-            title: "Supervisores",
-            icon: "supervisor_account",
-            class: "",
-            subitems: null,
-          },
-          {
-            path: "/errores",
-            title: "Bitácora de errores",
-            icon: "description",
-            class: "",
-            subitems: null,
-          },
-        ],
-      };
-      this.menuItems3[0] = {
-        path: "/maps",
-        title: "Mapas",
-        icon: "location_on",
-        class: "",
-        subitems: null,
-      };
-      this.menuItems5[0] = {
-        path: "/catalogoempresas",
-        title: "empresas",
-        icon: "address",
-        class: "",
-        subitems: null,
-      };
-      this.menuItems5[1] = {
-        path: "/logout",
-        title: "Salir",
-        icon: "exit_to_app",
-        class: "",
-        subitems: null,
-      };
+    switch (this.obtenerUsuario().idperfil.toString()) {
+      case '1':
+        this.remueveMenusNecesarios((ROUTES: RouteInfo[]) => {
+          let idempresa: number = Number(localStorage.getItem('idempresa'));
+          if (idempresa.toString() != '2') {
+            ROUTES.splice(5, 1);
+          }
+        });
+        break;
+      default: alert(this.obtenerUsuario().idperfil);
+        this.remueveMenusNecesarios((ROUTES: RouteInfo[]) => {
+          ROUTES.splice(1, 1);
+          ROUTES.splice(2, 1);
+          ROUTES.splice(3, 1);
+          ROUTES.splice(4, 1);
+          ROUTES.splice(5, 1);
+          ROUTES.splice(6, 1);
+          ROUTES.splice(7, 1);
+        });
+        break;
     }
   }
 
   ngAfterViewInit() {
-    this.mostrarOcultarMenu();
-    this.mostrarOcultarMenu1();
-    this.mostrarOcultarMenu2();
-    let usuarios = document.querySelector("#mi_2");
-    let perfil = this.esAdmin();
-    if (perfil != 1) {
-      $(usuarios).hide();
-    }
+    $("ul[ocultado]").each(function () {
+      $(this).hide();
+    });
   } /*  */
 
-  esAdmin() {
-    return this.userServive.getUserLoggedIn().idperfil;
+  esAdmin(): string {
+    return this.userServive.getUserLoggedIn().idperfil.toString();
+  }
+
+  remueveMenusNecesarios(remueve: (ROUTES: RouteInfo[]) => void = null) {
+    let TMP_ROUTES: RouteInfo[] = this.ROUTES;
+    if (remueve != null || remueve != undefined) {
+      remueve(TMP_ROUTES);
+    }
+    this.ROUTES = TMP_ROUTES;
+    ROUTES = this.ROUTES;
+    this.menuItems = ROUTES.filter((menuItem) => menuItem);
+  }
+
+  public routerLinkActive(subitems: any) {
+    if (subitems == null) {
+      return "active";
+    } else {
+      return "";
+    }
   }
 
   isMobileMenu() {
@@ -280,32 +321,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     return true;
   }
 
-  mostrarOcultarMenu() {
-    $("#submenu").toggle();
+  public obtenerUsuario(): usuario {
+    return this.userServive.getUserLoggedIn() as usuario;
   }
 
-  mostrarOcultarMenu1() {
-    $("#submenu1").toggle();
-  }
-
-  mostrarOcultarMenu2() {
-    $("#submenu2").toggle();
-  }
-
-  removerReferenciaTabAsginacionRutas(title: string) {
-    if (
-      localStorage.getItem("tab") != null &&
-      localStorage.getItem("idpromotor") != null
-    ) {
-      localStorage.removeItem("tab");
-      localStorage.removeItem("idpromotor");
-      if (title == "Promotores") {
-        window.location.reload();
-      }
-    }
-  }
-
-  public obtenerUsuario() {
-    return this.userServive.getUserLoggedIn();
+  mostrarOcultarMenu(id: any) {
+    $(`#${id}`).toggle();
   }
 }

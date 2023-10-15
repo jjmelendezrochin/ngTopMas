@@ -31,6 +31,7 @@ import { CaducidadComponent } from "app/caducidad/caducidad.component";
 import { ErroresComponent } from "app/errores/errores.component";
 import { PromocionesUltModComponent } from "app/promociones-ult-mod/promociones-ult-mod.component";
 import { GestionAjusteAcumuladoComponent } from "app/gestion-ajuste-acumulado/gestion-ajuste-acumulado.component";
+import { ReporteSclComponent } from "app/reporte-scl/reporte-scl.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -63,4 +64,8 @@ export const AdminLayoutRoutes: Routes = [
   { path: "errores", component: ErroresComponent },
   { path: "gestion-ajuste-acumulado", component: GestionAjusteAcumuladoComponent },
   { path: "reporteprecioxproductomensual", component: ReportePreciosXproductoMensualComponent },
+  { path: "reporte_scl/reporte_asistencia", component: ReporteSclComponent, data: { idmodulo: '1', nombre_modulo: 'Reporte de asistencia' } },
+  { path: "reporte_scl/presentaciones_canjes", component: ReporteSclComponent, data: { idmodulo: '2', nombre_modulo: 'Reporte de presentaciones de canjes' } },
+  { path: "reporte_scl/reporte_historico", component: ReporteSclComponent, data: { idmodulo: '3', nombre_modulo: 'Reporte histórico' } },
+  { path: "reporte_scl/reporte_desplazamiento", component: ReporteSclComponent, data: { idmodulo: '4', nombre_modulo: 'Reporte desplazamiento' } }
 ];

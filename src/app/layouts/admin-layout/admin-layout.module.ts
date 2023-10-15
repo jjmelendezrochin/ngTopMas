@@ -80,6 +80,11 @@ import { PromocionesUltModComponent } from '../../promociones-ult-mod/promocione
 import { ListaEmpleadosComponent } from 'app/dashboard/lista-empleados/lista-empleados.component';
 import { GestionAjusteAcumuladoComponent } from '../../gestion-ajuste-acumulado/gestion-ajuste-acumulado.component';
 import { CargaInformacionComponent } from 'app/dashboard/carga-informacion/carga-informacion.component';
+import { ReporteSclComponent } from '../../reporte-scl/reporte-scl.component';
+import { ListaReporteDesplazamientoComponent } from '../../reporte-scl/lista-reporte-desplazamiento/lista-reporte-desplazamiento.component';
+import { ListaReporteAsistenciaComponent } from '../../reporte-scl/lista-reporte-asistencia/lista-reporte-asistencia.component';
+import { ListaReportePresentacionesCanjesComponent } from '../../reporte-scl/lista-reporte-presentaciones-canjes/lista-reporte-presentaciones-canjes.component';
+import { ListaReporteHistoricoComponent } from '../../reporte-scl/lista-reporte-historico/lista-reporte-historico.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -135,6 +140,11 @@ import { CargaInformacionComponent } from 'app/dashboard/carga-informacion/carga
     ListaEmpleadosComponent,
     GestionAjusteAcumuladoComponent,
     CargaInformacionComponent,
+    ReporteSclComponent,
+    ListaReporteDesplazamientoComponent,
+    ListaReporteAsistenciaComponent,
+    ListaReportePresentacionesCanjesComponent,
+    ListaReporteHistoricoComponent,
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },

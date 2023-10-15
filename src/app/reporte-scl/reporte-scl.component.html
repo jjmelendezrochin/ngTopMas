@@ -1,0 +1,66 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Reportes santa clara - [{{ nombre_modulo }}]</h4>
+            </div>
+            <div class="card-body">
+                <form #f="ngForm">
+                    <div class="row">
+                        <div class="col-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicial1"
+                                    placeholder="Fecha inicial" [(ngModel)]="filtrado.fechainicial" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaInicial" [(ngModel)]="filtrado.fechainicial" required>
+                        </div>
+
+                        <div class="col-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinal1"
+                                    placeholder="Fecha final" [(ngModel)]="filtrado.fechafinal" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <input type="hidden" name="FechaFinal" [(ngModel)]="filtrado.fechafinal" required>
+                        </div>
+
+                        <div class="col-3">
+                            <button type="button" class="btn btn-info pull-right" (click)="consultar()"
+                                [disabled]="!f.valid">
+                                <i class="material-icons" style="font-size: 20px" matTooltip="Buscar">
+                                    search
+                                </i>
+                            </button>
+                        </div>
+                        <div class="col-3">
+                            <button *ngIf="filtrado.idmodulo == '4'" class="btn btn-info pull-right"
+                                (click)="generarReporte()" [disabled]="!f.valid">
+                                <i class="material-icons" style="font-size: 20px" matTooltip="Generar reporte excel">
+                                    cloud_download
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-12">
+                        <app-lista-reporte-asistencia *ngIf="filtrado.idmodulo == '1'"></app-lista-reporte-asistencia>
+                        <app-lista-reporte-presentaciones-canjes
+                            *ngIf="filtrado.idmodulo == '2'"></app-lista-reporte-presentaciones-canjes>
+                        <app-lista-reporte-historico *ngIf="filtrado.idmodulo == '3'"></app-lista-reporte-historico>
+                        <app-lista-reporte-desplazamiento #rd *ngIf="filtrado.idmodulo == '4'"
+                            [filtrado]="filtrado"></app-lista-reporte-desplazamiento>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
