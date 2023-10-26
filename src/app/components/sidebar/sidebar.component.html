@@ -64,13 +64,12 @@
                 <i class="material-icons">{{menuItem.icon}}</i>
                 <p>{{menuItem.title}}</p>
             </a>
-            <a *ngIf="menuItem.subitems != null && esAdmin() == '1'" class="nav-link"
-                (click)="mostrarOcultarMenu('submenu_'+index)">
+            <a *ngIf="menuItem.subitems != null" class="nav-link" (click)="mostrarOcultarMenu('submenu_'+index)">
                 <i class="material-icons">{{menuItem.icon}}</i>
                 <p>{{menuItem.title}}</p>
             </a>
-            <ul *ngIf="menuItem.subitems != null  && esAdmin() == '1'" id="submenu_{{index}}" class="nav"
-                style="padding-left: 20px" ocultado>
+            <ul *ngIf="menuItem.subitems != null" id="submenu_{{index}}" class="nav" style="padding-left: 20px"
+                ocultado>
                 <li routerLinkActive="active" *ngFor="let submenuItem of menuItem.subitems"
                     class="{{submenuItem.class}} nav-item">
                     <a class="nav-link" [routerLink]="[submenuItem.path]">

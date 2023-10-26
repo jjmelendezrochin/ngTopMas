@@ -24,9 +24,9 @@ export class ReportePreciosXproductoMensualComponent implements OnInit {
   productos: any[];
   precios: any[];
   grafica: any[];
-  filtrado: any = { anio: null, mes: 0, producto: 0, idEmpresa: 0};
-  idempresa : number = Number(localStorage.getItem('idempresa'));
-  
+  filtrado: any = { anio: null, mes: 0, producto: 0, idEmpresa: 0 };
+  idempresa: number = Number(localStorage.getItem('idempresa'));
+
 
   constructor(private reporteService: ReportePreciosXproductoMensualService) { }
 
@@ -76,7 +76,7 @@ export class ReportePreciosXproductoMensualComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     for (let i = 2020; i <= 2050; i++) {
       this.anios.push({ anio: i });
     }
@@ -116,7 +116,15 @@ export class ReportePreciosXproductoMensualComponent implements OnInit {
         // console.log("Lista de precios mensuales para graficar: ", this.grafica);
         // console.log("Total de registros: ", this.filas);
       } else if (E == 1) {
-        window.location.href = gprecios[0].url;
+        //window.location.href = gprecios[0].url;
+        if ((gprecios[0].status as boolean) == true) {
+          var $a = $("<a>");
+          $a.attr("href", gprecios[0].url);
+          $("body").append($a);
+          $a.attr("download", gprecios[0].nombre_archivo);
+          $a[0].click();
+          $a.remove();
+        }
         // console.log("Excel descargado");
       }
     });

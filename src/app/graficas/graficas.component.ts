@@ -24,7 +24,7 @@ export class GraficasComponent implements OnInit, AfterViewInit {
   asistencias_t: any[];
   efectividad: any[];
   form: any;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion: Paginacion = new Paginacion();
 
@@ -138,7 +138,15 @@ export class GraficasComponent implements OnInit, AfterViewInit {
   exportarExcel(form: any) {
     if (this.form != null) {
       this.graficasServicio.getExportarGraficaAExcel(this.idempresa).subscribe((archvivo: any) => {
-        location.href = archvivo.url;
+        //location.href = archvivo.url;
+        if ((archvivo.status as boolean) == true) {
+          var $a = $("<a>");
+          $a.attr("href", archvivo.url);
+          $("body").append($a);
+          $a.attr("download", archvivo.nombre_archivo);
+          $a[0].click();
+          $a.remove();
+        }
       });
     } else {
       this.form = form;
@@ -154,8 +162,8 @@ export class GraficasComponent implements OnInit, AfterViewInit {
         this.pag.firstPage();
       }
       this.form.idEmpresa = this.idempresa;
-      console.log ("Valores");
-      console.log (this.form);
+      console.log("Valores");
+      console.log(this.form);
 
       this.graficasServicio.getDatosAsistenciasServicio(this.form, this.idempresa).subscribe((asistencias_t: any[]) => {
         this.asistencias_t = asistencias_t;

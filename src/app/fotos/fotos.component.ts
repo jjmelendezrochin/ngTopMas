@@ -82,7 +82,7 @@ export class FotosComponent implements OnInit {
   selectAllItemsPromotor: boolean = false;
   selectAllItemsActividad: boolean = false;
   selectAllItemsCadena: boolean = false;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion = new Paginacion();
 
@@ -122,7 +122,7 @@ export class FotosComponent implements OnInit {
     /* Espera a que se finilize la carga de los registros de todas las cajas desplegables */
     let wait = setInterval(() => {
       if (this.catrutas != null && this.promotores != null && this.actividades != null && this.cadenas != null) {
-        this.listaTienda.options.first.deselect();
+        //this.listaTienda.options.first.deselect();
         this.listaPromotor.options.first.deselect();
         this.listaActividad.options.first.deselect();
         this.listaCadena.options.first.deselect();
@@ -166,7 +166,7 @@ export class FotosComponent implements OnInit {
   }
 
   /* Selecciona y deselecciona todas las tiendas */
-  toggleAllItemsTienda() {
+  /*toggleAllItemsTienda() {
     this.selectAllItemsTienda = !this.selectAllItemsTienda;  // to control select-unselect
 
     if (this.selectAllItemsTienda) {
@@ -175,7 +175,7 @@ export class FotosComponent implements OnInit {
       this.listaTienda.options.forEach((item: MatOption) => { item.deselect() });
     }
     this.listaTienda.close();
-  }
+  }*/
 
   /* Selecciona y deselecciona todos los promotores */
   toggleAllItemsPromotor() {

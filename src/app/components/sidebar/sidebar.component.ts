@@ -157,6 +157,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           class: "",
           subitems: null,
         },
+        {
+          path: "/reporte_scl/slide_santa_clara",
+          title: "Generar slide",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        }
       ],
     },
     {
@@ -272,15 +279,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           }
         });
         break;
-      default: alert(this.obtenerUsuario().idperfil);
+      default:
         this.remueveMenusNecesarios((ROUTES: RouteInfo[]) => {
-          ROUTES.splice(1, 1);
-          ROUTES.splice(2, 1);
-          ROUTES.splice(3, 1);
-          ROUTES.splice(4, 1);
-          ROUTES.splice(5, 1);
-          ROUTES.splice(6, 1);
-          ROUTES.splice(7, 1);
+          let idempresa: number = Number(localStorage.getItem('idempresa'));
+          if (idempresa.toString() != '2') {
+            ROUTES.splice(5, 1);
+          }
         });
         break;
     }
