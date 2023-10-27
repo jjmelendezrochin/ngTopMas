@@ -10,30 +10,34 @@
             <div class="card-body">
 
                 <app-filtros-reporte-asistencia *ngIf="filtrado_asistencia.idmodulo == '1'"
-                    [filtrado]="filtrado_asistencia" (consultarEvt)="consultarAsistencia()"
+                    [filtrado]="filtrado_asistencia" [regs]="regs_asistencia" (consultarEvt)="consultarAsistencia()"
                     (generarReporteEvt)="generarReporteAsistencia()"></app-filtros-reporte-asistencia>
                 <app-filtros-reporte-presentaciones-canjes
                     *ngIf="filtrado_presentaciones_canjes.idmodulo == '2'"></app-filtros-reporte-presentaciones-canjes>
                 <app-filtros-reporte-historico
                     *ngIf="filtrado_historico.idmodulo == '3'"></app-filtros-reporte-historico>
                 <app-filtros-reporte-desplazamiento *ngIf="filtrado_desplazamiento.idmodulo == '4'"
-                    [filtrado]="filtrado_desplazamiento" (consultarEvt)="consultarDesplazamiento()"
+                    [filtrado]="filtrado_desplazamiento" [regs]="regs_desplazamiento"
+                    (consultarEvt)="consultarDesplazamiento()"
                     (generarReporteEvt)="generarReporteDesplazamiento()"></app-filtros-reporte-desplazamiento>
                 <app-filtros-slide-scl *ngIf="filtrado_slide.idmodulo == '5'" [filtrado]="filtrado_slide"
-                    (consultarEvt)="consultarInfoSlide()" (generarReporteEvt)="generarSlide()"></app-filtros-slide-scl>
+                    [regs]="regs_slide" (consultarEvt)="consultarInfoSlide()"
+                    (generarReporteEvt)="generarSlide()"></app-filtros-slide-scl>
 
                 <div class="row">
                     <div class="col-12">
                         <app-lista-reporte-asistencia #ra *ngIf="filtrado_asistencia.idmodulo == '1'"
-                            [filtrado]="filtrado_asistencia"></app-lista-reporte-asistencia>
+                            [filtrado]="filtrado_asistencia"
+                            (regs)="regs_asistencia = $event"></app-lista-reporte-asistencia>
                         <app-lista-reporte-presentaciones-canjes
                             *ngIf="filtrado_presentaciones_canjes.idmodulo == '2'"></app-lista-reporte-presentaciones-canjes>
                         <app-lista-reporte-historico
                             *ngIf="filtrado_historico.idmodulo == '3'"></app-lista-reporte-historico>
                         <app-lista-reporte-desplazamiento #rd *ngIf="filtrado_desplazamiento.idmodulo == '4'"
-                            [filtrado]="filtrado_desplazamiento"></app-lista-reporte-desplazamiento>
-                        <app-lista-slide-scl #s *ngIf="filtrado_slide.idmodulo == '5'"
-                            [filtrado]="filtrado_slide"></app-lista-slide-scl>
+                            [filtrado]="filtrado_desplazamiento"
+                            (regs)="regs_desplazamiento = $event"></app-lista-reporte-desplazamiento>
+                        <app-lista-slide-scl #s *ngIf="filtrado_slide.idmodulo == '5'" [filtrado]="filtrado_slide"
+                            (regs)="regs_slide = $event"></app-lista-slide-scl>
                     </div>
                 </div>
 

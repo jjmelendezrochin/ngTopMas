@@ -14,6 +14,9 @@ export class ReporteSclComponent implements OnInit, AfterViewInit {
   @ViewChild('ra', { static: false, read: ListaReporteAsistenciaComponent }) ra: ListaReporteAsistenciaComponent;
   @ViewChild('s', { static: false, read: ListaSlideSclComponent }) s: ListaSlideSclComponent;
 
+  regs_asistencia: any[] = [];
+  regs_desplazamiento: any[] = [];
+  regs_slide: any[] = [];
 
   nombre_modulo: string;
 

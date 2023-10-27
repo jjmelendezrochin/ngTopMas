@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { ReporteSclService } from 'app/Servicios/reporte-scl.service';
 import { BehaviorSubject } from 'rxjs';
@@ -17,6 +17,8 @@ export class ListaReporteDesplazamientoComponent implements OnInit, AfterViewIni
 
   bsBuscar: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   buscar = this.bsBuscar.asObservable();
+
+  @Output() regs: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   @Input() filtrado: any;
 
@@ -42,6 +44,7 @@ export class ListaReporteDesplazamientoComponent implements OnInit, AfterViewIni
             this.paginacion.page_size = response.resultsForPage;
             this.paginacion.page_size_options = [response.resultsForPage];
             this.reporte_desplazamiento = response.regs;
+            this.regs.emit(this.reporte_desplazamiento);
             $('#bloqueador_tabla_reporte_desplazamiento').hide();
           }, () => {
             $('#bloqueador_tabla_reporte_desplazamiento').hide();

@@ -34,7 +34,8 @@
             </button>
         </div>
         <div class="col-3">
-            <button class="btn btn-info pull-right" (click)="generarReporte()" [disabled]="!f.valid">
+            <button *ngIf="regs.length > 0" class="btn btn-info pull-right" (click)="generarReporte()"
+                [disabled]="!f.valid">
                 <i class="material-icons" style="font-size: 20px" matTooltip="Generar reporte pdf">
                     picture_as_pdf
                 </i>

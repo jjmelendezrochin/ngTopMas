@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { ReporteSclService } from 'app/Servicios/reporte-scl.service';
 import { BehaviorSubject } from 'rxjs';
@@ -13,6 +13,8 @@ export class ListaReporteAsistenciaComponent implements OnInit, AfterViewInit {
 
   bsBuscar: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   buscar = this.bsBuscar.asObservable();
+
+  @Output() regs: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   @Input() filtrado: any;
 
@@ -42,6 +44,7 @@ export class ListaReporteAsistenciaComponent implements OnInit, AfterViewInit {
 
             this.reporteSclService.reporteAsistenciaEncabezadosMuestraEnPantalla().subscribe((response: any) => {
               this.encabezados = response.reg;
+              this.regs.emit(this.reporte_asistencia);
               $('#bloqueador_tabla_reporte_asistencia').hide();
             });
 

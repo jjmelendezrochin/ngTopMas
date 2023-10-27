@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { ReporteSclService } from 'app/Servicios/reporte-scl.service';
 import { BehaviorSubject } from 'rxjs';
@@ -16,6 +16,8 @@ export class ListaSlideSclComponent implements OnInit, AfterViewInit {
 
   bsBuscar: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   buscar = this.bsBuscar.asObservable();
+
+  @Output() regs: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   @Input() filtrado: any;
 
@@ -40,6 +42,7 @@ export class ListaSlideSclComponent implements OnInit, AfterViewInit {
             this.paginacion.page_size = response.resultsForPage;
             this.paginacion.page_size_options = [response.resultsForPage];
             this.info_slide = response.regs;
+            this.regs.emit(this.info_slide);
             $('#bloqueador_tabla_info_slide').hide();
           }, () => {
             $('#bloqueador_tabla_info_slide').hide();
