@@ -1,7 +1,7 @@
 {
-    "/apiTopMas/": {
-        "target": "http://localhost:801/",
-        "secure": false,
+    "/TopMas/": {
+        "target": "https://www.topmas.mx",
+        "secure": true,
         "changeOrigin": true
     }
 }

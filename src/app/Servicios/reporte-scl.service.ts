@@ -89,6 +89,10 @@ export class ReporteSclService {
     const headers = new HttpHeaders();
     headers.set('Accept', 'application/zip');
     headers.set('Cache-Control', 'no-cache');
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
+    headers.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Cache-Control, Accept');
+
 
     const req = new HttpRequest('GET', url, {
       headers: headers,

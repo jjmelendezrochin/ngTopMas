@@ -93,6 +93,26 @@ export class ListaSlideSclComponent implements OnInit, AfterViewInit {
     filtrado.mes = this.filtrado.mes;
     $('#bloqueador_tabla_info_slide').show();
     this.reporteSclService.generarSlide(filtrado).subscribe((res: any) => {
+      this.reporteSclService.descargarZipSlide(res.url).subscribe((res1: HttpEvent<any>) => {
+
+        if (res1.type == HttpEventType.Response) {
+
+          // Descarga completada
+          const blob: Blob = res1.body;
+          const url = window.URL.createObjectURL(blob);
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = res.nombre_zip; // Nombre del archivo ZIP al descargar
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          this.reporteSclService.eliminarCarpetaYZipPptSlide(res.ruta_fisica_carpeta, res.ruta_fisica_zip).subscribe((response2: any) => {
+            $('#bloqueador_tabla_competencias_promociones').hide();
+          });
+        }
+      });
       if ((res.status as boolean) == true) {
         var $a = $("<a>");
         $a.attr("href", res.url);
