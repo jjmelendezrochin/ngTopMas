@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatOption, MatPaginator, MatSelect } from '@angular/material';
 import { catcadena } from 'app/Objetos/catcadena';
@@ -59,7 +60,10 @@ export class FotosUbicacion2Component implements AfterViewInit {
 @Component({
   selector: 'app-caducidad',
   templateUrl: './caducidad.component.html',
-  styleUrls: ['./caducidad.component.scss']
+  styleUrls: ['./caducidad.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class CaducidadComponent implements OnInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
@@ -81,16 +85,18 @@ export class CaducidadComponent implements OnInit {
   selectAllItemsPromotor: boolean = false;
   selectAllItemsActividad: boolean = false;
   selectAllItemsCadena: boolean = false;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion = new Paginacion();
 
   constructor(private fotosService: CaducidadService,
     private catcadenasService: CatcadenaService,
     private catrutasService: CatRutasService,
-    private generarPdf: GenerarPdf2Service,
-    private generarZipFotos: GenerarZipFotos2Service,
-    private exportarExcel: ExportarExcelService, private toaster: ToastrService) { }
+    public generarPdf: GenerarPdf2Service,
+    public generarZipFotos: GenerarZipFotos2Service,
+    public exportarExcel: ExportarExcelService,
+    public datePipe: DatePipe,
+    private toaster: ToastrService) { }
 
   ngOnInit() {
     this.filtradofotos.FechaInicial = (new Date()).toISOString();
@@ -140,7 +146,10 @@ export class CaducidadComponent implements OnInit {
       this.pag.firstPage();
     }
     if (form.value.FechaInicial != "" && form.value.FechaFinal != "") {
-      this.fotosService.getCatFotosServicios(form.value).subscribe((catfotos: any[]) => {
+      let obj = Object.assign({}, form.value);
+      obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+      obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+      this.fotosService.getCatFotosServicios(obj).subscribe((catfotos: any[]) => {
         this.catfotos = catfotos;
         // console.log("lista de fotos, ", this.catfotos);
       });

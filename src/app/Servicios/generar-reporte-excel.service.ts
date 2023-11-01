@@ -5,6 +5,7 @@ import { environment } from "environments/environment";
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { usuario } from 'app/Objetos/usuario';
+import { DatePipe } from '@angular/common';
 const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 const EXCEL_EXT = "xlsx";
 
@@ -26,10 +27,14 @@ export class GenerarReporteExcelService {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/ReportesExcel/getReportesExcel.php`, filtro);
   }
 
-  generarReporteExcel(form: any, idempresa: any) {
+  generarReporteExcel(form: any, idempresa: any, datePipe: DatePipe) {
     var date = new Date();
     form.idempresa = idempresa;
-    this.getReporteExcelServicio(form).subscribe((tabs: any) => {
+    let obj = Object.assign({}, form);
+    obj.idempresa = idempresa;
+    obj.FechaInicial = datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.getReporteExcelServicio(obj).subscribe((tabs: any) => {
       if (tabs.Estancia.length > 0 /*&& tabs.Cadenas.length > 0*/) {
         let cadenas = {};
 

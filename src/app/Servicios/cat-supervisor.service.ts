@@ -15,7 +15,7 @@ export class CatSupervisorService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getsupervisorservicios(idEmpresa:number): Observable<CatSupervisor[]> {
+  getsupervisorservicios(idEmpresa: number): Observable<CatSupervisor[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
     return this.httpClient.get<CatSupervisor[]>(`${this.PHP_API_SERVER}/CatalogoSupervisor/getSupervisorServicio.php?idEmpresa=${idEmpresa}`);
   }
@@ -24,9 +24,9 @@ export class CatSupervisorService {
     return this.httpClient.get<CatSupervisor[]>(`${this.PHP_API_SERVER}/CatalogoSupervisor/getSupervisorPorIdServicio.php/?idpromotor=${idpromotor}`);
   }
 
-  getsupervisorserviciosPorNombreOApellidos(campos: string, orden: number): Observable<CatSupervisor[]> {
+  getsupervisorserviciosPorNombreOApellidos(campos: string, orden: number, idEmpresa: number): Observable<CatSupervisor[]> {
     //return this.httpClient.get<catcadena>(`${this.PHP_API_SERVER}/CatalogoCadena/getCadenaServicio.php?idEmpresa=${idEmpresa}`);
-    return this.httpClient.get<CatSupervisor[]>(`${this.PHP_API_SERVER}/CatalogoSupervisor/getSupervisorServicio.php?campos=${campos}&orden=${orden}`);
+    return this.httpClient.get<CatSupervisor[]>(`${this.PHP_API_SERVER}/CatalogoSupervisor/getSupervisorServicio.php?campos=${campos}&orden=${orden}&idEmpresa=${idEmpresa}`);
   }
 
 

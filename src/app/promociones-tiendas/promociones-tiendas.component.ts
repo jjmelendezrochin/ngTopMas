@@ -11,6 +11,7 @@ import { catcadena } from 'app/Objetos/catcadena';
 import { MatOption, MatPaginator, MatSelect } from '@angular/material';
 import { PromocionesTiendasService } from 'app/Servicios/promociones-tiendas.service';
 import { Mapas } from 'app/Objetos/mapas';
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 
@@ -57,7 +58,10 @@ export class FotosUbicacion3Component implements AfterViewInit {
 @Component({
   selector: 'app-promociones-tiendas',
   templateUrl: './promociones-tiendas.component.html',
-  styleUrls: ['./promociones-tiendas.component.scss']
+  styleUrls: ['./promociones-tiendas.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class PromocionesTiendasComponent implements OnInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
@@ -80,7 +84,7 @@ export class PromocionesTiendasComponent implements OnInit {
   selectAllItemsPromocion: boolean = false;
   selectAllItemsActividad: boolean = false;
   selectAllItemsCadena: boolean = false;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion = new Paginacion();
 
@@ -90,7 +94,8 @@ export class PromocionesTiendasComponent implements OnInit {
     private catcadenasService: CatcadenaService,
     private toaster: ToastrService,
     private exportarExcel: ExportarExcelService,
-    public generarReporteExcel: GenerarReporteExcelService) { }
+    public generarReporteExcel: GenerarReporteExcelService,
+    public datePipe: DatePipe) { }
 
   ngOnInit() {
     this.filtradofotos.FechaInicial = (new Date()).toISOString();
@@ -144,7 +149,10 @@ export class PromocionesTiendasComponent implements OnInit {
       this.pag.firstPage();
     }
     /*if (form.value.FechaInicial != "") {*/
-    this.fotosService.getPromocionesTiendasServicios(form.value).subscribe((promocionesTiendas: any[]) => {
+    let obj = Object.assign({}, form.value);
+    obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.fotosService.getPromocionesTiendasServicios(obj).subscribe((promocionesTiendas: any[]) => {
       this.promocionesTiendas = promocionesTiendas;
       // console.log("Lista de promocones por tienda: ", this.promocionesTiendas);
     });

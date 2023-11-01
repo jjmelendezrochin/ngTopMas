@@ -14,7 +14,8 @@
 
                         <div class="col-md-3">
                             <mat-form-field style="width:100px">
-                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP" placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
+                                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
+                                    placeholder="Fecha inicial" [(ngModel)]="filtradofotos.FechaInicial" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
                                 <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -23,7 +24,8 @@
 
                         <div class="col-md-3">
                             <mat-form-field style="width:100px">
-                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP" placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
+                                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"
+                                    placeholder="Fecha final" [(ngModel)]="filtradofotos.FechaFinal" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
                                 <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -31,7 +33,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="filtradofotos.orden=0; f.value.orden=0; consultar(f)">
+                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                (click)="filtradofotos.orden=0; f.value.orden=0; consultar(f)">
                                 <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
                                     search
                                 </i>
@@ -44,7 +47,8 @@
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Actividad</mat-label>
-                                <mat-select #listaActividad [(value)]="filtradofotos.idoperacion" name="idoperacion1" [(ngModel)]="filtradofotos.idoperacion" multiple [disabled]="true">
+                                <mat-select #listaActividad [(value)]="filtradofotos.idoperacion" name="idoperacion1"
+                                    [(ngModel)]="filtradofotos.idoperacion" multiple [disabled]="true">
                                     <!--<mat-option [value]="0" (click)="toggleAllItemsActividad()">Todas las actividades
                                     </mat-option>-->
                                     <mat-option *ngFor="let actividad of actividades" [value]="actividad.idoperacion">
@@ -58,7 +62,8 @@
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por promotor</mat-label>
-                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor" [(ngModel)]="filtradofotos.idpromotor" multiple>
+                                <mat-select #listaPromotor [(value)]="filtradofotos.idpromotor" name="idpromotor"
+                                    [(ngModel)]="filtradofotos.idpromotor" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsPromotor()">Todos los promotores
                                     </mat-option>
                                     <mat-option *ngFor="let promotor of promotores" [value]="promotor.idpromotor">
@@ -71,7 +76,8 @@
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por tienda</mat-label>
-                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda" [(ngModel)]="filtradofotos.Tienda" multiple>
+                                <mat-select #listaTienda [(value)]="filtradofotos.Tienda" name="Tienda"
+                                    [(ngModel)]="filtradofotos.Tienda" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsTienda()">Todas las tiendas
                                     </mat-option>
                                     <mat-option *ngFor="let catruta of catrutas" [value]="catruta.Tienda">
@@ -84,7 +90,8 @@
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Filtrar por cadena</mat-label>
-                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena" [(ngModel)]="filtradofotos.idcadena" multiple>
+                                <mat-select #listaCadena [(value)]="filtradofotos.idcadena" name="idcadena"
+                                    [(ngModel)]="filtradofotos.idcadena" multiple>
                                     <mat-option [value]="0" (click)="toggleAllItemsCadena()">Todas las cadenas
                                     </mat-option>
                                     <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
@@ -94,7 +101,8 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <input matInput placeholder="Placeholder" name="orden" id="orden" [(ngModel)]="filtradofotos.orden" style="visibility: hidden;">
+                        <input matInput placeholder="Placeholder" name="orden" id="orden"
+                            [(ngModel)]="filtradofotos.orden" style="visibility: hidden;">
                     </div>
                 </form>
             </div>
@@ -113,26 +121,33 @@
                     <div class="row">
 
                         <!-- Paginador -->
-                        <mat-paginator #pag *ngIf="catfotos != null" [length]="catfotos.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
+                        <mat-paginator #pag *ngIf="catfotos != null" [length]="catfotos.length"
+                            [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                            (page)="paginacion.handlePage($event)">
                         </mat-paginator>
 
                         <!-- Descarga de pdfs -->
-                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="generarPdf.generarPDF(form.value)">
-                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px" data-md-tooltip="Descargar Pdf">
+                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                            (click)="generarPdf.generarPDF(form.value,datePipe)">
+                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
+                                data-md-tooltip="Descargar Pdf">
                                 picture_as_pdf
                             </i>
                         </a>
 
                         <!-- Descarga de fotos -->
-                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="generarZipFotos.generarZipFotos(form.value)">
-                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px" data-md-tooltip="Descargar Fotos">
+                        <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                            (click)="generarZipFotos.generarZipFotos(form.value,datePipe)">
+                            <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
+                                data-md-tooltip="Descargar Fotos">
                                 monochrome_photos
                             </i>
                         </a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- Exporta a excel -->
-                    <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(catfotos, encabezados)">
+                    <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
+                        (click)="exportarExcel.exportarExcel(catfotos, encabezados)">
                         <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
                             cloud_download
                         </i>
@@ -168,14 +183,18 @@
                                 Tienda
                             </th>
                             <th style="background-color: #007A87; color: #FFFFFF;width: 180px;">
-                                <a *ngIf="form!=null" class="btn btn-info pull-right padding-boton" href="javascript:void(0)" (click)="filtradofotos.orden=1; f.value.orden=1; consultar(form);">
+                                <a *ngIf="form!=null" class="btn btn-info pull-right padding-boton"
+                                    href="javascript:void(0)"
+                                    (click)="filtradofotos.orden=1; f.value.orden=1; consultar(form);">
                                     <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
                                         arrow_drop_up
                                     </i>
                                     <div class="ripple-container"></div>
                                 </a>
                                 Fecha y Hora
-                                <a *ngIf="form!=null" class="btn btn-info pull-right padding-boton" href="javascript:void(0)" (click)="filtradofotos.orden=0; f.value.orden=0; consultar(form);">
+                                <a *ngIf="form!=null" class="btn btn-info pull-right padding-boton"
+                                    href="javascript:void(0)"
+                                    (click)="filtradofotos.orden=0; f.value.orden=0; consultar(form);">
                                     <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
                                         arrow_drop_down
                                     </i>
@@ -190,8 +209,10 @@
                             </th>-->
                         </thead>
                         <tbody *ngIf="catfotos != null">
-                            <tr *ngFor="let foto of catfotos | paginate:paginacion.page_size:paginacion.page_number;let i = index">
-                                <td><img src="{{ foto.foto }}" style="width:100px;height:100px;" (click)="abrirVentanaModal(foto.foto)"></td>
+                            <tr
+                                *ngFor="let foto of catfotos | paginate:paginacion.page_size:paginacion.page_number;let i = index">
+                                <td><img src="{{ foto.foto }}" style="width:100px;height:100px;"
+                                        (click)="abrirVentanaModal(foto.foto)"></td>
                                 <td>{{ foto.competencia }}</td>
                                 <td>{{ foto.precio }}</td>
                                 <td>{{ foto.presentacion }}</td>
@@ -219,7 +240,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ventanaImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="ventanaImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <!--<div class="modal-header">

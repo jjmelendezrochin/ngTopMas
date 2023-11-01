@@ -41,7 +41,7 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
   promotoresPorSupervisor: PromotoresAsignadosASupervisor[];
   promotoresPorSupervisorD: PromotoresAsignadosASupervisor[];
   usohorarios: any[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   idusohorario = 0;
   idzona = 0;
   dia = 0;
@@ -64,7 +64,7 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
     this.usr = this.userService.getUserLoggedIn();
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     console.log('idEmpresa ', this.idempresa);
     if (this.usr.idperfil == 1) {
       this.noPermitido = false;
@@ -253,7 +253,7 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
-    this.supervisorservice.getsupervisorserviciosPorNombreOApellidos(campos, orden).subscribe((gsup: CatSupervisor[]) => {
+    this.supervisorservice.getsupervisorserviciosPorNombreOApellidos(campos, orden, this.idempresa).subscribe((gsup: CatSupervisor[]) => {
       this.supervisores = gsup;
       // console.log("lista de supervisores, ", this.supervisores);
     });

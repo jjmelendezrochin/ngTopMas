@@ -10,11 +10,15 @@ import { GenerarReporteExcelService } from 'app/Servicios/generar-reporte-excel.
 import { CatcadenaService } from 'app/Servicios/catcadena.service';
 import { catcadena } from 'app/Objetos/catcadena';
 import { MatOption, MatPaginator, MatSelect } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-distancia',
   templateUrl: './distancia.component.html',
-  styleUrls: ['./distancia.component.scss']
+  styleUrls: ['./distancia.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class DistanciaComponent implements OnInit, AfterViewInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
@@ -44,7 +48,8 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
     private catcadenasService: CatcadenaService,
     private toaster: ToastrService,
     private exportarExcel: ExportarExcelService,
-    public generarReporteExcel: GenerarReporteExcelService) { }
+    public generarReporteExcel: GenerarReporteExcelService,
+    public datePipe: DatePipe) { }
 
   ngOnInit() {
     this.filtradofotos.FechaInicial = (new Date()).toISOString();
@@ -94,7 +99,10 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
       this.pag.firstPage();
     }
     /*if (form.value.FechaInicial != "") {*/
-    this.fotosService.getFotosDistanciaServicios(form.value).subscribe((fotodistancia: any[]) => {
+    let obj = Object.assign({}, form.value);
+    obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.fotosService.getFotosDistanciaServicios(obj).subscribe((fotodistancia: any[]) => {
       this.fotodistancia = fotodistancia;
       console.log("Lista de distancias: ", this.fotodistancia);
     });

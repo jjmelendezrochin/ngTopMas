@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "environments/environment";
@@ -18,8 +19,11 @@ export class GenerarPdf1Service {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/DescargaFotos1/getGenerarPdfFotosServicio.php`, fotos);
   }
 
-  generarPDF(form: any) {
-    this.getGenerarPdfFotosServicio(form).subscribe((gDescargaFotos: any) => {
+  generarPDF(form: any, datePipe: DatePipe) {
+    let obj = Object.assign({}, form);
+    obj.FechaInicial = datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.getGenerarPdfFotosServicio(obj).subscribe((gDescargaFotos: any) => {
       location.href = gDescargaFotos.download_file;
       // console.log("Pdfs descargados");
       console.log(gDescargaFotos);

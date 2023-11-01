@@ -15,6 +15,7 @@ import { environment } from "environments/environment";
 import { CompetenciaService } from 'app/Servicios/competencia.service';
 import { GenerarZipFotos1Service } from 'app/Servicios/generar-zip-fotos1.service';
 import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 
@@ -25,7 +26,7 @@ declare var $: any;
 })
 
 export class FotosUbicacion1Component implements AfterViewInit {
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   latitud_tienda: number;
   longitud_tienda: number;
   latitud_ubicacion: number;
@@ -61,7 +62,10 @@ export class FotosUbicacion1Component implements AfterViewInit {
 @Component({
   selector: 'app-competencia',
   templateUrl: './competencia.component.html',
-  styleUrls: ['./competencia.component.scss']
+  styleUrls: ['./competencia.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class CompetenciaComponent implements OnInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
@@ -70,7 +74,7 @@ export class CompetenciaComponent implements OnInit {
   @ViewChild('listaActividad', { static: false }) listaActividad: MatSelect;
   @ViewChild('listaCadena', { static: false }) listaCadena: MatSelect;
 
-  encabezados = { "foto": "Ruta Foto", "competencia": "Info. Competencia", "precio":"Precio", "presentacion":"Presentación" ,"demo": "Demo", "empaque": "Empaque", "emplaye": "Emplaye", "promotor": "Promotor", "Tienda": "Tienda", "FechaHora": "Fecha y Hora", "exhib": "Exhib." };
+  encabezados = { "foto": "Ruta Foto", "competencia": "Info. Competencia", "precio": "Precio", "presentacion": "Presentación", "demo": "Demo", "empaque": "Empaque", "emplaye": "Emplaye", "promotor": "Promotor", "Tienda": "Tienda", "FechaHora": "Fecha y Hora", "exhib": "Exhib." };
   form: any;
   mapas = new Mapas();
   catfotos: any[];
@@ -83,15 +87,16 @@ export class CompetenciaComponent implements OnInit {
   selectAllItemsPromotor: boolean = false;
   selectAllItemsActividad: boolean = false;
   selectAllItemsCadena: boolean = false;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   paginacion = new Paginacion();
 
   constructor(private fotosService: CompetenciaService,
     private catcadenasService: CatcadenaService,
     private catrutasService: CatRutasService,
-    private generarPdf: GenerarPdf1Service,
-    private generarZipFotos: GenerarZipFotos1Service,
+    public generarPdf: GenerarPdf1Service,
+    public generarZipFotos: GenerarZipFotos1Service,
+    public datePipe: DatePipe,
     private exportarExcel: ExportarExcelService, private toaster: ToastrService) { }
 
   ngOnInit() {
@@ -141,7 +146,10 @@ export class CompetenciaComponent implements OnInit {
       this.pag.firstPage();
     }
     if (form.value.FechaInicial != "" && form.value.FechaFinal != "") {
-      this.fotosService.getCatFotosServicios(form.value).subscribe((catfotos: any[]) => {
+      let obj = Object.assign({}, form.value);
+      obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+      obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+      this.fotosService.getCatFotosServicios(obj).subscribe((catfotos: any[]) => {
         this.catfotos = catfotos;
         console.log("lista de fotos, ", this.catfotos);
       });

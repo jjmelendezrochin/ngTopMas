@@ -5,6 +5,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';
 import { Paginacion } from 'app/Objetos/paginacion';
 import { MatPaginator } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 declare var $;
 declare var google;
@@ -12,7 +13,10 @@ declare var google;
 @Component({
   selector: 'app-graficas',
   templateUrl: './graficas.component.html',
-  styleUrls: ['./graficas.component.scss']
+  styleUrls: ['./graficas.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class GraficasComponent implements OnInit, AfterViewInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
@@ -29,7 +33,8 @@ export class GraficasComponent implements OnInit, AfterViewInit {
   paginacion: Paginacion = new Paginacion();
 
   constructor(private graficasServicio: GraficasService,
-    private _exportarExcel: ExportarExcelService) { }
+    private _exportarExcel: ExportarExcelService,
+    public datePipe: DatePipe) { }
 
   drawChart1 = () => {
 
@@ -38,12 +43,16 @@ export class GraficasComponent implements OnInit, AfterViewInit {
     console.log(this.form);
     console.log("datos1");
     console.log(this.idempresa);
-    this.graficasServicio.getGeneraDatosGraficaAsistensiasYEfectividadServicio(this.form, this.idempresa).subscribe((datosgenerados: any[]) => {
+
+    let obj = Object.assign({}, this.form);
+    obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.graficasServicio.getGeneraDatosGraficaAsistensiasYEfectividadServicio(obj, this.idempresa).subscribe((datosgenerados: any[]) => {
       console.log(datosgenerados);
       if (datosgenerados.length == 1) {
         console.log("datos generados: ", datosgenerados);
         if (datosgenerados[0].result == true) {
-          this.graficasServicio.getGeneraDatosGraficaAsistensiasYEfectividadServicio1(this.form, this.idempresa).subscribe((datosgenerados_: any[]) => {
+          this.graficasServicio.getGeneraDatosGraficaAsistensiasYEfectividadServicio1(obj, this.idempresa).subscribe((datosgenerados_: any[]) => {
             if (datosgenerados_.length == 1) {
               console.log("datos generados2: ", datosgenerados_);
               this.graficasServicio.getDatosGraficaResumenVisitadasServicioServicio(this.idempresa).subscribe((grafica: any[]) => {
@@ -165,7 +174,10 @@ export class GraficasComponent implements OnInit, AfterViewInit {
       console.log("Valores");
       console.log(this.form);
 
-      this.graficasServicio.getDatosAsistenciasServicio(this.form, this.idempresa).subscribe((asistencias_t: any[]) => {
+      let obj = Object.assign({}, this.form);
+      obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+      obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+      this.graficasServicio.getDatosAsistenciasServicio(obj, this.idempresa).subscribe((asistencias_t: any[]) => {
         this.asistencias_t = asistencias_t;
         // console.log("Lista de asistencias: ", this.asistencias_t);
         $('#ventanaRA').modal('show');

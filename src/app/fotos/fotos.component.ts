@@ -13,6 +13,7 @@ import { MatOption, MatPaginator, MatSelect } from '@angular/material';
 import { GenerarPdfService } from 'app/Servicios/generar-pdf.service';
 import { GenerarZipFotosService } from 'app/Servicios/generar-zip-fotos.service';
 import { environment } from "environments/environment";
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 
@@ -60,7 +61,10 @@ export class FotosUbicacionComponent implements AfterViewInit {
 @Component({
   selector: 'app-fotos',
   templateUrl: './fotos.component.html',
-  styleUrls: ['./fotos.component.scss']
+  styleUrls: ['./fotos.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 
 export class FotosComponent implements OnInit {
@@ -89,8 +93,10 @@ export class FotosComponent implements OnInit {
   constructor(private fotosService: FotosService,
     private catcadenasService: CatcadenaService,
     private catrutasService: CatRutasService,
-    private generarPdf: GenerarPdfService,
-    private generarZipFotos: GenerarZipFotosService, private toaster: ToastrService) { }
+    public generarPdf: GenerarPdfService,
+    public generarZipFotos: GenerarZipFotosService,
+    public datePipe: DatePipe,
+    private toaster: ToastrService) { }
 
   ngOnInit() {
     this.filtradofotos.FechaInicial = (new Date()).toISOString();
@@ -139,7 +145,10 @@ export class FotosComponent implements OnInit {
       this.pag.firstPage();
     }
     if (form.value.FechaInicial != "" && form.value.FechaFinal != "") {
-      this.fotosService.getCatFotosServicios(form.value).subscribe((catfotos: CatFotos[]) => {
+      let obj = Object.assign({}, form.value);
+      obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+      obj.FechaFinal = this.datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+      this.fotosService.getCatFotosServicios(obj).subscribe((catfotos: CatFotos[]) => {
         this.catfotos = catfotos;
         // console.log("lista de fotos, ", this.catfotos);
       });

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "environments/environment";
@@ -18,8 +19,11 @@ export class GenerarZipFotos2Service {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/DescargaFotos2/getComprimirFotosServicio.php`, fotos);
   }
 
-  generarZipFotos(form: any) {
-    this.getComprimirFotosServicio(form).subscribe((gDescargaFotos: any) => {
+  generarZipFotos(form: any, datePipe: DatePipe) {
+    let obj = Object.assign({}, form);
+    obj.FechaInicial = datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
+    obj.FechaFinal = datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    this.getComprimirFotosServicio(obj).subscribe((gDescargaFotos: any) => {
       location.href = gDescargaFotos.download_file;
       // console.log("Imagenes descargadas");
     });
