@@ -11,7 +11,7 @@
             <div class="card-body">
                 <form #f="ngForm">
                     <div class="row">
-                        
+
                         <div class="col-md-3">
                             <mat-form-field style="width:100px">
                                 <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicialDP"
@@ -21,7 +21,7 @@
                             </mat-form-field>
                             <input type="hidden" name="FechaInicial" [(ngModel)]="filtradofotos.FechaInicial">
                         </div>
-                        
+
                         <div class="col-md-3">
                             <mat-form-field style="width:100px">
                                 <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinalDP"
@@ -31,7 +31,7 @@
                             </mat-form-field>
                             <input type="hidden" name="FechaFinal" [(ngModel)]="filtradofotos.FechaFinal">
                         </div>
-                        
+
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-select [(value)]="filtradofotos.idpromotor" name="idpromotor"
@@ -44,19 +44,19 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <mat-form-field class="example-full-width">
                                 <mat-select [(value)]="filtradofotos.Tienda" name="idTienda"
                                     [(ngModel)]="filtradofotos.Tienda">
                                     <mat-option value="0">Todas las tiendas</mat-option>
                                     <mat-option *ngFor="let catruta of catrutas" [value]="catruta.idruta">
-                                        {{catruta.Tienda}}  
+                                        {{catruta.Tienda}}
                                     </mat-option>
                                     <!--Seccion para cargar datos desde el catalogo de empresa-->
                                 </mat-select>
                             </mat-form-field>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div class="row">
@@ -75,14 +75,14 @@
 
                         <div class="col-md-12">
                             <a class="btn btn-info pull-right" href="javascript:void(0)"
-                            (click)="generarReporteExcel.generarReporteExcel(f.value,idempresa)">
+                                (click)="generarReporteExcel.generarReporteExcel(f.value,idempresa,datePipe)">
                                 <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
                                     cloud_download
-                                </i>    
+                                </i>
                             </a>
                             <div class="clearfix"></div>
                         </div>
-                        
+
                     </div>
                 </form>
             </div>

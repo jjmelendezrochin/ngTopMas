@@ -7,11 +7,15 @@ import { catcadena } from 'app/Objetos/catcadena';
 import { CatRutas } from 'app/Objetos/catrutas';
 import { FiltradoFotos } from 'app/Objetos/filtradofotos';
 import { FotosService } from 'app/Servicios/fotos.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-generar-reporte-excel',
   templateUrl: './generar-reporte-excel.component.html',
-  styleUrls: ['./generar-reporte-excel.component.scss']
+  styleUrls: ['./generar-reporte-excel.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class GenerarReporteExcelComponent implements OnInit {
 
@@ -20,14 +24,15 @@ export class GenerarReporteExcelComponent implements OnInit {
   catrutas: CatRutas[];
   promotores: any[];
   actividades: any[];
-  filtradofotos: FiltradoFotos = { FechaInicial: "", FechaFinal: "", idoperacion: 0, Tienda: "0", idpromotor: 0, idcadena: 0,Actividad:null, orden:0 };
-  idempresa : number = Number(localStorage.getItem('idempresa'));
-  
+  filtradofotos: FiltradoFotos = { FechaInicial: "", FechaFinal: "", idoperacion: 0, Tienda: "0", idpromotor: 0, idcadena: 0, Actividad: null, orden: 0 };
+  idempresa: number = Number(localStorage.getItem('idempresa'));
+
   constructor(
     private fotosService: FotosService,
     private catcadenasService: CatcadenaService,
     private catrutasService: CatRutasService,
-    public generarReporteExcel: GenerarReporteExcelService) { }
+    public generarReporteExcel: GenerarReporteExcelService,
+    public datePipe: DatePipe) { }
 
   ngOnInit() {
     this.filtradofotos.FechaInicial = (new Date()).toISOString();
