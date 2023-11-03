@@ -24,6 +24,18 @@ export class GestionAjusteAcumuladoService {
 
   }
 
+  GenerarReporteAcumuladoMensualExcel(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any>(
+      `${this.PHP_API_SERVER}/generar_reporte_acumulado_mensual.php`,
+      filtro,
+      { headers: headers }
+    );
+
+  }
+
   ObtenerInformacionAjustesAcumulados(filtro) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",

@@ -77,8 +77,9 @@ export class GestionAjusteAcumuladoComponent implements OnInit, AfterViewInit {
   }
 
   GuardarAjusteAcumulado() {
-    this.filtrado.fecha = this.datePipe.transform(this.filtrado.fecha, 'yyyy-MM-dd');
-    this.gestionAjusteAcumuladoService.GuardarAjusteAcumulado(this.filtrado).subscribe((res: any) => {
+    let filtrado = Object.assign({}, this.filtrado);
+    filtrado.fecha = this.datePipe.transform(this.filtrado.fecha, 'yyyy-MM-dd');
+    this.gestionAjusteAcumuladoService.GuardarAjusteAcumulado(filtrado).subscribe((res: any) => {
       if (parseInt(res.idRes) == 0) {
         this.toaster.success(res.Mensaje, "", {
           timeOut: 1000,
@@ -91,6 +92,32 @@ export class GestionAjusteAcumuladoComponent implements OnInit, AfterViewInit {
           positionClass: 'toast-bottom-center'
         });
       }
+    });
+  }
+
+  GenerarReporteAcumuladoMensualExcel() {
+    let filtrado = Object.assign({ mes: '', anio: '' }, this.filtrado);
+    filtrado.mes = this.datePipe.transform(this.filtrado.fecha, 'MM');
+    filtrado.anio = this.datePipe.transform(this.filtrado.fecha, 'yyyy');
+
+    $('#bloqueador_tabla_ac').show();
+
+    this.gestionAjusteAcumuladoService.GenerarReporteAcumuladoMensualExcel(filtrado).subscribe((res: any) => {
+      let wait = setTimeout(() => {
+
+        if ((res.status as boolean) == true) {
+          var $a = $("<a>");
+          $a.attr("href", res.url);
+          $("body").append($a);
+          $a.attr("download", res.nombre_archivo);
+          $a[0].click();
+          $a.remove();
+        }
+
+        $('#bloqueador_tabla_ac').hide();
+
+        clearTimeout(wait);
+      }, 0);
     });
   }
 

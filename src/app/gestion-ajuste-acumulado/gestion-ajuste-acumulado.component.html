@@ -48,6 +48,16 @@
                                 </i>
                             </button>
                         </div>
+                        <div class="col">
+                            <button *ngIf="filtrado.idempresa.trim() != '' && filtrado.fecha != ''" type="button"
+                                class="btn btn-info pull-right" (click)="GenerarReporteAcumuladoMensualExcel()"
+                                matTooltip="Generar reporte acumulado mensual en excel"
+                                [matTooltipClass]="'mat-tooltip-promociones-ult-mod'">
+                                <i class="material-icons" style="font-size: 20px;">
+                                    cloud_download
+                                </i>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
