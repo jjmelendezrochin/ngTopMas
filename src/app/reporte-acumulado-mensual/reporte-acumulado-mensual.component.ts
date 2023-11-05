@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { GestionAjusteAcumuladoService } from 'app/Servicios/gestion-ajuste-acumulado.service';
 import { ReportePreciosXproductoMensualService } from 'app/Servicios/reporte-precios-xproducto-mensual.service';
-import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -11,7 +10,7 @@ declare var $: any;
   templateUrl: './reporte-acumulado-mensual.component.html',
   styleUrls: ['./reporte-acumulado-mensual.component.scss']
 })
-export class ReporteAcumuladoMensualComponent implements OnInit {
+export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
 
   @Output() buscar: EventEmitter<any> = new EventEmitter<any>();
@@ -38,8 +37,7 @@ export class ReporteAcumuladoMensualComponent implements OnInit {
 
   constructor(
     private reporteService: ReportePreciosXproductoMensualService,
-    private gestionAjusteAcumuladoService: GestionAjusteAcumuladoService,
-    private toaster: ToastrService
+    private gestionAjusteAcumuladoService: GestionAjusteAcumuladoService
   ) { }
 
   ngOnInit() {
@@ -49,6 +47,7 @@ export class ReporteAcumuladoMensualComponent implements OnInit {
     this.reporteService.getCmbMesesservicios().subscribe((gmeses: any[]) => {
       this.meses = gmeses;
       this.filtrado.mes = `${new Date().getMonth() + 1}`;
+      this.filtrado.anio = new Date().getFullYear();
       // console.log("Lista de meses: ", this.meses);
     });
     this.buscar.subscribe((filtrado: any) => {
@@ -67,6 +66,10 @@ export class ReporteAcumuladoMensualComponent implements OnInit {
         });
     });
 
+  }
+
+  ngAfterViewInit(): void {
+    $('#bloqueador_acumulado_mensual').hide();
   }
 
   consultarReporteAcumuladoMensual() {
