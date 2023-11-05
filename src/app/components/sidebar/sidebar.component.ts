@@ -101,6 +101,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           subitems: null,
         },
         {
+          path: "/reporte_acumulado_mensual",
+          title: "Ajuste de acumulado",
+          icon: "assignment",
+          class: "",
+          subitems: null,
+        },
+        {
           path: "/catalogopromotor",
           title: "Promotores",
           icon: "account_circle",

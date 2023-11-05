@@ -95,32 +95,6 @@ export class GestionAjusteAcumuladoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  GenerarReporteAcumuladoMensualExcel() {
-    let filtrado = Object.assign({ mes: '', anio: '' }, this.filtrado);
-    filtrado.mes = this.datePipe.transform(this.filtrado.fecha, 'MM');
-    filtrado.anio = this.datePipe.transform(this.filtrado.fecha, 'yyyy');
-
-    $('#bloqueador_tabla_ac').show();
-
-    this.gestionAjusteAcumuladoService.GenerarReporteAcumuladoMensualExcel(filtrado).subscribe((res: any) => {
-      let wait = setTimeout(() => {
-
-        if ((res.status as boolean) == true) {
-          var $a = $("<a>");
-          $a.attr("href", res.url);
-          $("body").append($a);
-          $a.attr("download", res.nombre_archivo);
-          $a[0].click();
-          $a.remove();
-        }
-
-        $('#bloqueador_tabla_ac').hide();
-
-        clearTimeout(wait);
-      }, 0);
-    });
-  }
-
   ObtenerInformacionAjustesAcumulados(nav: boolean = false) {
 
     $('#bloqueador_tabla_ac').show();

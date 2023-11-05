@@ -1,0 +1,126 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Reporte acumulado mensual</h4>
+            </div>
+            <div class="card-body">
+                <form #f="ngForm">
+                    <div class="row">
+                        <div class="col-3">
+                            <mat-form-field class="example-full-width ancho_lista">
+                                <mat-label>Año</mat-label>
+                                <mat-select #anio [(value)]="filtrado.anio" name="anio1" [(ngModel)]="filtrado.anio">
+                                    <mat-option *ngFor="let anio of anios" [value]="anio.anio">
+                                        {{ anio.anio }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                            <input type="hidden" name="anio" [(ngModel)]="filtrado.anio" required>
+                        </div>
+
+                        <div class="col-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Mes</mat-label>
+                                <mat-select #mes [(value)]="filtrado.mes" name="mes1" [(ngModel)]="filtrado.mes">
+                                    <mat-option *ngFor="let mes of meses" [value]="mes.idmes">
+                                        {{ mes.nombre }}
+                                    </mat-option>
+                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                </mat-select>
+                            </mat-form-field>
+                            <input type="hidden" name="mes" [(ngModel)]="filtrado.mes" required>
+                        </div>
+
+                        <div class="col-3">
+                            <button type="button" class="btn btn-info pull-right"
+                                (click)="consultarReporteAcumuladoMensual()" [disabled]="!f.valid">
+                                <i class="material-icons" style="font-size: 20px" matTooltip="Buscar">
+                                    search
+                                </i>
+                            </button>
+                        </div>
+                        <div class="col-3">
+                            <button *ngIf="reporte_acumulado_mensual.length > 0" class="btn btn-info pull-right"
+                                (click)="generarReporteAcumuladoMensualExcel()" [disabled]="!f.valid">
+                                <i class="material-icons" style="font-size: 20px"
+                                    matTooltip="Generar reporte acumulado mensual en excel">
+                                    cloud_download
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div style="width: 100%;height: 100%;">
+                                    <!-- Paginador -->
+                                    <mat-paginator #pag *ngIf="reporte_acumulado_mensual != null"
+                                        [length]="paginacion.total_records" [pageSize]="paginacion.page_size"
+                                        [pageSizeOptions]="paginacion.page_size_options" (page)="irAlaPagina($event)"
+                                        style="float: right;">
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="text-primary">
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Fecha
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Objetivo mensual
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Acumulado
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Avance
+                                            </th>
+                                        </thead>
+                                        <tbody *ngIf="reporte_acumulado_mensual != null">
+                                            <tr *ngFor="let ra of reporte_acumulado_mensual; let i = index">
+                                                <td>{{ ra.fecha }}</td>
+                                                <td>{{ ra.objetivo_tiendas }}</td>
+                                                <td>{{ ra.acumulado }}</td>
+                                                <td>{{ ra.avance }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Inicia bloqueador mientras procesa-->
+                <div id="bloqueador_acumulado_mensual" class="row"
+                    style="position: absolute;width:100%;top:0;left:0;width:100%;height:100%">
+                    <div class="col"
+                        style="background-color:rgba(10, 9, 9, 0.062);z-index:1;display: flex;align-items: center;">
+                        <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" diameter="85"
+                            strokeWidth="10">
+                        </mat-progress-spinner>
+                        <div style="position:absolute;left:calc((100% /2) - 4%);margin:0 auto;color:blue">
+                            Cargando...
+                        </div>
+                    </div>
+                </div>
+                <!--Fin bloqueador mientras procesa -->
+
+            </div>
+        </div>
+    </div>
+</div>

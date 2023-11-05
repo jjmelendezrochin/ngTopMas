@@ -32,6 +32,7 @@ import { ErroresComponent } from "app/errores/errores.component";
 import { PromocionesUltModComponent } from "app/promociones-ult-mod/promociones-ult-mod.component";
 import { GestionAjusteAcumuladoComponent } from "app/gestion-ajuste-acumulado/gestion-ajuste-acumulado.component";
 import { ReporteSclComponent } from "app/reporte-scl/reporte-scl.component";
+import { ReporteAcumuladoMensualComponent } from "app/reporte-acumulado-mensual/reporte-acumulado-mensual.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -68,5 +69,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "reporte_scl/presentaciones_canjes", component: ReporteSclComponent, data: { idmodulo: '2', nombre_modulo: 'Reporte de presentaciones de canjes' } },
   { path: "reporte_scl/reporte_historico", component: ReporteSclComponent, data: { idmodulo: '3', nombre_modulo: 'Reporte histórico' } },
   { path: "reporte_scl/reporte_desplazamiento", component: ReporteSclComponent, data: { idmodulo: '4', nombre_modulo: 'Reporte desplazamiento' } },
-  { path: "reporte_scl/slide_santa_clara", component: ReporteSclComponent, data: { idmodulo: '5', nombre_modulo: 'Generar Slide' } }
+  { path: "reporte_scl/slide_santa_clara", component: ReporteSclComponent, data: { idmodulo: '5', nombre_modulo: 'Generar Slide' } },
+  { path: "reporte_acumulado_mensual", component: ReporteAcumuladoMensualComponent }
 ];

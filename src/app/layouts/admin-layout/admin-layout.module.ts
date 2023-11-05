@@ -91,6 +91,7 @@ import { FiltrosReporteHistoricoComponent } from '../../reporte-scl/filtros-repo
 import { FiltrosReportePresentacionesCanjesComponent } from '../../reporte-scl/filtros-reporte-presentaciones-canjes/filtros-reporte-presentaciones-canjes.component';
 import { FiltrosSlideSclComponent } from '../../reporte-scl/filtros-slide-scl/filtros-slide-scl.component';
 import { ListaSlideSclComponent } from '../../reporte-scl/lista-slide-scl/lista-slide-scl.component';
+import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensual/reporte-acumulado-mensual.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -157,6 +158,7 @@ import { ListaSlideSclComponent } from '../../reporte-scl/lista-slide-scl/lista-
     FiltrosReportePresentacionesCanjesComponent,
     FiltrosSlideSclComponent,
     ListaSlideSclComponent,
+    ReporteAcumuladoMensualComponent,
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },
