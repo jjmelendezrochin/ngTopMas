@@ -51,7 +51,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
   productosPorTienda: any[];
   productosTiendaFechaPrecio: any[];
   cintensidad: any[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   idformato = 0;
   intensidad = 1;
   noPermitido = true;
@@ -63,7 +63,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
   resultadoCarga: any;
 
   PHP_API_SERVER = environment.servidor.TAG_SERVIDOR;
-  url_descarga =  this.PHP_API_SERVER + "/CargaArchivos/Formato_Carga_Tiendas.xlsx";
+  url_descarga = this.PHP_API_SERVER + "/CargaArchivos/Formato_Carga_Tiendas.xlsx";
 
 
   selectedCatRutas: CatRutas = { idruta: null, ruta: null, determinante: null, idcadena: null, formato: null, Tienda: null, direccioncompleta: null, idmunicipio: null, idestado: null, cluster: null, intensidad: 1, intensidad_str: null, uda: null, uda_c: null, fda: null, fda_m: null, udc: null, fdc: null, fdc_m: null, idEstatus: null, latitud: null, longitud: null, estatus_btn: null, btn_estilo: null, cadena: null, idformato: null, Tienda1: null };
@@ -88,13 +88,14 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
       this.noPermitido = false;
     }
     this.exportarExcel.nombreArchivo = "tiendas";
-    this.rutasservice.getrutasservicios(/*this.idempresa*/).subscribe((grutas: CatRutas[]) => {
+    this.rutasservice.getrutasserviciosPorTiendaODireccion('', 0).subscribe((grutas: CatRutas[]) => {
       if (localStorage.getItem("tab") != null && localStorage.getItem("idruta") != null) {
         this.rutasservice.getrutasPorIdServicios(parseInt(localStorage.getItem("idruta"))).subscribe((grutas: CatRutas[]) => {
           this.selectCatRutas(grutas[0]);
           this.setSelectedTab(parseInt(localStorage.getItem("tab")));
         });
       }
+      //this.rutas = grutas;
       this.rutas = grutas;
       this.mapas = new Mapas();
       this.mapas.CatRutas(this.maps, this.rutasservice);
@@ -172,9 +173,9 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
             positionClass: 'toast-bottom-center'
           });
 
-           setTimeout(function () {
-             window.location.reload();
-           }.bind(this), 2000);
+          setTimeout(function () {
+            window.location.reload();
+          }.bind(this), 2000);
         });
       }
       else {
@@ -308,7 +309,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
     }
     this.rutasservice.getrutasserviciosPorTiendaODireccion(Tienda_dir, orden).subscribe((grutas: CatRutas[]) => {
       this.rutas = grutas;
-      // console.log("lista de rutas, ", this.rutas);
+      //console.log("lista de rutas, ", this.rutas);
     });
   }
 
@@ -473,37 +474,37 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public cargandoImagen(files: FileList){
+  public cargandoImagen(files: FileList) {
     this.enviandoImagen.postFileImagen(files[0]).subscribe(
-			response => {
-				this.respuestaImagenEnviada = response; 
-				if(this.respuestaImagenEnviada <= 1){
-					console.log("Error en el servidor"); 
-				}else{
-					if(this.respuestaImagenEnviada.code == 200 && this.respuestaImagenEnviada.status == "success"){
-						this.resultadoCarga = 1;
+      response => {
+        this.respuestaImagenEnviada = response;
+        if (this.respuestaImagenEnviada <= 1) {
+          console.log("Error en el servidor");
+        } else {
+          if (this.respuestaImagenEnviada.code == 200 && this.respuestaImagenEnviada.status == "success") {
+            this.resultadoCarga = 1;
             this.toaster.success("Dato Cargado Exitosamente", "", {
               timeOut: 3000,
               positionClass: 'toast-bottom-center'
             });
             console.log("resultadoCarga", this.respuestaImagenEnviada);
-					}else{
-						this.resultadoCarga = 2;
+          } else {
+            this.resultadoCarga = 2;
             this.toaster.warning("Error al cargar datos " + this.respuestaImagenEnviada.msj, "", {
               timeOut: 3000,
               positionClass: 'toast-bottom-center'
             });
             console.log("resultadoCarga", this.respuestaImagenEnviada);
-					}
-				}
-			},
-			error => {
-				console.log(<any>error);
+          }
+        }
+      },
+      error => {
+        console.log(<any>error);
         this.toaster.warning("Error al cargar datos " + error, "", {
           timeOut: 3000,
           positionClass: 'toast-bottom-center'
         });
-			}
-		);
+      }
+    );
   }
 }

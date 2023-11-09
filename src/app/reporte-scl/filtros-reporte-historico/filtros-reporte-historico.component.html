@@ -1,1 +1,45 @@
-<p>filtros-reporte-historico works!</p>
+<form #f="ngForm">
+    <div class="row">
+        <div class="col-3">
+            <mat-form-field class="example-full-width ancho_lista">
+                <mat-label>Año</mat-label>
+                <mat-select #anio [(value)]="filtrado.anio" name="anio1" [(ngModel)]="filtrado.anio">
+                    <mat-option *ngFor="let anio of anios" [value]="anio.anio">
+                        {{ anio.anio }}
+                    </mat-option>
+                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                </mat-select>
+            </mat-form-field>
+            <input type="hidden" name="anio" [(ngModel)]="filtrado.anio" required>
+        </div>
+
+        <div class="col-3">
+            <mat-form-field class="example-full-width">
+                <mat-label>Mes</mat-label>
+                <mat-select #mes [(value)]="filtrado.mes" name="mes1" [(ngModel)]="filtrado.mes">
+                    <mat-option *ngFor="let mes of meses" [value]="mes.idmes">
+                        {{ mes.nombre }}
+                    </mat-option>
+                    <!--Seccion para cargar datos desde el catalogo de empresa-->
+                </mat-select>
+            </mat-form-field>
+            <input type="hidden" name="mes" [(ngModel)]="filtrado.mes" required>
+        </div>
+
+        <div class="col-3">
+            <button type="button" class="btn btn-info pull-right" (click)="consultar()" [disabled]="!f.valid">
+                <i class="material-icons" style="font-size: 20px" matTooltip="Buscar">
+                    search
+                </i>
+            </button>
+        </div>
+        <div class="col-3">
+            <button *ngIf="regs.length > 0" class="btn btn-info pull-right" (click)="generarReporte()"
+                [disabled]="!f.valid">
+                <i class="material-icons" style="font-size: 20px" matTooltip="Generar reporte pdf">
+                    picture_as_pdf
+                </i>
+            </button>
+        </div>
+    </div>
+</form>

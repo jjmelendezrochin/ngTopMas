@@ -3,6 +3,8 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { ListaReporteDesplazamientoComponent } from './lista-reporte-desplazamiento/lista-reporte-desplazamiento.component';
 import { ListaReporteAsistenciaComponent } from './lista-reporte-asistencia/lista-reporte-asistencia.component';
 import { ListaSlideSclComponent } from './lista-slide-scl/lista-slide-scl.component';
+import { ListaReporteHistoricoComponent } from './lista-reporte-historico/lista-reporte-historico.component';
+import { ListaReportePresentacionesCanjesComponent } from './lista-reporte-presentaciones-canjes/lista-reporte-presentaciones-canjes.component';
 
 @Component({
   selector: 'app-reporte-scl',
@@ -12,10 +14,14 @@ import { ListaSlideSclComponent } from './lista-slide-scl/lista-slide-scl.compon
 export class ReporteSclComponent implements OnInit, AfterViewInit {
   @ViewChild('rd', { static: false, read: ListaReporteDesplazamientoComponent }) rd: ListaReporteDesplazamientoComponent;
   @ViewChild('ra', { static: false, read: ListaReporteAsistenciaComponent }) ra: ListaReporteAsistenciaComponent;
+  @ViewChild('rpc', { static: false, read: ListaReportePresentacionesCanjesComponent }) rpc: ListaReportePresentacionesCanjesComponent;
+  @ViewChild('rh', { static: false, read: ListaReporteHistoricoComponent }) rh: ListaReporteHistoricoComponent;
   @ViewChild('s', { static: false, read: ListaSlideSclComponent }) s: ListaSlideSclComponent;
 
   regs_asistencia: any[] = [];
   regs_desplazamiento: any[] = [];
+  regs_presentaciones_canjes: any[] = [];
+  regs_historico: any[] = [];
   regs_slide: any[] = [];
 
   nombre_modulo: string;
@@ -29,12 +35,16 @@ export class ReporteSclComponent implements OnInit, AfterViewInit {
   };
 
   filtrado_presentaciones_canjes = {
+    anio: 0,
+    mes: '',
     idmodulo: '',
     page: 0,
     resultsForPage: '10'
   };
 
   filtrado_historico = {
+    anio: 0,
+    mes: '',
     idmodulo: '',
     page: 0,
     resultsForPage: '10'
@@ -63,7 +73,11 @@ export class ReporteSclComponent implements OnInit, AfterViewInit {
       this.filtrado_asistencia.anio = (new Date()).getFullYear();
       this.filtrado_asistencia.mes = `${(new Date()).getDay()}`;
       this.filtrado_asistencia.idmodulo = data.idmodulo;
+      this.filtrado_presentaciones_canjes.anio = (new Date()).getFullYear();
+      this.filtrado_presentaciones_canjes.mes = `${(new Date()).getDay()}`;
       this.filtrado_presentaciones_canjes.idmodulo = data.idmodulo;
+      this.filtrado_historico.anio = (new Date()).getFullYear();
+      this.filtrado_historico.mes = `${(new Date()).getDay()}`;
       this.filtrado_historico.idmodulo = data.idmodulo;
       this.filtrado_desplazamiento.fechainicial = (new Date()).toISOString();
       this.filtrado_desplazamiento.fechafinal = (new Date()).toISOString();
@@ -88,6 +102,22 @@ export class ReporteSclComponent implements OnInit, AfterViewInit {
 
   generarReporteAsistencia() {
     this.ra.generarReporte();
+  }
+
+  consultarPresentacionesCanjes() {
+    this.rpc.buscarInfoReportePresentacionesCanjes(false);
+  }
+
+  generarReportePresentacionesCanjes() {
+    this.rpc.generarReporte();
+  }
+
+  consultarHistorico() {
+    this.rh.buscarInfoReporteHistorico(false);
+  }
+
+  generarReporteHistorico() {
+    this.rh.generarReporte();
   }
 
   consultarDesplazamiento() {
