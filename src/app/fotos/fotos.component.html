@@ -125,7 +125,7 @@
 
                         <!-- Descarga de pdfs -->
                         <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
-                            (click)="generarPdf.generarPDF(form.value,datePipe)">
+                            (click)="generarPdf.generarPDF(form.value,idempresa,datePipe)">
                             <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
                                 data-md-tooltip="Descargar Pdf">
                                 picture_as_pdf
@@ -135,7 +135,7 @@
 
                         <!-- Descarga de fotos -->
                         <a *ngIf="catfotos != null" class="btn btn-info pull-right" href="javascript:void(0)"
-                            (click)="generarZipFotos.generarZipFotos(form.value,datePipe)">
+                            (click)="generarZipFotos.generarZipFotos(form.value,idempresa,datePipe)">
                             <i *ngIf="catfotos != null" class="material-icons" style="font-size: 20px"
                                 data-md-tooltip="Descargar Fotos">
                                 monochrome_photos

@@ -19,10 +19,11 @@ export class GenerarZipFotosService {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/DescargaFotos/getComprimirFotosServicio.php`, fotos);
   }
 
-  generarZipFotos(form: any, datePipe: DatePipe) {
+  generarZipFotos(form: any, idempresa: any, datePipe: DatePipe) {
     let obj = Object.assign({}, form);
     obj.FechaInicial = datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
     obj.FechaFinal = datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    obj.idEmpresa = idempresa;
     this.getComprimirFotosServicio(obj).subscribe((gDescargaFotos: any) => {
       location.href = gDescargaFotos.download_file;
       // console.log("Imagenes descargadas");

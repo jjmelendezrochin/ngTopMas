@@ -19,10 +19,11 @@ export class GenerarPdf1Service {
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/DescargaFotos1/getGenerarPdfFotosServicio.php`, fotos);
   }
 
-  generarPDF(form: any, datePipe: DatePipe) {
+  generarPDF(form: any, idempresa: any, datePipe: DatePipe) {
     let obj = Object.assign({}, form);
     obj.FechaInicial = datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
     obj.FechaFinal = datePipe.transform(obj.FechaFinal, 'yyyy-MM-dd');
+    obj.idEmpresa = idempresa;
     this.getGenerarPdfFotosServicio(obj).subscribe((gDescargaFotos: any) => {
       location.href = gDescargaFotos.download_file;
       // console.log("Pdfs descargados");
