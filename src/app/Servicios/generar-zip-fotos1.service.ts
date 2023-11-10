@@ -15,7 +15,7 @@ export class GenerarZipFotos1Service {
 
   constructor(private httpClient: HttpClient) { }
 
-  getComprimirFotosServicio(fotos: any): Observable<any> {
+  getComprimirFotosServicio(fotos: any): Observable<any> {    
     return this.httpClient.post<any>(`${this.PHP_API_SERVER}/DescargaFotos1/getComprimirFotosServicio.php`, fotos);
   }
 
