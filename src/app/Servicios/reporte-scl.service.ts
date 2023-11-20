@@ -62,56 +62,59 @@ export class ReporteSclService {
     );
   }
 
-  reportePresentacionesCanjesMuestraEnPantalla(filtro: any) {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-    });
-    return this.httpClient.post<any[]>(
-      `${this.PHP_API_SERVER}/Reportes_Scl/reporte_presentaciones_canjes_muestra_en_pantalla.php`,
-      filtro,
-      { headers: headers }
-    );
-  }
-
-  reportePresentacionesCanjesPdf(filtro: any) {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-    });
-    return this.httpClient.post<any[]>(
-      `${this.PHP_API_SERVER}/Reportes_Scl/reporte_presentaciones_canjes_pdf.php`,
-      filtro,
-      { headers: headers }
-    );
-  }
-
-  reporteHistoricoMuestraEnPantalla(filtro: any) {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-    });
-    return this.httpClient.post<any[]>(
-      `${this.PHP_API_SERVER}/Reportes_Scl/reporte_historico_muestra_en_pantalla.php`,
-      filtro,
-      { headers: headers }
-    );
-  }
-
-  reporteHistoricoPdf(filtro: any) {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-    });
-    return this.httpClient.post<any[]>(
-      `${this.PHP_API_SERVER}/Reportes_Scl/reporte_historico_pdf.php`,
-      filtro,
-      { headers: headers }
-    );
-  }
-
   infoSlideMuestraEnPantalla(filtro: any) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     return this.httpClient.post<any[]>(
       `${this.PHP_API_SERVER}/Reportes_Scl/info_slide_muestra_en_pantalla.php`,
+      filtro,
+      { headers: headers }
+    );
+  }
+
+  desactiva_todos_los_genera_slide(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any[]>(
+      `${this.PHP_API_SERVER}/Reportes_Scl/desactiva_todos_los_genera_slide.php`,
+      filtro,
+      { headers: headers }
+    );
+
+  }
+
+  desactiva_todos_los_generar_slides_en_bloque(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any[]>(
+      `${this.PHP_API_SERVER}/Reportes_Scl/desactiva_todos_los_generar_slides_en_bloque.php`,
+      filtro,
+      { headers: headers }
+    );
+
+  }
+
+  activa_desactiva_generar_slides_en_bloque(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any[]>(
+      `${this.PHP_API_SERVER}/Reportes_Scl/activa_desactiva_generar_slides_en_bloque.php`,
+      filtro,
+      { headers: headers }
+    );
+
+  }
+
+  activa_desactiva_generar_slide(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any[]>(
+      `${this.PHP_API_SERVER}/Reportes_Scl/activa_desactiva_generar_slide.php`,
       filtro,
       { headers: headers }
     );

@@ -20,8 +20,6 @@ declare var $: any;
 })
 export class PromocionesUltModComponent implements OnInit, AfterViewInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
-  @ViewChild('optAll', { static: false }) optAll: MatCheckbox;
-  @ViewChildren('opt', { read: MatCheckbox }) opt: QueryList<MatCheckbox>;
 
   @Output() buscar: EventEmitter<any> = new EventEmitter<any>();
 

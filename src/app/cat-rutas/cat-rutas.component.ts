@@ -35,7 +35,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
   @ViewChild('pag3', { static: false }) pag3: MatPaginator;
   @ViewChild('maps', { static: false }) maps: ElementRef;
   @ViewChild('resurtible', { static: false }) resurtible: ElementRef;
-  encabezados = { "idruta": "id", "ruta": "Ruta", "determinante": "Determinante", "cadena": "Cadena", "formato": "Formato", "Tienda": "Tienda", "cluster": "Cluster", "intensidad_str": "Intensidad", "direccioncompleta": "Direccion completa", "latitud": "Latitud", "longitud": "Longitud" };
+  encabezados = { "idruta": "id", "ruta": "Ruta", "determinante": "Determinante", "cadena": "Cadena", "formato": "Formato", "Tienda": "Tienda", "cluster": "Cluster", "intensidad_str": "Intensidad", "direccioncompleta": "Direccion completa", "idmunicipio": "Ciudad", "idestado": "Estado", "latitud": "Latitud", "longitud": "Longitud" };
   encabezados_productosTiendaFechaPrecio = { "descripcion": "Descripción", "categoria1": "Categoría", "precio": "Precio Sugerido", "precioreal": "Precio Anaquel", "diferencia": "Diferencia", "Fecha": "Fecha", "Nombre": "Promotor", "Tienda": "Tienda" };
   selected: number;
   usr: usuario;

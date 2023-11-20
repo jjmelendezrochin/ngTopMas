@@ -1,29 +1,23 @@
 <form #f="ngForm">
     <div class="row">
         <div class="col-3">
-            <mat-form-field class="example-full-width ancho_lista">
-                <mat-label>Año</mat-label>
-                <mat-select #anio [(value)]="filtrado.anio" name="anio1" [(ngModel)]="filtrado.anio">
-                    <mat-option *ngFor="let anio of anios" [value]="anio.anio">
-                        {{ anio.anio }}
-                    </mat-option>
-                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                </mat-select>
+            <mat-form-field>
+                <input matInput [matDatepicker]="FechaInicial" type="text" name="FechaInicial1"
+                    placeholder="Fecha inicial" [(ngModel)]="filtrado.fechainicial" disabled>
+                <mat-datepicker-toggle matSuffix [for]="FechaInicial"></mat-datepicker-toggle>
+                <mat-datepicker #FechaInicial disabled="false"></mat-datepicker>
             </mat-form-field>
-            <input type="hidden" name="anio" [(ngModel)]="filtrado.anio" required>
+            <input type="hidden" name="FechaInicial" [(ngModel)]="filtrado.fechainicial" required>
         </div>
 
         <div class="col-3">
-            <mat-form-field class="example-full-width">
-                <mat-label>Mes</mat-label>
-                <mat-select #mes [(value)]="filtrado.mes" name="mes1" [(ngModel)]="filtrado.mes">
-                    <mat-option *ngFor="let mes of meses" [value]="mes.idmes">
-                        {{ mes.nombre }}
-                    </mat-option>
-                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                </mat-select>
+            <mat-form-field>
+                <input matInput [matDatepicker]="FechaFinal" type="text" name="FechaFinal1" placeholder="Fecha final"
+                    [(ngModel)]="filtrado.fechafinal" disabled>
+                <mat-datepicker-toggle matSuffix [for]="FechaFinal"></mat-datepicker-toggle>
+                <mat-datepicker #FechaFinal disabled="false"></mat-datepicker>
             </mat-form-field>
-            <input type="hidden" name="mes" [(ngModel)]="filtrado.mes" required>
+            <input type="hidden" name="FechaFinal" [(ngModel)]="filtrado.fechafinal" required>
         </div>
 
         <div class="col-3">

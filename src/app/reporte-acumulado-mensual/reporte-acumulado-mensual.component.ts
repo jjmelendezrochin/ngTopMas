@@ -1,19 +1,26 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { GestionAjusteAcumuladoService } from 'app/Servicios/gestion-ajuste-acumulado.service';
-import { ReportePreciosXproductoMensualService } from 'app/Servicios/reporte-precios-xproducto-mensual.service';
 
 declare var $: any;
 
 @Component({
   selector: 'app-reporte-acumulado-mensual',
   templateUrl: './reporte-acumulado-mensual.component.html',
-  styleUrls: ['./reporte-acumulado-mensual.component.scss']
+  styleUrls: ['./reporte-acumulado-mensual.component.scss'],
+  providers: [
+    DatePipe
+  ]
 })
 export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   @ViewChild('pag', { static: false }) pag: MatPaginator;
 
   @Output() buscar: EventEmitter<any> = new EventEmitter<any>();
+
+  tipo: string = '';
+
+  procesa: boolean = false;
 
   paginacion = {
     page_number: 0,
@@ -23,36 +30,31 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   };
 
   filtrado = {
-    anio: 0,
-    mes: '',
+    fechainicial: '',
+    fechafinal: '',
     idempresa: Number(localStorage.getItem('idempresa')),
     page: 0,
     resultsForPage: '10'
   };
 
-  anios: any[] = [];
-  meses: any[] = [];
-
   reporte_acumulado_mensual: any[] = [];
 
   constructor(
-    private reporteService: ReportePreciosXproductoMensualService,
-    private gestionAjusteAcumuladoService: GestionAjusteAcumuladoService
+    private gestionAjusteAcumuladoService: GestionAjusteAcumuladoService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
-    for (let i = 2020; i <= 2050; i++) {
-      this.anios.push({ anio: i });
-    }
-    this.reporteService.getCmbMesesservicios().subscribe((gmeses: any[]) => {
-      this.meses = gmeses;
-      this.filtrado.mes = `${new Date().getMonth() + 1}`;
-      this.filtrado.anio = new Date().getFullYear();
-      // console.log("Lista de meses: ", this.meses);
-    });
+
+    let hoy = new Date();
+    this.ajustarRangoDeFechas(hoy);
+
     this.buscar.subscribe((filtrado: any) => {
+      let _filtrado = Object.assign({}, filtrado);
+      _filtrado.fechainicial = this.datePipe.transform(filtrado.fechainicial, 'yyyy-MM-dd');
+      _filtrado.fechafinal = this.datePipe.transform(filtrado.fechafinal, 'yyyy-MM-dd');
       this.gestionAjusteAcumuladoService
-        .consultarReporteAcumuladoMensual(filtrado)
+        .consultarReporteAcumuladoSemanalOMensual(_filtrado)
         .subscribe((response: any) => {
 
           this.paginacion.total_records = response.totalRecords;
@@ -61,7 +63,7 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
           this.paginacion.page_size_options = [response.resultsForPage];
           this.reporte_acumulado_mensual = response.regs;
           //console.log(response);
-          $('#bloqueador_acumulado_mensual').hide();
+          $('#bloqueador_acumulado_semanal_o_mensual').hide();
           //    console.log(response.regs);
         });
     });
@@ -69,16 +71,16 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    $('#bloqueador_acumulado_mensual').hide();
+    $('#bloqueador_acumulado_semanal_o_mensual').hide();
   }
 
-  consultarReporteAcumuladoMensual() {
-    this.ConsultarReporteAcumuladoMensual(false);
+  consultarReporteAcumuladoSemanalOMensual() {
+    this.ConsultarReporteAcumuladoSemanalOMensual(false);
   }
 
-  ConsultarReporteAcumuladoMensual(nav: boolean = false) {
+  ConsultarReporteAcumuladoSemanalOMensual(nav: boolean = false) {
 
-    $('#bloqueador_acumulado_mensual').show();
+    $('#bloqueador_acumulado_semanal_o_mensual').show();
 
     if (this.pag != null) {
       if (nav == false) {
@@ -94,17 +96,19 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   irAlaPagina(event: any) {
     let wait = setTimeout(() => {
       this.filtrado.page = event.pageIndex + 1;
-      this.ConsultarReporteAcumuladoMensual(true);
+      this.ConsultarReporteAcumuladoSemanalOMensual(true);
       clearTimeout(wait);
     }, 0);
   }
 
-  generarReporteAcumuladoMensualExcel() {
+  generarReporteAcumuladoSemanalOMensualExcel() {
     let filtrado = Object.assign({}, this.filtrado);
+    filtrado.fechainicial = this.datePipe.transform(filtrado.fechainicial, 'yyyy-MM-dd');
+    filtrado.fechafinal = this.datePipe.transform(filtrado.fechafinal, 'yyyy-MM-dd');
 
-    $('#bloqueador_acumulado_mensual').show();
+    $('#bloqueador_acumulado_semanal_o_mensual').show();
 
-    this.gestionAjusteAcumuladoService.GenerarReporteAcumuladoMensualExcel(filtrado).subscribe((res: any) => {
+    this.gestionAjusteAcumuladoService.GenerarReporteAcumuladoSemanalOMensualExcel(filtrado).subscribe((res: any) => {
       let wait = setTimeout(() => {
 
         if ((res.status as boolean) == true) {
@@ -116,11 +120,43 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
           $a.remove();
         }
 
-        $('#bloqueador_acumulado_mensual').hide();
+        $('#bloqueador_acumulado_semanal_o_mensual').hide();
 
         clearTimeout(wait);
       }, 0);
     });
+  }
+
+  private ajustarRangoDeFechas(fecha: Date) {
+    let _fecha = new Date(fecha);
+    switch (this.filtrado.idempresa.toString().trim()) {
+      case '2':
+        this.tipo = 'semanal';
+        this.procesa = true;
+        let filtrado = Object.assign({}, this.filtrado);
+        filtrado.fechainicial = this.datePipe.transform(_fecha, 'yyyy-MM-dd');
+        this.gestionAjusteAcumuladoService.rango_fechas_semanal(filtrado).subscribe((res: any) => {
+          this.filtrado.fechainicial = res.fecha_inicial;
+          this.filtrado.fechafinal = res.fecha_final;
+          this.procesa = false;
+        });
+        break;
+      default:
+        this.tipo = 'mensual';
+        _fecha = new Date(fecha);
+        let primerDiaDelMes = new Date(_fecha.getFullYear(), _fecha.getMonth(), 1);
+        let ultimoDiaDelMes = new Date(_fecha.getFullYear(), _fecha.getMonth() + 1, 0);
+        this.filtrado.fechainicial = (primerDiaDelMes).toISOString();
+        this.filtrado.fechafinal = (ultimoDiaDelMes).toISOString();
+        break;
+    }
+  }
+
+  ajustarCamposDeFechas(event: any) {
+    let wait = setTimeout(() => {
+      this.ajustarRangoDeFechas(new Date(this.datePipe.transform(new Date(event.value), 'yyyy-MM-dd')));
+      clearTimeout(wait);
+    }, 0);
   }
 
 }

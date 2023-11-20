@@ -144,20 +144,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           subitems: null,
         },
         {
-          path: "/reporte_scl/presentaciones_canjes",
-          title: "Presentaciones Canjes",
-          icon: "assignment",
-          class: "",
-          subitems: null,
-        },
-        {
-          path: "/reporte_scl/reporte_historico",
-          title: "Reporte Histórico",
-          icon: "assignment",
-          class: "",
-          subitems: null,
-        },
-        {
           path: "/reporte_scl/reporte_desplazamiento",
           title: "Reporte Desplazamiento",
           icon: "assignment",

@@ -141,6 +141,12 @@
                                                 </a>-->
                                             </th>
                                             <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Ciudad
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Estado
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
                                                 Intensidad
                                             </th>
                                             <th style="background-color: #007A87; color: #FFFFFF;">
@@ -158,6 +164,8 @@
                                                 <td>{{ ruta.Tienda1 }}</td>
                                                 <td>{{ ruta.cluster }}</td>
                                                 <td>{{ ruta.direccioncompleta }}</td>
+                                                <td>{{ ruta.idmunicipio }}</td>
+                                                <td>{{ ruta.idestado }}</td>
                                                 <td>{{ ruta.intensidad_str }}</td>
                                                 <!--<td><button mat-raised-button type="button" class="btn {{ruta.btn_estilo}} pull-right"
                                                 (click)="selectCatRutas(ruta,1)">
@@ -608,8 +616,8 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6" style="padding-left: 200px;">
-                                        <a class="btn btn-info pull-left" href="{{ this.url_descarga }}"
-                                            target="_blank" rel="noopener noreferrer">
+                                        <a class="btn btn-info pull-left" href="{{ this.url_descarga }}" target="_blank"
+                                            rel="noopener noreferrer">
                                             <i class="material-icons" style="font-size: 20px"
                                                 data-md-tooltip="Descargar Formato">
                                                 download

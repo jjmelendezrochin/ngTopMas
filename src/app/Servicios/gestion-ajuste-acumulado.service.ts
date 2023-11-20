@@ -12,6 +12,17 @@ export class GestionAjusteAcumuladoService {
     private httpClient: HttpClient
   ) { }
 
+  rango_fechas_semanal(filtro: any) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<any>(
+      `${this.PHP_API_SERVER}/rango_fechas_semanal.php`,
+      filtro,
+      { headers: headers }
+    );
+  }
+
   GuardarAjusteAcumulado(filtro: any) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
@@ -24,24 +35,24 @@ export class GestionAjusteAcumuladoService {
 
   }
 
-  consultarReporteAcumuladoMensual(filtro) {
+  consultarReporteAcumuladoSemanalOMensual(filtro) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     return this.httpClient.post<any>(
-      `${this.PHP_API_SERVER}/consulta_reporte_acumulado_mensual.php`,
+      `${this.PHP_API_SERVER}/consulta_reporte_acumulado_semanal_o_mensual.php`,
       filtro,
       { headers: headers }
     );
 
   }
 
-  GenerarReporteAcumuladoMensualExcel(filtro: any) {
+  GenerarReporteAcumuladoSemanalOMensualExcel(filtro: any) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     return this.httpClient.post<any>(
-      `${this.PHP_API_SERVER}/generar_reporte_acumulado_mensual.php`,
+      `${this.PHP_API_SERVER}/generar_reporte_acumulado_semanal_o_mensual.php`,
       filtro,
       { headers: headers }
     );

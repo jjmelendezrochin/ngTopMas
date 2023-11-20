@@ -66,9 +66,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "gestion-ajuste-acumulado", component: GestionAjusteAcumuladoComponent },
   { path: "reporteprecioxproductomensual", component: ReportePreciosXproductoMensualComponent },
   { path: "reporte_scl/reporte_asistencia", component: ReporteSclComponent, data: { idmodulo: '1', nombre_modulo: 'Reporte de asistencia' } },
-  { path: "reporte_scl/presentaciones_canjes", component: ReporteSclComponent, data: { idmodulo: '2', nombre_modulo: 'Reporte de presentaciones de canjes' } },
-  { path: "reporte_scl/reporte_historico", component: ReporteSclComponent, data: { idmodulo: '3', nombre_modulo: 'Reporte histórico' } },
-  { path: "reporte_scl/reporte_desplazamiento", component: ReporteSclComponent, data: { idmodulo: '4', nombre_modulo: 'Reporte desplazamiento' } },
-  { path: "reporte_scl/slide_santa_clara", component: ReporteSclComponent, data: { idmodulo: '5', nombre_modulo: 'Generar Slide' } },
+  { path: "reporte_scl/reporte_desplazamiento", component: ReporteSclComponent, data: { idmodulo: '2', nombre_modulo: 'Reporte desplazamiento' } },
+  { path: "reporte_scl/slide_santa_clara", component: ReporteSclComponent, data: { idmodulo: '3', nombre_modulo: 'Generar Slide' } },
   { path: "reporte_acumulado_mensual", component: ReporteAcumuladoMensualComponent }
 ];

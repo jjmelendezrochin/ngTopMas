@@ -83,12 +83,8 @@ import { CargaInformacionComponent } from 'app/dashboard/carga-informacion/carga
 import { ReporteSclComponent } from '../../reporte-scl/reporte-scl.component';
 import { ListaReporteDesplazamientoComponent } from '../../reporte-scl/lista-reporte-desplazamiento/lista-reporte-desplazamiento.component';
 import { ListaReporteAsistenciaComponent } from '../../reporte-scl/lista-reporte-asistencia/lista-reporte-asistencia.component';
-import { ListaReportePresentacionesCanjesComponent } from '../../reporte-scl/lista-reporte-presentaciones-canjes/lista-reporte-presentaciones-canjes.component';
-import { ListaReporteHistoricoComponent } from '../../reporte-scl/lista-reporte-historico/lista-reporte-historico.component';
 import { FiltrosReporteDesplazamientoComponent } from '../../reporte-scl/filtros-reporte-desplazamiento/filtros-reporte-desplazamiento.component';
 import { FiltrosReporteAsistenciaComponent } from '../../reporte-scl/filtros-reporte-asistencia/filtros-reporte-asistencia.component';
-import { FiltrosReporteHistoricoComponent } from '../../reporte-scl/filtros-reporte-historico/filtros-reporte-historico.component';
-import { FiltrosReportePresentacionesCanjesComponent } from '../../reporte-scl/filtros-reporte-presentaciones-canjes/filtros-reporte-presentaciones-canjes.component';
 import { FiltrosSlideSclComponent } from '../../reporte-scl/filtros-slide-scl/filtros-slide-scl.component';
 import { ListaSlideSclComponent } from '../../reporte-scl/lista-slide-scl/lista-slide-scl.component';
 import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensual/reporte-acumulado-mensual.component';
@@ -150,12 +146,8 @@ import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensua
     ReporteSclComponent,
     ListaReporteDesplazamientoComponent,
     ListaReporteAsistenciaComponent,
-    ListaReportePresentacionesCanjesComponent,
-    ListaReporteHistoricoComponent,
     FiltrosReporteDesplazamientoComponent,
     FiltrosReporteAsistenciaComponent,
-    FiltrosReporteHistoricoComponent,
-    FiltrosReportePresentacionesCanjesComponent,
     FiltrosSlideSclComponent,
     ListaSlideSclComponent,
     ReporteAcumuladoMensualComponent,

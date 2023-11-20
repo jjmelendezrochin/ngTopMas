@@ -18,6 +18,10 @@
                 <div class="table-responsive">
                     <table class="table">
                         <thead class="text-primary">
+                            <th *ngIf="info_slide.length > 0" style="background-color: #007A87; color: #FFFFFF;">
+                                <mat-checkbox #optAll color="primary" [(ngModel)]="_seleccionarTodos"
+                                    (change)="seleccionarTodos($event)"></mat-checkbox>
+                            </th>
                             <th style="background-color: #007A87; color: #FFFFFF;">
                                 Ticket
                             </th>
@@ -33,6 +37,10 @@
                         </thead>
                         <tbody *ngIf="info_slide != null">
                             <tr *ngFor="let s of info_slide; let i = index">
+                                <td>
+                                    <mat-checkbox #opt color="primary" (change)="seleccionar(s)"
+                                        [(ngModel)]="s.generar_slide"></mat-checkbox>
+                                </td>
                                 <td><img src="{{ s.ticket }}" style="width:100px;height:100px;"
                                         (click)="abrirVentanaModal(s.ticket)"></td>
                                 <td><img src="{{ s.evidencia }}" style="width:100px;height:100px;"
