@@ -9,7 +9,7 @@ import { ReportePreciosXproductoMensualService } from 'app/Servicios/reporte-pre
 export class FiltrosReporteAsistenciaComponent implements OnInit {
 
   @Output() consultarEvt: EventEmitter<void> = new EventEmitter<void>();
-  @Output() generarReporteEvt: EventEmitter<void> = new EventEmitter<void>();
+  @Output() generarReporteEvt: EventEmitter<number> = new EventEmitter<number>();
 
   @Input() regs: any[] = [];
   @Input() filtrado: any;
@@ -36,8 +36,8 @@ export class FiltrosReporteAsistenciaComponent implements OnInit {
     this.consultarEvt.emit();
   }
 
-  generarReporte() {
-    this.generarReporteEvt.emit();
+  generarReporte(tipo: number) {
+    this.generarReporteEvt.emit(tipo); // 1 PDF, 2 Excel
   }
 
 }

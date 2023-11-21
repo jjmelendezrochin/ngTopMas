@@ -51,12 +51,15 @@ export class ReporteSclService {
     );
   }
 
-  reporteAsistenciaPdf(filtro: any) {
+  reporteAsistenciaPdfExcel(filtro: any, tipo: number) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
+
+    let ruta_api = (tipo == 1) ? '/Reportes_Scl/reporte_asistencia_pdf.php' : '/Reportes_Scl/reporte_asistencia_excel.php';
+
     return this.httpClient.post<any[]>(
-      `${this.PHP_API_SERVER}/Reportes_Scl/reporte_asistencia_pdf.php`,
+      `${this.PHP_API_SERVER}${ruta_api}`,
       filtro,
       { headers: headers }
     );

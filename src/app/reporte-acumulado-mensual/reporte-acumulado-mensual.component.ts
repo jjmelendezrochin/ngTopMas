@@ -136,8 +136,8 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
         let filtrado = Object.assign({}, this.filtrado);
         filtrado.fechainicial = this.datePipe.transform(_fecha, 'yyyy-MM-dd');
         this.gestionAjusteAcumuladoService.rango_fechas_semanal(filtrado).subscribe((res: any) => {
-          this.filtrado.fechainicial = res.fecha_inicial;
-          this.filtrado.fechafinal = res.fecha_final;
+          this.filtrado.fechainicial = new Date(res.fecha_inicial).toISOString();
+          this.filtrado.fechafinal = new Date(res.fecha_final).toISOString();
           this.procesa = false;
         });
         break;
@@ -153,10 +153,10 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
   }
 
   ajustarCamposDeFechas(event: any) {
-    let wait = setTimeout(() => {
+    /*let wait = setTimeout(() => {
       this.ajustarRangoDeFechas(new Date(this.datePipe.transform(new Date(event.value), 'yyyy-MM-dd')));
       clearTimeout(wait);
-    }, 0);
+    }, 0);*/
   }
 
 }

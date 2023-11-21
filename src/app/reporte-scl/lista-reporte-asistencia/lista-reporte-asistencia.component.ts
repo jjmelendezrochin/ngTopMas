@@ -95,12 +95,12 @@ export class ListaReporteAsistenciaComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  generarReporte() {
+  generarReporte(tipo: number) {
     let filtrado = Object.assign({}, this.filtrado);
     filtrado.anio = this.filtrado.anio;
     filtrado.mes = this.filtrado.mes;
     $('#bloqueador_tabla_reporte_asistencia').show();
-    this.reporteSclService.reporteAsistenciaPdf(filtrado).subscribe((res: any) => {
+    this.reporteSclService.reporteAsistenciaPdfExcel(filtrado, tipo).subscribe((res: any) => {
       let wait = setTimeout(() => {
         if ((res.status as boolean) == true) {
           var $a = $("<a>");

@@ -26,18 +26,26 @@
             <input type="hidden" name="mes" [(ngModel)]="filtrado.mes" required>
         </div>
 
-        <div class="col-3">
+        <div class="col-2">
             <button type="button" class="btn btn-info pull-right" (click)="consultar()" [disabled]="!f.valid">
                 <i class="material-icons" style="font-size: 20px" matTooltip="Buscar">
                     search
                 </i>
             </button>
         </div>
-        <div class="col-3">
-            <button *ngIf="regs.length > 0" class="btn btn-info pull-right" (click)="generarReporte()"
+        <div class="col-2">
+            <button *ngIf="regs.length > 0" class="btn btn-info pull-right" (click)="generarReporte(1)"
                 [disabled]="!f.valid">
                 <i class="material-icons" style="font-size: 20px" matTooltip="Generar reporte pdf">
                     picture_as_pdf
+                </i>
+            </button>
+        </div>
+        <div class="col-2">
+            <button *ngIf="regs.length > 0" class="btn btn-info pull-right" (click)="generarReporte(2)"
+                [disabled]="!f.valid">
+                <i class="material-icons" style="font-size: 20px" matTooltip="Generar reporte excel">
+                    cloud_download
                 </i>
             </button>
         </div>

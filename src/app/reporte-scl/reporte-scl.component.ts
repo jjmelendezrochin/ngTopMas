@@ -77,8 +77,8 @@ export class ReporteSclComponent implements OnInit, AfterViewInit {
     this.ra.buscarInfoReporteAsistencia(false);
   }
 
-  generarReporteAsistencia() {
-    this.ra.generarReporte();
+  generarReporteAsistencia(tipo: number) {
+    this.ra.generarReporte(tipo);
   }
 
   consultarDesplazamiento() {

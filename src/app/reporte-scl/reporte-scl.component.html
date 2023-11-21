@@ -11,7 +11,7 @@
 
                 <app-filtros-reporte-asistencia *ngIf="filtrado_asistencia.idmodulo == '1'"
                     [filtrado]="filtrado_asistencia" [regs]="regs_asistencia" (consultarEvt)="consultarAsistencia()"
-                    (generarReporteEvt)="generarReporteAsistencia()"></app-filtros-reporte-asistencia>
+                    (generarReporteEvt)="generarReporteAsistencia($event)"></app-filtros-reporte-asistencia>
                 <app-filtros-reporte-desplazamiento *ngIf="filtrado_desplazamiento.idmodulo == '2'"
                     [filtrado]="filtrado_desplazamiento" [regs]="regs_desplazamiento"
                     (consultarEvt)="consultarDesplazamiento()"
