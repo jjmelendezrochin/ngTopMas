@@ -131,7 +131,7 @@ export class ReporteAcumuladoMensualComponent implements OnInit, AfterViewInit {
     let _fecha = new Date(fecha);
     switch (this.filtrado.idempresa.toString().trim()) {
       case '2':
-        this.tipo = 'semanal';
+        this.tipo = '';
         this.procesa = true;
         let filtrado = Object.assign({}, this.filtrado);
         filtrado.fechainicial = this.datePipe.transform(_fecha, 'yyyy-MM-dd');
