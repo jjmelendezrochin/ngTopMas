@@ -46,7 +46,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
   rutasPorPromotorTemporales: any[];
   usohorarios: any[];
   idusohorario = 0;
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   dia = 0;
   noPermitido = true;
   campos: string;
@@ -80,6 +80,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
     this.exportarExcel.nombreArchivo = "promotores";
     this.promservice.getpromotorservicios(this.idempresa).subscribe((gprom: CatPromotor[]) => {
       this.prom = gprom;
+      $('#bloqueador_cat_promotor').hide();
       // console.log("lista de promotorores, ", this.prom);
     });
     this.catempresaService.getCatEmpresa(this.idempresa).subscribe((gempresa: CatEmpresa[]) => {
@@ -98,6 +99,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
     });
   }
   ngAfterViewInit() {
+    $('#bloqueador_cat_promotor').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -636,7 +638,6 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
 
   changeText(event: KeyboardEvent) {
     let value = (<HTMLInputElement>event.target).value;
-
     if (event.target) {
       if (event.keyCode == 13) {
         this.search(0);
@@ -648,6 +649,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
   }
 
   search(orden: number) {
+    $('#bloqueador_cat_promotor').show();
     if (this.campos == null || this.campos == '') {
       this.campos = ' ';
     }
