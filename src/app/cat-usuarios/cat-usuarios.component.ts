@@ -8,6 +8,8 @@ import { Paginacion } from 'app/Objetos/paginacion';
 import { MatPaginator, MatSelect } from '@angular/material';
 import { CatEmpresaService } from 'app/Servicios/cat-empresa.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-usuarios',
   templateUrl: './cat-usuarios.component.html',
@@ -29,7 +31,7 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
   perfiles: any[];
   empresas: any[];
   selectedCatUsuario: any = { idUsuario: null, usuario: null, clave: null, idperfil: null, perfil: null, uda: null, uda_c: null, fda: null, fda_m: null, udc: null, fdc: null, fdc_m: null, activo: null, idempresa: null };
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   constructor(
     private usuariosService: CatUsuariosService,
@@ -48,6 +50,7 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
     this.exportarExcel.nombreArchivo = "usuarios";
     this.usuariosService.getUsuariosServicio().subscribe((gpusuarios: any[]) => {
       this.usuarios = gpusuarios;
+      $('#bloqueador_usuarios').hide();
       // console.log("lista de usuarios, ", this.usuarios);
     });
     this.usuariosService.getCmbPerfilesServicio().subscribe((gcmbperfiles: any[]) => {
@@ -61,6 +64,9 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
+    $('#bloqueador_usuarios').show();
+
     if (this.paginator != null) {
       this.paginacion.page_number = 0;
       this.paginator.firstPage();
@@ -169,6 +175,7 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
     }
     this.usuariosService.getUsuariosServicio(orden, usuario).subscribe((gpusuario: any[]) => {
       this.usuarios = gpusuario;
+      $('#bloqueador_usuarios').hide();
       // console.log("lista de usuarios, ", this.usuarios);
     });
   }
@@ -182,8 +189,8 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {
@@ -222,6 +229,9 @@ export class CatUsuariosComponent implements OnInit, AfterViewInit {
     if (this.usuario == null || this.usuario == '') {
       this.usuario = ' ';
     }
+
+    $('#bloqueador_usuarios').show();
+
     this.findCatUsuarios(this.usuario, orden);
   }
 

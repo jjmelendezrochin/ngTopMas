@@ -2,281 +2,373 @@
     <div class="col-md-12">
         <br>
         <br>
-        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected" (selectedIndexChange)="tabClick($event)">
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_cadenas"
+                                    data-toggle="tab">Lista de Cadenas<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_cadena"
+                                    data-toggle="tab">Detalles Cadena<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#tiendas_por_cadena"
+                                    data-toggle="tab">Tiendas por cadena<div class="ripple-container"></div></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <mat-tab label="Lista de Cadenas">
-                <p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Buscar cadena" (keyup)="changeText($event)">
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_cadenas">
+                        <p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group no-border">
+                                    <input type="text" value="" class="form-control" placeholder="Buscar cadena"
+                                        (keyup)="changeText($event)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                        search
+                                    </i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button mat-raised-button type="button" class="btn btn-info pull-right"
+                                    (click)="selectNewCatCadena();setSelectedTab('detalles_cadena')">Nuevo</button>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
-                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                search
-                            </i>
-                            </a>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Catalogo de cadenas</h4>
+                                        <p class="card-category"> Aqui se muestra todas las cadenas disponibles</p>
+                                        <br>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
 
-                        <div class="col-md-4">
-                            <button mat-raised-button type="button" class="btn btn-info pull-right" (click)="selectNewCatCadena();setSelectedTab(1)">Nuevo</button>
+                                            <a *ngIf="cad != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(cad, encabezados)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+
+                                            <div class="clearfix"></div>
+
+                                            <mat-paginator #pag *ngIf="cad != null" [length]="cad.length"
+                                                [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+
+                                            <table #tabla_cadenas class="table">
+                                                <thead class=" text-primary">
+                                                    <!-- <th style="background-color: #007A87; color: #FFFFFF;">
+                                                            Empresa
+                                                            <br>
+                                                            <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)"
+                                                                (click)="search(2)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Desc">
+                                                                    arrow_drop_down
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a>
+                                                            <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)"
+                                                                (click)="search(1)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Asc">
+                                                                    arrow_drop_up
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a>
+                                                        </th> -->
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Nombre corto
+                                                    </th>
+                                                    <th
+                                                        style="background-color: #007A87; color: #FFFFFF; width: 300px;">
+                                                        cadena
+                                                        <a class="btn btn-info pull-right padding-boton"
+                                                            href="javascript:void(0)" (click)="search(4)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right padding-boton"
+                                                            href="javascript:void(0)" (click)="search(3)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Uda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Udc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fdc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Estatus
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Editar
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="cad != null">
+                                                    <tr
+                                                        *ngFor="let cat of cad | paginate:paginacion.page_size:paginacion.page_number">
+                                                        <!-- <td>{{ cat.nombreempresa }}</td> -->
+                                                        <td>{{ cat.nombrecorto }}</td>
+                                                        <td>{{ cat.cadena }}</td>
+                                                        <td>{{ cat.uda }}</td>
+                                                        <td>{{ cat.fda_m }}</td>
+                                                        <td>{{ cat.udc }}</td>
+                                                        <td>{{ cat.fdc_m }}</td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn {{cat.btn_estilo}} pull-right"
+                                                                (click)="selectCatCadena(cat,1)"
+                                                                [disabled]="noPermitido">
+                                                                {{ cat.estatus }}</button>
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-warning pull-right"
+                                                                (click)="selectCatCadena(cat);setSelectedTab('detalles_cadena')">Editar</button>
+                                                        </td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatCadena(cat.idcadena)"
+                                                                [disabled]="noPermitido">Borrar</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                        <!--Inicia bloqueador mientras procesa-->
+                                        <div id="bloqueador_cadena" class="row" style="
+                                position: absolute;
+                                width: 100%;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                              ">
+                                            <div class="col" style="
+                                  background-color: rgba(10, 9, 9, 0.062);
+                                  z-index: 1;
+                                  display: flex;
+                                  align-items: center;
+                                ">
+                                                <mat-progress-spinner style="margin: 0 auto" mode="indeterminate"
+                                                    diameter="85" strokeWidth="10">
+                                                </mat-progress-spinner>
+                                                <div style="
+                                    position: absolute;
+                                    left: calc((100% / 2) - 4%);
+                                    margin: 0 auto;
+                                    color: blue;
+                                  ">
+                                                    Cargando...
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Fin bloqueador mientras procesa -->
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row">
+                    <div class="tab-pane active" id="detalles_cadena">
+                        <p>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-info">
-                                    <h4 class="card-title ">Catalogo de cadenas</h4>
-                                    <p class="card-category"> Aqui se muestra todas las cadenas disponibles</p>
-                                    <br>
+                                    <h4 class="card-title">Editar cadena</h4>
+                                    <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-
-                                        <a *ngIf="cad != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(cad, encabezados)">
-                                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                        </a>
-
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-select [(value)]="idempresa" name="idEmpresa"
+                                                        [(ngModel)]="selectedCatCadena.idempresa">
+                                                        <mat-option [value]="0">--Seleccione una empresa--</mat-option>
+                                                        <mat-option *ngFor="let empresa of empresas"
+                                                            [value]="empresa.idEmpresa">
+                                                            {{empresa.nombreempresa}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Cadena" type="text" name="cadena"
+                                                        [(ngModel)]="selectedCatCadena.cadena">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Nombre corto" type="text"
+                                                        name="nombrecorto" [(ngModel)]="selectedCatCadena.nombrecorto">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatCadena.uda_c" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc" [(ngModel)]="selectedCatCadena.uda_c">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc" [(ngModel)]="selectedCatCadena.fdc" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatCadena.uda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatCadena.uda">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda" [(ngModel)]="selectedCatCadena.fda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="ListaTiendas(selectedCatCadena.idcadena)">Lista de tiendas</button>
                                         <div class="clearfix"></div>
-
-                                        <mat-paginator #pag *ngIf="cad != null" [length]="cad.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
-                                        </mat-paginator>
-
-                                        <table #tabla_cadenas class="table">
-                                            <thead class=" text-primary">
-                                                <!-- <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Empresa
-                                                    <br>
-                                                    <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)"
-                                                        (click)="search(2)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Desc">
-                                                            arrow_drop_down
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)"
-                                                        (click)="search(1)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Asc">
-                                                            arrow_drop_up
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                </th> -->
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Nombre corto
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF; width: 300px;">
-                                                    cadena
-                                                    <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)" (click)="search(4)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right padding-boton" href="javascript:void(0)" (click)="search(3)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Uda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Udc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fdc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Estatus
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Editar
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Eliminar
-                                                </th>
-                                            </thead>
-                                            <tbody *ngIf="cad != null">
-                                                <tr *ngFor="let cat of cad | paginate:paginacion.page_size:paginacion.page_number">
-                                                    <!-- <td>{{ cat.nombreempresa }}</td> -->
-                                                    <td>{{ cat.nombrecorto }}</td>
-                                                    <td>{{ cat.cadena }}</td>
-                                                    <td>{{ cat.uda }}</td>
-                                                    <td>{{ cat.fda_m }}</td>
-                                                    <td>{{ cat.udc }}</td>
-                                                    <td>{{ cat.fdc_m }}</td>
-                                                    <td><button mat-raised-button type="button" class="btn {{cat.btn_estilo}} pull-right" (click)="selectCatCadena(cat,1)" [disabled]="noPermitido">
-                                                        {{ cat.estatus }}</button>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatCadena(f)"
+                                            [disabled]="noPermitido">Guardar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane active" id="tiendas_por_cadena">
+                        <div class="row" *ngIf="selectedCatCadena.idcadena == null">
+                            <div class="col-md-12">
+                                <h6>No hay ninguna cadena seleccionada.</h6>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="selectedCatCadena.idcadena != null">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Tiendas Asignadas a la cadena:
+                                            {{selectedCatCadena.nombrecorto}}
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <mat-paginator #pag1 *ngIf="tiendasPorCadena != null"
+                                                [length]="tiendasPorCadena.length" [pageSize]="paginacion1.page_size"
+                                                [pageSizeOptions]="paginacion1.pageSizeOptions"
+                                                (page)="paginacion1.handlePage($event)">
+                                            </mat-paginator>
+                                            <table class="table">
+                                                <thead class=" text-primary">
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">Det.</th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">Tienda</th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">Direccion
+                                                    </th>
+                                                    <!--<th style="background-color: #007A87; color: #FFFFFF;">Uda</th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">Fda</th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">Estatus</th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">Asignar dias</th>
+                                                <th style="background-color: #007A87; color: #FFFFFF;">Desasignar</th>-->
+                                                </thead>
+                                                <tbody *ngIf="tiendasPorCadena != null">
+                                                    <tr
+                                                        *ngFor="let tiendas of tiendasPorCadena | paginate:paginacion1.page_size:paginacion1.page_number">
+                                                        <td>
+                                                            {{tiendas.determinante}}
+                                                        </td>
+                                                        <td>
+                                                            {{tiendas.Tienda1}}
+                                                        </td>
+                                                        <td>
+                                                            {{tiendas.Direccion}}
+                                                        </td>
+                                                        <!--<td>
+                                                        {{rutaPorPromotor.uda}}
                                                     </td>
-                                                    <td style="text-align:center">
-                                                        <button mat-raised-button type="button" class="btn btn-warning pull-right" (click)="selectCatCadena(cat);setSelectedTab(1)">Editar</button>
+                                                    <td>
+                                                        {{rutaPorPromotor.fechaasignacion}}
                                                     </td>
-                                                    <td><button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatCadena(cat.idcadena)" [disabled]="noPermitido">Borrar</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
+                                                    <td>
+                                                        {{rutaPorPromotor.estatus}}
+                                                    </td>
+                                                    <td>
+                                                        <button mat-raised-button type="button"
+                                                            class="btn btn-warning pull-right"
+                                                            (click)="setSelectedTab1(1);selectRutaPromotor(rutaPorPromotor)">Asignar
+                                                            dias</button>
+                                                    </td>
+                                                    <td>
+                                                        <button mat-raised-button type="button"
+                                                            class="btn btn-warning pull-right"
+                                                            (click)="desasignarRutasAPromotor(rutaPorPromotor.idrutaasignada)"
+                                                            [disabled]="noPermitido">Desasignar
+                                                            ruta</button>
+                                                    </td>-->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-            </mat-tab>
-
-            <mat-tab label="Detalles Cadena">
-                <p>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title">Editar cadena</h4>
-                                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
-                            </div>
-                            <div class="card-body">
-                                <form #f="ngForm">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <mat-select [(value)]="idempresa" name="idEmpresa" [(ngModel)]="selectedCatCadena.idempresa">
-                                                    <mat-option [value]="0">--Seleccione una empresa--</mat-option>
-                                                    <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                                                        {{empresa.nombreempresa}}
-                                                    </mat-option>
-                                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Cadena" type="text" name="cadena" [(ngModel)]="selectedCatCadena.cadena">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Nombre corto" type="text" name="nombrecorto" [(ngModel)]="selectedCatCadena.nombrecorto">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatCadena.uda_c" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="udc" [(ngModel)]="selectedCatCadena.uda_c">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de actualización" type="text" name="fdc" [(ngModel)]="selectedCatCadena.fdc" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatCadena.uda" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="uda" [(ngModel)]="selectedCatCadena.uda">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de creación" type="text" name="fda" [(ngModel)]="selectedCatCadena.fda" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="ListaTiendas(selectedCatCadena.idcadena)">Lista de tiendas</button>
-                                    <div class="clearfix"></div>
-                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatCadena(f)" [disabled]="noPermitido">Guardar</button>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-            </mat-tab>
-            <mat-tab label="Tiendas por cadena">
-                <div class="row" *ngIf="selectedCatCadena.idcadena == null">
-                    <div class="col-md-12">
-                        <h6>No hay ninguna cadena seleccionada.</h6>
-                    </div>
                 </div>
-                <div class="row" *ngIf="selectedCatCadena.idcadena != null">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title ">Tiendas Asignadas a la cadena: {{selectedCatCadena.nombrecorto}}
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <mat-paginator #pag1 *ngIf="tiendasPorCadena != null" [length]="tiendasPorCadena.length" [pageSize]="paginacion1.page_size" [pageSizeOptions]="paginacion1.pageSizeOptions" (page)="paginacion1.handlePage($event)">
-                                    </mat-paginator>
-                                    <table class="table">
-                                        <thead class=" text-primary">
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Det.</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Tienda</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Direccion</th>
-                                            <!--<th style="background-color: #007A87; color: #FFFFFF;">Uda</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Fda</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Estatus</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Asignar dias</th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">Desasignar</th>-->
-                                        </thead>
-                                        <tbody *ngIf="tiendasPorCadena != null">
-                                            <tr *ngFor="let tiendas of tiendasPorCadena | paginate:paginacion1.page_size:paginacion1.page_number">
-                                                <td>
-                                                    {{tiendas.determinante}}
-                                                </td>
-                                                <td>
-                                                    {{tiendas.Tienda1}}
-                                                </td>
-                                                <td>
-                                                    {{tiendas.Direccion}}
-                                                </td>
-                                                <!--<td>
-                                                    {{rutaPorPromotor.uda}}
-                                                </td>
-                                                <td>
-                                                    {{rutaPorPromotor.fechaasignacion}}
-                                                </td>
-                                                <td>
-                                                    {{rutaPorPromotor.estatus}}
-                                                </td>
-                                                <td>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-warning pull-right"
-                                                        (click)="setSelectedTab1(1);selectRutaPromotor(rutaPorPromotor)">Asignar
-                                                        dias</button>
-                                                </td>
-                                                <td>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-warning pull-right"
-                                                        (click)="desasignarRutasAPromotor(rutaPorPromotor.idrutaasignada)"
-                                                        [disabled]="noPermitido">Desasignar
-                                                        ruta</button>
-                                                </td>-->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
+            </div>
+        </div>
     </div>
-</div>

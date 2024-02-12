@@ -10,6 +10,8 @@ import { Paginacion } from '../Objetos/paginacion';
 import { ExportarExcelService } from '../Servicios/exportar-excel.service';
 import { MatPaginator } from '@angular/material';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-cadena',
   templateUrl: './cat-cadena.component.html',
@@ -27,7 +29,7 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
   cad: catcadena[];
   empresas: CatEmpresa[];
   tiendasPorCadena: any[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   noPermitido = true;
   cadena: string;
   //selectedCatCadena: catcadena = { idcadena: null, idempresa: null, cadena: null, uda: null, uda_c: null, fda: null, udc: null, fdc: null, idestatus: null, estatus: null, btn_estilo: null, nombreempresa: null };
@@ -51,6 +53,7 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
     this.exportarExcel.nombreArchivo = "cadenas";
     this.cadcadenaservice.getcadenaservicios(this.idempresa).subscribe((gpocadena: catcadena[]) => {
       this.cad = gpocadena;
+      $('#bloqueador_cadena').hide();
       // console.log("lista de cadenas, ", this.cad);
     });
     this.catempresaService.getCatEmpresa(this.idempresa).subscribe((gempresa: CatEmpresa[]) => {
@@ -60,6 +63,7 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    $('#bloqueador_cadena').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -162,6 +166,7 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
     }
     this.cadcadenaservice.getcadenaserviciosPorCadena(cadena, orden).subscribe((gpocadena: catcadena[]) => {
       this.cad = gpocadena;
+      $('#bloqueador_cadena').hide();
       // console.log("lista de cadenas, ", this.cad);
     });
   }
@@ -182,8 +187,8 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {
@@ -226,13 +231,17 @@ export class CatCadenaComponent implements OnInit, AfterViewInit {
   }
 
   ListaTiendas(id: number) {
-    this.setSelectedTab(2);
+    this.setSelectedTab('tiendas_por_cadena');
     if (this.pag1 != null) {
       this.paginacion1.page_number = 0;
       this.pag1.firstPage();
     }
+
+    $('#bloqueador_cadena').show();
+
     this.cadcadenaservice.getTiendasPorCadena(id).subscribe((gTiendasPorCadena: any[]) => {
       this.tiendasPorCadena = gTiendasPorCadena;
+      $('#bloqueador_cadena').hide();
       // console.log("Lista de tiendas por cadena, ", this.tiendasPorCadena);
     });
   }

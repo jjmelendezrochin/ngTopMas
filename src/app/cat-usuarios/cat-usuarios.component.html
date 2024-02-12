@@ -2,204 +2,290 @@
     <div class="col-md-12">
         <br>
         <br>
-        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected" (selectedIndexChange)=" tabClick($event)">
-            <mat-tab label="Lista de Usuarios">
-                <p>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Buscar usuario" (keyup)="changeText($event)">
+
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_usuarios"
+                                    data-toggle="tab">Lista de Usuarios<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_usuario"
+                                    data-toggle="tab">Detalles del Usuario<div class="ripple-container"></div></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_usuarios">
+                        <!-- Here is the content -->
+                        <p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group no-border">
+                                    <input type="text" value="" class="form-control" placeholder="Buscar usuario"
+                                        (keyup)="changeText($event)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                        search
+                                    </i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-3">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                    (click)="selectNewCatUsuario();setSelectedTab('detalles_usuario')">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Nuevo">
+                                        person_add
+                                    </i>
+                                </a>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
-                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                search
-                            </i>
-                            </a>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Catalogo de usuarios</h4>
+                                        <p class="card-category"> Aqui se muestra todos los usuarios disponibles</p>
+                                        <br>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <a *ngIf="usuarios != null" class="btn btn-warnig pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(usuarios, encabezados)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+                                            <div class="clearfix"></div>
 
-                        <div class="col-md-3">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="selectNewCatUsuario();setSelectedTab(1)">
-                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Nuevo">
-                                person_add
-                            </i>
-                            </a>
+                                            <mat-paginator #paginator *ngIf="usuarios != null"
+                                                [length]="usuarios.length" [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+
+                                            <table #tabla_usuarios class="table">
+                                                <thead>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        ID
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Usuario
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Perfil
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Uda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Udc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fdc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Editar
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="usuarios != null">
+                                                    <tr
+                                                        *ngFor="let usuario of usuarios | paginate:paginacion.page_size:paginacion.page_number">
+                                                        <td>{{ usuario.idUsuario }}</td>
+                                                        <td>{{ usuario.usuario }}</td>
+                                                        <td>{{ usuario.perfil }}</td>
+                                                        <td>{{ usuario.uda }}</td>
+                                                        <td>{{ usuario.fda_m }}</td>
+                                                        <td>{{ usuario.udc }}</td>
+                                                        <td>{{ usuario.fdc_m }}</td>
+                                                        <td style="text-align:center">
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-info pull-right"
+                                                                (click)="selectCatUsuario(usuario);setSelectedTab('detalles_usuario')">Editar</button>
+                                                        </td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatUsuario(usuario.idUsuario)"
+                                                                [disabled]="noPermitido">Borrar</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Inicia bloqueador mientras procesa-->
+                                <div id="bloqueador_usuarios" class="row" style="
+                            position: absolute;
+                            width: 100%;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                          ">
+                                    <div class="col" style="
+                              background-color: rgba(10, 9, 9, 0.062);
+                              z-index: 1;
+                              display: flex;
+                              align-items: center;
+                            ">
+                                        <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                            strokeWidth="10">
+                                        </mat-progress-spinner>
+                                        <div style="
+                                position: absolute;
+                                left: calc((100% / 2) - 4%);
+                                margin: 0 auto;
+                                color: blue;
+                              ">
+                                            Cargando...
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin bloqueador mientras procesa -->
+
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row">
+                    <div class="tab-pane active" id="detalles_usuario">
+                        <!-- Here is the content -->
+                        <p>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-info">
-                                    <h4 class="card-title ">Catalogo de usuarios</h4>
-                                    <p class="card-category"> Aqui se muestra todos los usuarios disponibles</p>
-                                    <br>
+                                    <h4 class="card-title">Editar usuario</h4>
+                                    <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <a *ngIf="usuarios != null" class="btn btn-warnig pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(usuarios, encabezados)">
-                                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                        </a>
-                                        <div class="clearfix"></div>
-
-                                        <mat-paginator #paginator *ngIf="usuarios != null" [length]="usuarios.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
-                                        </mat-paginator>
-
-                                        <table #tabla_usuarios class="table">
-                                            <thead>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    ID
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Usuario
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Perfil
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Uda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Udc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fdc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Editar
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Eliminar
-                                                </th>
-                                            </thead>
-                                            <tbody *ngIf="usuarios != null">
-                                                <tr *ngFor="let usuario of usuarios | paginate:paginacion.page_size:paginacion.page_number">
-                                                    <td>{{ usuario.idUsuario }}</td>
-                                                    <td>{{ usuario.usuario }}</td>
-                                                    <td>{{ usuario.perfil }}</td>
-                                                    <td>{{ usuario.uda }}</td>
-                                                    <td>{{ usuario.fda_m }}</td>
-                                                    <td>{{ usuario.udc }}</td>
-                                                    <td>{{ usuario.fdc_m }}</td>
-                                                    <td style="text-align:center">
-                                                        <button mat-raised-button type="button" class="btn btn-info pull-right" (click)="selectCatUsuario(usuario);setSelectedTab(1)">Editar</button>
-                                                    </td>
-                                                    <td><button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatUsuario(usuario.idUsuario)" [disabled]="noPermitido">Borrar</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </mat-tab>
-
-            <mat-tab label="Detalles del Usuario">
-                <p>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title">Editar usuario</h4>
-                                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
-                            </div>
-                            <div class="card-body">
-                                <form #f="ngForm">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="ID" type="text" name="idUsuario" [(ngModel)]="selectedCatUsuario.idUsuario" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario" type="text" name="usuario" [(ngModel)]="selectedCatUsuario.usuario">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Clave" type="password" name="clave" id="CLAVE" [(ngModel)]="selectedCatUsuario.clave">
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Repetir Clave" type="password" name="clave1" [(ngModel)]="selectedCatUsuario.clave">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <mat-label>Perfil</mat-label>
-                                                <mat-select [(value)]="idperfil" name="idperfil" [(ngModel)]="selectedCatUsuario.idperfil" (selectionChange)="verificaPerfilSeleccionado(selectedCatUsuario.idperfil)">
-                                                    <mat-option [value]="0">--Seleccione un perfil--</mat-option>
-                                                    <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idperfil">
-                                                        {{perfil.perfil}}
-                                                    </mat-option>
-                                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div *ngIf="lista_empresas_visible == true">
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <mat-form-field class="example-full-width">
-                                                    <mat-label>Cliente</mat-label>
-                                                    <mat-select [(value)]="idempresa" name="idEmpresa" [(ngModel)]="selectedCatUsuario.idempresa">
-                                                        <mat-option [value]="0">--Seleccione un cliente--</mat-option>
-                                                        <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                                                            {{empresa.nombreempresa}}
+                                                    <input matInput placeholder="ID" type="text" name="idUsuario"
+                                                        [(ngModel)]="selectedCatUsuario.idUsuario" readonly disabled>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario" type="text" name="usuario"
+                                                        [(ngModel)]="selectedCatUsuario.usuario">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Clave" type="password" name="clave"
+                                                        id="CLAVE" [(ngModel)]="selectedCatUsuario.clave">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Repetir Clave" type="password"
+                                                        name="clave1" [(ngModel)]="selectedCatUsuario.clave">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Perfil</mat-label>
+                                                    <mat-select [(value)]="idperfil" name="idperfil"
+                                                        [(ngModel)]="selectedCatUsuario.idperfil"
+                                                        (selectionChange)="verificaPerfilSeleccionado(selectedCatUsuario.idperfil)">
+                                                        <mat-option [value]="0">--Seleccione un perfil--</mat-option>
+                                                        <mat-option *ngFor="let perfil of perfiles"
+                                                            [value]="perfil.idperfil">
+                                                            {{perfil.perfil}}
                                                         </mat-option>
                                                         <!--Seccion para cargar datos desde el catalogo de empresa-->
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div *ngIf="lista_empresas_visible == true">
+                                                    <mat-form-field class="example-full-width">
+                                                        <mat-label>Cliente</mat-label>
+                                                        <mat-select [(value)]="idempresa" name="idEmpresa"
+                                                            [(ngModel)]="selectedCatUsuario.idempresa">
+                                                            <mat-option [value]="0">--Seleccione un
+                                                                cliente--</mat-option>
+                                                            <mat-option *ngFor="let empresa of empresas"
+                                                                [value]="empresa.idEmpresa">
+                                                                {{empresa.nombreempresa}}
+                                                            </mat-option>
+                                                            <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatUsuario.uda_c" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="udc" [(ngModel)]="selectedCatUsuario.uda_c">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatUsuario.uda_c" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc" [(ngModel)]="selectedCatUsuario.uda_c">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc" [(ngModel)]="selectedCatUsuario.fdc_m" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de actualización" type="text" name="fdc" [(ngModel)]="selectedCatUsuario.fdc_m" readonly disabled>
-                                            </mat-form-field>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatUsuario.uda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatUsuario.uda">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda" [(ngModel)]="selectedCatUsuario.fda_m" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatUsuario.uda" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="uda" [(ngModel)]="selectedCatUsuario.uda">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de creación" type="text" name="fda" [(ngModel)]="selectedCatUsuario.fda_m" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatUsuario(f)" [disabled]="noPermitido">Guardar</button>
-                                    <div class="clearfix"></div>
-                                </form>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatUsuario(f)"
+                                            [disabled]="noPermitido">Guardar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-            </mat-tab>
-        </mat-tab-group>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

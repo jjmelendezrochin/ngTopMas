@@ -48,7 +48,7 @@ export class CatProductosComponent implements OnInit {
   prod: CatProductos[];
   cadenas: catcadena[];
   empresas: CatEmpresa[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   idcadena = 0;
   noPermitido = true;
   cadena: string;
@@ -100,10 +100,11 @@ export class CatProductosComponent implements OnInit {
     if (this.usr.idperfil == 1) {
       this.noPermitido = false;
     }
-    console.log ("empresa " + this.idempresa);
+    console.log("empresa " + this.idempresa);
     this.exportarExcel.nombreArchivo = "productos";
-    this.productosService.getCatProductosServicio(this.idempresa,0, "", "", "").subscribe((gproductos: CatProductos[]) => {
+    this.productosService.getCatProductosServicio(this.idempresa, 0, "", "", "").subscribe((gproductos: CatProductos[]) => {
       this.prod = gproductos;
+      $('#bloqueador_productos').hide();
       /* Obtiene el valueStorage solamente si el motivo del recargado de la pagina fue debido a la actualizacion 
       de la imagen de algun producto */
       this.valueStorage = window.localStorage.getItem("json_producto");
@@ -147,6 +148,7 @@ export class CatProductosComponent implements OnInit {
     //   this.paginacion2.page_number = 0;
     //   this.pag2.firstPage();
     // }    
+    $('#bloqueador_productos').show();
 
     /* Verifica que el motivo de recarga sea solo por cambio de imagen en algun producto*/
     if (window.localStorage.getItem("json_producto") != null) {
@@ -268,9 +270,11 @@ export class CatProductosComponent implements OnInit {
 
   findCatProductos(form) {
     this.form = form;
+    $('#bloqueador_productos').show();
     console.log(`idcadena: ${form.value.idcadena}, producto: ${form.value.PRODUCTO}, categoria: ${form.value.CATEGORIA}, upc: ${form.value.UPC}`);
     this.productosService.getCatProductosServicio(this.idempresa, form.value.idcadena, form.value.PRODUCTO, form.value.CATEGORIA, form.value.UPC).subscribe((gproductos: CatProductos[]) => {
       this.prod = gproductos;
+      $('#bloqueador_productos').hide();
       // console.log("lista de productos, ", this.prod);
     });
   }
@@ -284,8 +288,8 @@ export class CatProductosComponent implements OnInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {

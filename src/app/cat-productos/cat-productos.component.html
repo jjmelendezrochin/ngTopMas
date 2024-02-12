@@ -2,337 +2,447 @@
     <div class="col-md-12">
         <br />
         <br />
-        <mat-tab-group style="margin-left: 50px; width: 94%;" [selectedIndex]="selected" (selectedIndexChange)="tabClick($event)">
-            <br />
-            <mat-tab label="Lista de productos">
-                <br />
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h5 class="card-title">Busqueda de productos</h5>
-                            </div>
-                            <div class="card-body">
-                                <form #prodf="ngForm">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <mat-form-field style="width: 250px;">
-                                                <input matInput type="text" name="UPC" placeholder="Filtrado por UPC" [(ngModel)]="filtradoProductos.UPC" />
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <mat-form-field style="width: 250px;">
-                                                <input matInput type="text" name="PRODUCTO" placeholder="Filtrado por producto" [(ngModel)]="filtradoProductos.PRODUCTO" />
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field style="width: 250px;">
-                                                <input matInput type="text" name="CATEGORIA" placeholder="Filtrado por categoría" [(ngModel)]="filtradoProductos.CATEGORIA" />
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="selectNewCatProductos(); setSelectedTab(1)">
-                                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Nuevo Producto">
-                                                    create_new_folder
-                                                </i>
-                                            </a>
-
-                                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="findCatProductos(prodf)">
-                                                <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Buscar Producto">
-                                                    search
-                                                </i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_productos"
+                                    data-toggle="tab">Lista de productos<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_producto"
+                                    data-toggle="tab">Detalles del producto<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#precios"
+                                    data-toggle="tab">Precios<div class="ripple-container"></div></a></li>
+                        </ul>
                     </div>
                 </div>
+            </div>
 
-                <!-- ************************************* -->
-                <!-- Lista del productos -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title">Catalogo de productos</h4>
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_productos">
+                        <!-- Here is the content -->
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h5 class="card-title">Busqueda de productos</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form #prodf="ngForm">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <mat-form-field style="width: 250px;">
+                                                        <input matInput type="text" name="UPC"
+                                                            placeholder="Filtrado por UPC"
+                                                            [(ngModel)]="filtradoProductos.UPC" />
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <mat-form-field style="width: 250px;">
+                                                        <input matInput type="text" name="PRODUCTO"
+                                                            placeholder="Filtrado por producto"
+                                                            [(ngModel)]="filtradoProductos.PRODUCTO" />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field style="width: 250px;">
+                                                        <input matInput type="text" name="CATEGORIA"
+                                                            placeholder="Filtrado por categoría"
+                                                            [(ngModel)]="filtradoProductos.CATEGORIA" />
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                        (click)="selectNewCatProductos(); setSelectedTab('detalles_producto')">
+                                                        <i class="material-icons" style="font-size: 20px;"
+                                                            data-md-tooltip="Nuevo Producto">
+                                                            create_new_folder
+                                                        </i>
+                                                    </a>
+
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                        (click)="findCatProductos(prodf)">
+                                                        <i class="material-icons" style="font-size: 20px;"
+                                                            data-md-tooltip="Buscar Producto">
+                                                            search
+                                                        </i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <a *ngIf="prod != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="ExportarExcel()">
-                                        <i class="material-icons" style="font-size: 20px;" data-md-tooltip="Buscar Producto">
-                                            cloud_download
-                                        </i>
-                                    </a>
-                                    <div class="clearfix"></div>
-                                    <mat-paginator #pag *ngIf="prod != null" [length]="prod.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
-                                    </mat-paginator>
-                                    <table #tabla_productos class="table">
-                                        <thead class="text-primary">
-                                            <th style="background-color: #007a87; color: #ffffff;">
-                                                UPC
-                                            </th>
-                                            <th style="background-color: #007a87; color: #ffffff;">
-                                                Producto
-                                            </th>
-                                            <th style="background-color: #007a87; color: #ffffff;">
-                                                Categoría
-                                            </th>
-                                            <th style="background-color: #007a87; color: #ffffff;">
-                                                Editar
-                                            </th>
-                                            <th style="background-color: #007a87; color: #ffffff;">
-                                                Eliminar
-                                            </th>
-                                        </thead>
-                                        <tbody *ngIf="prod != null">
-                                            <tr *ngFor="
-                          let prod of prod
-                            | paginate
-                              : paginacion.page_size
-                              : paginacion.page_number
-                        ">
-                                                <td>{{ prod.upc }}</td>
-                                                <td>{{ prod.descripcion }}</td>
-                                                <td>{{ prod.categoria2 }}</td>
-                                                <td style="text-align: center;">
-                                                    <button mat-raised-button type="button" class="btn btn-warning pull-right" (click)="
-                              selectCatProductos(prod);
-                              setSelectedTab(1);
-                              ListaProductoFormatoPrecio(
-                                prod.idproducto,
-                                prod.descripcion
-                              )
-                            ">
+                        </div>
+
+                        <!-- ************************************* -->
+                        <!-- Lista del productos -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title">Catalogo de productos</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <a *ngIf="prod != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)" (click)="ExportarExcel()">
+                                                <i class="material-icons" style="font-size: 20px;"
+                                                    data-md-tooltip="Buscar Producto">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+                                            <div class="clearfix"></div>
+                                            <mat-paginator #pag *ngIf="prod != null" [length]="prod.length"
+                                                [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+                                            <table #tabla_productos class="table">
+                                                <thead class="text-primary">
+                                                    <th style="background-color: #007a87; color: #ffffff;">
+                                                        UPC
+                                                    </th>
+                                                    <th style="background-color: #007a87; color: #ffffff;">
+                                                        Producto
+                                                    </th>
+                                                    <th style="background-color: #007a87; color: #ffffff;">
+                                                        Categoría
+                                                    </th>
+                                                    <th style="background-color: #007a87; color: #ffffff;">
                                                         Editar
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatProductos(prod.idproducto)" [disabled]="noPermitido">
-                                                        Borrar
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                    </th>
+                                                    <th style="background-color: #007a87; color: #ffffff;">
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="prod != null">
+                                                    <tr *ngFor="
+                                  let prod of prod
+                                    | paginate
+                                      : paginacion.page_size
+                                      : paginacion.page_number
+                                ">
+                                                        <td>{{ prod.upc }}</td>
+                                                        <td>{{ prod.descripcion }}</td>
+                                                        <td>{{ prod.categoria2 }}</td>
+                                                        <td style="text-align: center;">
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-warning pull-right" (click)="
+                                      selectCatProductos(prod);
+                                      setSelectedTab('detalles_producto');
+                                      ListaProductoFormatoPrecio(
+                                        prod.idproducto,
+                                        prod.descripcion
+                                      )
+                                    ">
+                                                                Editar
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatProductos(prod.idproducto)"
+                                                                [disabled]="noPermitido">
+                                                                Borrar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--Inicia bloqueador mientras procesa-->
+                                <div id="bloqueador_productos" class="row" style="
+                            position: absolute;
+                            width: 100%;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                          ">
+                                    <div class="col" style="
+                              background-color: rgba(10, 9, 9, 0.062);
+                              z-index: 1;
+                              display: flex;
+                              align-items: center;
+                            ">
+                                        <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                            strokeWidth="10">
+                                        </mat-progress-spinner>
+                                        <div style="
+                                position: absolute;
+                                left: calc((100% / 2) - 4%);
+                                margin: 0 auto;
+                                color: blue;
+                              ">
+                                            Cargando...
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin bloqueador mientras procesa -->
+
                             </div>
                         </div>
                     </div>
-                </div>
-            </mat-tab>
+                    <!-- Div dinamico -->
+                    <div class="tab-pane " id="detalles_producto">
+                        <!-- Here is the content -->
+                        <br />
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-info">
+                                    <h4 class="card-title">Editar producto</h4>
+                                    <p class="card-category">
+                                        Ingrese la informaci&oacute;n solicitada.
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Upc" type="text" name="upc"
+                                                        [(ngModel)]="selectedCatProducto.upc" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Producto" type="text"
+                                                        name="descripcion"
+                                                        [(ngModel)]="selectedCatProducto.descripcion" />
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Presentación" type="text"
+                                                        name="descripcion1"
+                                                        [(ngModel)]="selectedCatProducto.descripcion1" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Cantidad caja" type="text"
+                                                        name="cantidad_caja"
+                                                        [(ngModel)]="selectedCatProducto.cantidad_caja" />
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Cantidad Kgs" type="text"
+                                                        name="cantidad_kgs"
+                                                        [(ngModel)]="selectedCatProducto.cantidad_kgs" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Empresa</mat-label>
+                                                    <mat-select [(value)]="idempresa" name="idempresa"
+                                                        [(ngModel)]="selectedCatProducto.idempresa">
+                                                        <mat-option [value]="0">--Seleccione una empresa--</mat-option>
+                                                        <mat-option *ngFor="let empresa of empresas"
+                                                            [value]="empresa.idEmpresa">
+                                                            {{ empresa.nombreempresa }}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Categoría 1" type="text"
+                                                        name="categoria1"
+                                                        [(ngModel)]="selectedCatProducto.categoria1" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Categoría 2" type="text"
+                                                        name="categoria2"
+                                                        [(ngModel)]="selectedCatProducto.categoria2" />
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatProducto.uda" readonly
+                                                        disabled />
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatProducto.uda" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda1" [(ngModel)]="selectedCatProducto.fda" readonly
+                                                        disabled />
+                                                </mat-form-field>
+                                                <input type="hidden" name="fda" [(ngModel)]="selectedCatProducto.fda" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatProducto.udc" readonly
+                                                        disabled />
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc" [(ngModel)]="selectedCatProducto.udc" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc1" [(ngModel)]="selectedCatProducto.fdc" readonly
+                                                        disabled />
+                                                </mat-form-field>
+                                                <input type="hidden" name="fdc" [(ngModel)]="selectedCatProducto.fdc" />
+                                            </div>
+                                        </div>
+                                        <div>Se debe guardar el registro antes de subir una imágen al crear un nuevo
+                                            producto
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table style="width: 200px;">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="img">Subir una imagen</label>
+                                                                <input placeholder="Seleccione una imagen" type="file"
+                                                                    id="img" name="img" accept=".png"
+                                                                    (change)="SubirImagen($event.target.files)"
+                                                                    [disabled]="noPermitido">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button *ngIf="selectedCatProducto.ruta != null"
+                                                                mat-raised-button type="submit"
+                                                                class="btn btn-warning pull-right"
+                                                                (click)="BorrarImagen()" [disabled]="noPermitido">
+                                                                Borrar Imagen
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <img src="{{ selectedCatProducto.ruta }}" width="150"
+                                                                height="150"><br>
+                                                            <div id="selecciona_imagen">{{ selectedCatProducto.ruta }}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="setSelectedTab('precios')" [disabled]="noPermitido">
+                                            Precios
+                                        </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatProductos(f)" [disabled]="noPermitido">
+                                            Guardar
+                                        </button>
 
-            <!-- ************************************* -->
-            <!-- Detalles del producto -->
-            <mat-tab label="Detalles del producto">
-                <br />
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-info">
-                            <h4 class="card-title">Editar producto</h4>
-                            <p class="card-category">
-                                Ingrese la informaci&oacute;n solicitada.
-                            </p>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="card-body">
-                            <form #f="ngForm">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Upc" type="text" name="upc" [(ngModel)]="selectedCatProducto.upc" />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Producto" type="text" name="descripcion" [(ngModel)]="selectedCatProducto.descripcion" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Presentación" type="text" name="descripcion1" [(ngModel)]="selectedCatProducto.descripcion1" />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Cantidad caja" type="text" name="cantidad_caja" [(ngModel)]="selectedCatProducto.cantidad_caja" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Cantidad Kgs" type="text" name="cantidad_kgs" [(ngModel)]="selectedCatProducto.cantidad_kgs" />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Empresa</mat-label>
-                                            <mat-select [(value)]="idempresa" name="idempresa" [(ngModel)]="selectedCatProducto.idempresa">
-                                                <mat-option [value]="0">--Seleccione una empresa--</mat-option>
-                                                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                                                    {{ empresa.nombreempresa }}
-                                                </mat-option>
-                                                <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Categoría 1" type="text" name="categoria1" [(ngModel)]="selectedCatProducto.categoria1" />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Categoría 2" type="text" name="categoria2" [(ngModel)]="selectedCatProducto.categoria2" />
-                                        </mat-form-field>
-                                    </div>
+                    </div>
+
+                    <div class="tab-pane " id="precios">
+                        <br />
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-info">
+                                    <h5 class="card-title">
+                                        Precios de producto {{ this.producto_seleccionado }} por cadena y formato
+                                    </h5>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatProducto.uda" readonly disabled />
-                                        </mat-form-field>
-                                        <input type="hidden" name="uda" [(ngModel)]="selectedCatProducto.uda" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Fecha de creación" type="text" name="fda1" [(ngModel)]="selectedCatProducto.fda" readonly disabled />
-                                        </mat-form-field>
-                                        <input type="hidden" name="fda" [(ngModel)]="selectedCatProducto.fda" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatProducto.udc" readonly disabled />
-                                        </mat-form-field>
-                                        <input type="hidden" name="udc" [(ngModel)]="selectedCatProducto.udc" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Fecha de actualización" type="text" name="fdc1" [(ngModel)]="selectedCatProducto.fdc" readonly disabled />
-                                        </mat-form-field>
-                                        <input type="hidden" name="fdc" [(ngModel)]="selectedCatProducto.fdc" />
-                                    </div>
-                                </div>
-                                <div>Se debe guardar el registro antes de subir una imágen al crear un nuevo producto</div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table style="width: 200px;">
-                                            <tr>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <label for="img">Subir una imagen</label>
-                                                        <input placeholder="Seleccione una imagen" type="file" id="img" name="img" accept=".png" (change)="SubirImagen($event.target.files)" [disabled]="noPermitido">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <button *ngIf="selectedCatProducto.ruta != null" mat-raised-button type="submit" class="btn btn-warning pull-right" (click)="BorrarImagen()" [disabled]="noPermitido">
-                                                        Borrar Imagen
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <img src="{{ selectedCatProducto.ruta }}" width="150" height="150"><br>
-                                                    <div id="selecciona_imagen">{{ selectedCatProducto.ruta }}</div>
-                                                </td>
-                                            </tr>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <mat-paginator #pag2 *ngIf="productosFormatoPrecio != null"
+                                            [length]="productosFormatoPrecio.length" [pageSize]="paginacion2.page_size"
+                                            [pageSizeOptions]="paginacion2.pageSizeOptions"
+                                            (page)="paginacion2.handlePage($event)">
+                                        </mat-paginator>
+                                        <table class="table" style="display: table;">
+                                            <thead class="text-primary">
+                                                <th style="background-color: #007a87; color: #ffffff;">
+                                                    Cadena
+                                                </th>
+                                                <th style="background-color: #007a87; color: #ffffff;">
+                                                    Formato
+                                                </th>
+                                                <th style="background-color: #007a87; color: #ffffff;" align="center">
+                                                    Precio
+                                                </th>
+                                                <th style="background-color: #007a87; color: #ffffff;">
+                                                    Guardar
+                                                </th>
+                                            </thead>
+                                            <tbody *ngIf="productosFormatoPrecio != null">
+                                                <tr *ngFor="
+                                let productosformatoprecio1 of productosFormatoPrecio
+                                  | paginate
+                                    : paginacion2.page_size
+                                    : paginacion2.page_number;
+                                let indice = index
+                              ">
+                                                    <td>
+                                                        {{ productosformatoprecio1.nombrecorto }}
+                                                    </td>
+                                                    <td>
+                                                        {{ productosformatoprecio1.formato }}
+                                                    </td>
+                                                    <td align="left">
+                                                        <mat-form-field class="example-full-width pull-left"
+                                                            style="width: 150px !important;" size="150px">
+                                                            <input matInput type="text" name="Precio"
+                                                                [(ngModel)]="productosformatoprecio1.precio"
+                                                                style="width: 50px !important;" class="pull-left"
+                                                                size="50px" id="id_{{
+                                      productosformatoprecio1.idproductoformatoprecio
+                                    }}" />
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td style="text-align: left;">
+                                                        <button mat-raised-button type="button"
+                                                            class="btn btn-warning pull-center" (click)="
+                                    EstablecePrecio(
+                                      productosformatoprecio1.idproductoformatoprecio
+                                    )
+                                  ">
+                                                            Guardar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="setSelectedTab(2)" [disabled]="noPermitido">
-                                    Precios
-                                </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatProductos(f)" [disabled]="noPermitido">
-                                    Guardar
-                                </button>
-
-                                <div class="clearfix"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-
-            <!-- ************************************* -->
-            <!-- Formato Precio -->
-            <mat-tab label="Precios">
-                <br />
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-info">
-                            <h5 class="card-title">
-                                Precios de producto {{ this.producto_seleccionado }} por cadena y formato
-                            </h5>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <mat-paginator #pag2 *ngIf="productosFormatoPrecio != null" [length]="productosFormatoPrecio.length" [pageSize]="paginacion2.page_size" [pageSizeOptions]="paginacion2.pageSizeOptions" (page)="paginacion2.handlePage($event)">
-                                </mat-paginator>
-                                <table class="table" style="display: table;">
-                                    <thead class="text-primary">
-                                        <th style="background-color: #007a87; color: #ffffff;">
-                                            Cadena
-                                        </th>
-                                        <th style="background-color: #007a87; color: #ffffff;">
-                                            Formato
-                                        </th>
-                                        <th style="background-color: #007a87; color: #ffffff;" align="center">
-                                            Precio
-                                        </th>
-                                        <th style="background-color: #007a87; color: #ffffff;">
-                                            Guardar
-                                        </th>
-                                    </thead>
-                                    <tbody *ngIf="productosFormatoPrecio != null">
-                                        <tr *ngFor="
-                        let productosformatoprecio1 of productosFormatoPrecio
-                          | paginate
-                            : paginacion2.page_size
-                            : paginacion2.page_number;
-                        let indice = index
-                      ">
-                                            <td>
-                                                {{ productosformatoprecio1.nombrecorto }}
-                                            </td>
-                                            <td>
-                                                {{ productosformatoprecio1.formato }}
-                                            </td>
-                                            <td align="left">
-                                                <mat-form-field class="example-full-width pull-left" style="width: 150px !important;" size="150px">
-                                                    <input matInput type="text" name="Precio" [(ngModel)]="productosformatoprecio1.precio" style="width: 50px !important;" class="pull-left" size="50px" id="id_{{
-                              productosformatoprecio1.idproductoformatoprecio
-                            }}" />
-                                                </mat-form-field>
-                                            </td>
-                                            <td style="text-align: left;">
-                                                <button mat-raised-button type="button" class="btn btn-warning pull-center" (click)="
-                            EstablecePrecio(
-                              productosformatoprecio1.idproductoformatoprecio
-                            )
-                          ">
-                                                    Guardar
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
+            </div>
+        </div>
     </div>
 </div>
