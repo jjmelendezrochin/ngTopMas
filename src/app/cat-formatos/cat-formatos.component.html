@@ -2,239 +2,322 @@
     <div class="col-md-12">
         <br>
         <br>
-        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected" (selectedIndexChange)=" tabClick($event)">
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_Formatos"
+                                    data-toggle="tab">Lista de Formatos<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_formato"
+                                    data-toggle="tab">Detalles del Formato<div class="ripple-container"></div></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <mat-tab label="Lista de Formatos">
-                <p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Buscar formato" (keyup)="changeText($event)">
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_Formatos">
+                        <!-- Here is the content -->
+                        <p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group no-border">
+                                    <input type="text" value="" class="form-control" placeholder="Buscar formato"
+                                        (keyup)="changeText($event)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                        search
+                                    </i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button mat-raised-button type="button" class="btn btn-info pull-right"
+                                    (click)="selectNewCatFormato();setSelectedTab('detalles_formato')">Nuevo</button>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
-                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                search
-                            </i>
-                            </a>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Catalogo de formatos</h4>
+                                        <p class="card-category"> Aqui se muestra todas los formatos disponibles</p>
+                                        <br>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+
+                                            <a *ngIf="formatos != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(formatos, encabezados)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+
+                                            <div class="clearfix"></div>
+
+                                            <mat-paginator #pag *ngIf="formatos != null" [length]="formatos.length"
+                                                [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+
+                                            <table #tabla_formatos class="table">
+                                                <thead class=" text-primary">
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Empresa
+                                                        <br>
+                                                        <!-- <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(2)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Desc">
+                                                                    arrow_drop_down
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a>
+                                                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(1)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Asc">
+                                                                    arrow_drop_up
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a> -->
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Formato
+                                                        <br>
+                                                        <!--                                               <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(4)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Desc">
+                                                                    arrow_drop_down
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a>
+                                                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(3)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Asc">
+                                                                    arrow_drop_up
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a> -->
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Cadena
+                                                        <br>
+                                                        <!-- <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(6)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Desc">
+                                                                    arrow_drop_down
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a>
+                                                            <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                                (click)="search(5)">
+                                                                <i class="material-icons" style="font-size: 20px"
+                                                                    data-md-tooltip="Orden Asc">
+                                                                    arrow_drop_up
+                                                                </i>
+                                                                <div class="ripple-container"></div>
+                                                            </a> -->
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Uda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Fda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Udc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Fdc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Estatus
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Editar
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="formatos != null">
+                                                    <tr
+                                                        *ngFor="let f of formatos | paginate:paginacion.page_size:paginacion.page_number">
+                                                        <td>{{ f.nombreempresa }}</td>
+                                                        <td>{{ f.formato }}</td>
+                                                        <td>{{ f.cadena }}</td>
+                                                        <td>{{ f.uda }}</td>
+                                                        <td>{{ f.fda_m }}</td>
+                                                        <td>{{ f.udc }}</td>
+                                                        <td>{{ f.fdc_m }}</td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn {{f.btn_estilo}} pull-right"
+                                                                (click)="selectCatFormato(f,1)"
+                                                                [disabled]="noPermitido">
+                                                                {{ f.estatus }}</button>
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-warning pull-right"
+                                                                (click)="selectCatFormato(f);setSelectedTab('detalles_formato')">Editar</button>
+                                                        </td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatFormato(f.idformato)"
+                                                                [disabled]="noPermitido">Borrar</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <button mat-raised-button type="button" class="btn btn-info pull-right" (click)="selectNewCatFormato();setSelectedTab(1)">Nuevo</button>
+                        <!--Inicia bloqueador mientras procesa-->
+                        <div id="bloqueador_formatos" class="row" style="
+position: absolute;
+width: 100%;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+">
+                            <div class="col" style="
+  background-color: rgba(10, 9, 9, 0.062);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+">
+                                <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                    strokeWidth="10">
+                                </mat-progress-spinner>
+                                <div style="
+    position: absolute;
+    left: calc((100% / 2) - 4%);
+    margin: 0 auto;
+    color: blue;
+  ">
+                                    Cargando...
+                                </div>
+                            </div>
                         </div>
+                        <!--Fin bloqueador mientras procesa -->
+
                     </div>
-
-                    <div class="row">
+                    <div class="tab-pane active" id="detalles_formato">
+                        <!-- Here is the content -->
+                        <p>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-info">
-                                    <h4 class="card-title ">Catalogo de formatos</h4>
-                                    <p class="card-category"> Aqui se muestra todas los formatos disponibles</p>
-                                    <br>
+                                    <h4 class="card-title">Editar formato</h4>
+                                    <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-
-                                        <a *ngIf="formatos != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(formatos, encabezados)">
-                                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                        </a>
-
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Empresa</mat-label>
+                                                    <mat-select [(value)]="idempresa" name="idEmpresa"
+                                                        [(ngModel)]="selectedCatFormato.idempresa">
+                                                        <mat-option [value]="0">--Seleccione una empresa--</mat-option>
+                                                        <mat-option *ngFor="let empresa of empresas"
+                                                            [value]="empresa.idEmpresa">
+                                                            {{empresa.nombreempresa}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Cadena</mat-label>
+                                                    <mat-select [(value)]="idcadena" name="idcadena"
+                                                        [(ngModel)]="selectedCatFormato.idcadena">
+                                                        <mat-option [value]="0">--Seleccione una cadena--</mat-option>
+                                                        <mat-option *ngFor="let cadena of cadenas"
+                                                            [value]="cadena.idcadena">
+                                                            {{cadena.nombrecorto}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- </div>
+                                            <div class="row"> -->
+                                            <div class="col-md-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="formato" type="text" name="formato"
+                                                        [(ngModel)]="selectedCatFormato.formato">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatFormato.uda_c" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc" [(ngModel)]="selectedCatFormato.uda_c">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc" [(ngModel)]="selectedCatFormato.fdc" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatFormato.uda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatFormato.uda">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda" [(ngModel)]="selectedCatFormato.fda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatFormato(f)"
+                                            [disabled]="noPermitido">Guardar</button>
                                         <div class="clearfix"></div>
-
-                                        <mat-paginator #pag *ngIf="formatos != null" [length]="formatos.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
-                                        </mat-paginator>
-
-                                        <table #tabla_formatos class="table">
-                                            <thead class=" text-primary">
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Empresa
-                                                    <br>
-                                                    <!-- <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(2)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Desc">
-                                                            arrow_drop_down
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(1)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Asc">
-                                                            arrow_drop_up
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a> -->
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Formato
-                                                    <br>
-                                                    <!--                                               <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(4)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Desc">
-                                                            arrow_drop_down
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(3)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Asc">
-                                                            arrow_drop_up
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a> -->
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Cadena
-                                                    <br>
-                                                    <!-- <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(6)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Desc">
-                                                            arrow_drop_down
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                        (click)="search(5)">
-                                                        <i class="material-icons" style="font-size: 20px"
-                                                            data-md-tooltip="Orden Asc">
-                                                            arrow_drop_up
-                                                        </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a> -->
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Uda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Fda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Udc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Fdc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Estatus
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Editar
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;" width='50px'>
-                                                    Eliminar
-                                                </th>
-                                            </thead>
-                                            <tbody *ngIf="formatos != null">
-                                                <tr *ngFor="let f of formatos | paginate:paginacion.page_size:paginacion.page_number">
-                                                    <td>{{ f.nombreempresa }}</td>
-                                                    <td>{{ f.formato }}</td>
-                                                    <td>{{ f.cadena }}</td>
-                                                    <td>{{ f.uda }}</td>
-                                                    <td>{{ f.fda_m }}</td>
-                                                    <td>{{ f.udc }}</td>
-                                                    <td>{{ f.fdc_m }}</td>
-                                                    <td><button mat-raised-button type="button" class="btn {{f.btn_estilo}} pull-right" (click)="selectCatFormato(f,1)" [disabled]="noPermitido">
-                                                        {{ f.estatus }}</button>
-                                                    </td>
-                                                    <td style="text-align:center">
-                                                        <button mat-raised-button type="button" class="btn btn-warning pull-right" (click)="selectCatFormato(f);setSelectedTab(1)">Editar</button>
-                                                    </td>
-                                                    <td><button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatFormato(f.idformato)" [disabled]="noPermitido">Borrar</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-            </mat-tab>
+                </div>
+            </div>
 
-            <mat-tab label="Detalles del Formato">
-                <p>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title">Editar formato</h4>
-                                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
-                            </div>
-                            <div class="card-body">
-                                <form #f="ngForm">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-full-width">
-                                                <mat-label>Empresa</mat-label>
-                                                <mat-select [(value)]="idempresa" name="idEmpresa" [(ngModel)]="selectedCatFormato.idempresa">
-                                                    <mat-option [value]="0">--Seleccione una empresa--</mat-option>
-                                                    <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                                                        {{empresa.nombreempresa}}
-                                                    </mat-option>
-                                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-full-width">
-                                                <mat-label>Cadena</mat-label>
-                                                <mat-select [(value)]="idcadena" name="idcadena" [(ngModel)]="selectedCatFormato.idcadena">
-                                                    <mat-option [value]="0">--Seleccione una cadena--</mat-option>
-                                                    <mat-option *ngFor="let cadena of cadenas" [value]="cadena.idcadena">
-                                                        {{cadena.nombrecorto}}
-                                                    </mat-option>
-                                                    <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <!-- </div>
-                                    <div class="row"> -->
-                                        <div class="col-md-3">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="formato" type="text" name="formato" [(ngModel)]="selectedCatFormato.formato">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatFormato.uda_c" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="udc" [(ngModel)]="selectedCatFormato.uda_c">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de actualización" type="text" name="fdc" [(ngModel)]="selectedCatFormato.fdc" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatFormato.uda" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="uda" [(ngModel)]="selectedCatFormato.uda">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de creación" type="text" name="fda" [(ngModel)]="selectedCatFormato.fda" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatFormato(f)" [disabled]="noPermitido">Guardar</button>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-            </mat-tab>
-        </mat-tab-group>
+        </div>
     </div>
 </div>

@@ -8,6 +8,8 @@ import { Paginacion } from 'app/Objetos/paginacion';
 import { CatZonas } from 'app/Objetos/catzonas';
 import { MatPaginator } from '@angular/material';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-zonas',
   templateUrl: './cat-zonas.component.html',
@@ -41,11 +43,15 @@ export class CatZonasComponent implements OnInit, AfterViewInit {
     this.exportarExcel.nombreArchivo = "zonas";
     this.zonasservice.getZonasservicios(/*this.idempresa*/).subscribe((gzonas: CatZonas[]) => {
       this.zonas = gzonas;
+      $('#bloqueador_zonas').hide();
       // console.log("lista de zonas, ", this.zonas);
     });
   }
 
   ngAfterViewInit() {
+
+    $('#bloqueador_zonas').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -123,12 +129,14 @@ export class CatZonasComponent implements OnInit, AfterViewInit {
   }
 
   findCatZona(cadena: string, orden: number) {
+    $('#bloqueador_zonas').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
     this.zonasservice.getzonasserviciosPorLZDesc(cadena, orden).subscribe((gzonas: CatZonas[]) => {
       this.zonas = gzonas;
+      $('#bloqueador_zonas').hide();
       // console.log("lista de zonas, ", this.zonas);
     });
   }
@@ -142,8 +150,8 @@ export class CatZonasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {

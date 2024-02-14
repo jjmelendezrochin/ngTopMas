@@ -2,199 +2,286 @@
     <div class="col-md-12">
         <br>
         <br>
-        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected" (selectedIndexChange)="tabClick($event)">
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_empresas"
+                                    data-toggle="tab">Lista de Empresas<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_empresa"
+                                    data-toggle="tab">Detalles de la Empresa<div class="ripple-container"></div></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <mat-tab label="Lista de Empresas">
-                <p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Buscar empresa" (keyup)="changeText($event)">
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_empresas">
+                        <!-- Here is the content -->
+                        <p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group no-border">
+                                    <input type="text" value="" class="form-control" placeholder="Buscar empresa"
+                                        (keyup)="changeText($event)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                        search
+                                    </i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button mat-raised-button type="button" class="btn btn-info pull-right"
+                                    (click)="selectNewCatEmpresa();setSelectedTab('detalles_empresa')">Nuevo</button>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
-                                <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                search
-                            </i>
-                            </a>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Catalogo de empresas</h4>
+                                        <p class="card-category"> Aqui se muestra todas las empresas disponibles</p>
+                                        <br>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
 
-                        <div class="col-md-4">
-                            <button mat-raised-button type="button" class="btn btn-info pull-right" (click)="selectNewCatEmpresa();setSelectedTab(1)">Nuevo</button>
+                                            <a *ngIf="empresas != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(empresas, encabezados)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+
+                                            <div class="clearfix"></div>
+
+                                            <mat-paginator #pag *ngIf="empresas != null" [length]="empresas.length"
+                                                [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+
+                                            <table #tabla_zonas class="table">
+                                                <thead class=" text-primary">
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Empresa
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(2)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(1)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <!-- <th style="background-color: #007A87; color: #FFFFFF;">
+                                                                descripci&oacute;n
+                                                            </th> -->
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Contacto
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(4)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(3)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Uda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Udc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fdc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Editar
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="empresas != null">
+                                                    <tr
+                                                        *ngFor="let empresa of empresas | paginate:paginacion.page_size:paginacion.page_number">
+                                                        <td>{{ empresa.nombreempresa }}</td>
+                                                        <!-- <td>{{ zona.descripcion }}</td> -->
+                                                        <td>{{ empresa.contacto }}</td>
+                                                        <td>{{ empresa.uda }}</td>
+                                                        <td>{{ empresa.fda_m }}</td>
+                                                        <td>{{ empresa.udc }}</td>
+                                                        <td>{{ empresa.fdc_m }}</td>
+                                                        <td style="text-align:center">
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-warning pull-right"
+                                                                (click)="selectCatEmpresa(empresa);setSelectedTab('detalles_empresa')">Editar</button>
+                                                        </td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatEmpresa(empresa.idempresa)"
+                                                                [disabled]="noPermitido">Borrar</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Inicia bloqueador mientras procesa-->
+                                <div id="bloqueador_formatos" class="row" style="
+                            position: absolute;
+                            width: 100%;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                          ">
+                                    <div class="col" style="
+                              background-color: rgba(10, 9, 9, 0.062);
+                              z-index: 1;
+                              display: flex;
+                              align-items: center;
+                            ">
+                                        <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                            strokeWidth="10">
+                                        </mat-progress-spinner>
+                                        <div style="
+                                position: absolute;
+                                left: calc((100% / 2) - 4%);
+                                margin: 0 auto;
+                                color: blue;
+                              ">
+                                            Cargando...
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin bloqueador mientras procesa -->
+
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row">
+                    <div class="tab-pane active" id="detalles_empresa">
+                        <!-- Here is the content -->
+                        <p>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-info">
-                                    <h4 class="card-title ">Catalogo de empresas</h4>
-                                    <p class="card-category"> Aqui se muestra todas las empresas disponibles</p>
-                                    <br>
+                                    <h4 class="card-title">Editar empresa</h4>
+                                    <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Empresa" type="text"
+                                                        name="nombreempresa"
+                                                        [(ngModel)]="selectedCatEmpresa.nombreempresa">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Contacto" type="text" name="contacto"
+                                                        [(ngModel)]="selectedCatEmpresa.contacto">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Alias" type="text" name="alias"
+                                                        maxlength="3" [(ngModel)]="selectedCatEmpresa.alias">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
 
-                                        <a *ngIf="empresas != null" class="btn btn-info pull-right" href="javascript:void(0)" (click)="exportarExcel.exportarExcel(empresas, encabezados)">
-                                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                        </a>
-
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatEmpresa.uda_c" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc" [(ngModel)]="selectedCatEmpresa.uda_c">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc" [(ngModel)]="selectedCatEmpresa.fdc" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatEmpresa.uda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatEmpresa.uda">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda" [(ngModel)]="selectedCatEmpresa.fda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatEmpresa(f)"
+                                            [disabled]="noPermitido">Guardar</button>
                                         <div class="clearfix"></div>
-
-                                        <mat-paginator #pag *ngIf="empresas != null" [length]="empresas.length" [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions" (page)="paginacion.handlePage($event)">
-                                        </mat-paginator>
-
-                                        <table #tabla_zonas class="table">
-                                            <thead class=" text-primary">
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Empresa
-                                                    <br>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(2)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(1)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                </th>
-                                                <!-- <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    descripci&oacute;n
-                                                </th> -->
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Contacto
-                                                    <br>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(4)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(3)">
-                                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Uda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fda
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Udc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Fdc
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Editar
-                                                </th>
-                                                <th style="background-color: #007A87; color: #FFFFFF;">
-                                                    Eliminar
-                                                </th>
-                                            </thead>
-                                            <tbody *ngIf="empresas != null">
-                                                <tr *ngFor="let empresa of empresas | paginate:paginacion.page_size:paginacion.page_number">
-                                                    <td>{{ empresa.nombreempresa }}</td>
-                                                    <!-- <td>{{ zona.descripcion }}</td> -->
-                                                    <td>{{ empresa.contacto }}</td>
-                                                    <td>{{ empresa.uda }}</td>
-                                                    <td>{{ empresa.fda_m }}</td>
-                                                    <td>{{ empresa.udc }}</td>
-                                                    <td>{{ empresa.fdc_m }}</td>
-                                                    <td style="text-align:center">
-                                                        <button mat-raised-button type="button" class="btn btn-warning pull-right" (click)="selectCatEmpresa(empresa);setSelectedTab(1)">Editar</button>
-                                                    </td>
-                                                    <td><button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="deleteCatEmpresa(empresa.idempresa)" [disabled]="noPermitido">Borrar</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-            </mat-tab>
-
-            <mat-tab label="Detalles de la Empresa">
-                <p>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title">Editar empresa</h4>
-                                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
-                            </div>
-                            <div class="card-body">
-                                <form #f="ngForm">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Empresa" type="text" name="nombreempresa" [(ngModel)]="selectedCatEmpresa.nombreempresa">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Contacto" type="text" name="contacto" [(ngModel)]="selectedCatEmpresa.contacto">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Alias" type="text" name="alias" maxlength="3" [(ngModel)]="selectedCatEmpresa.alias">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-6">
-
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de actualización" type="text" name="udc1" [(ngModel)]="selectedCatEmpresa.uda_c" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="udc" [(ngModel)]="selectedCatEmpresa.uda_c">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de actualización" type="text" name="fdc" [(ngModel)]="selectedCatEmpresa.fdc" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Usuario de creación" type="text" name="uda1" [(ngModel)]="selectedCatEmpresa.uda" readonly disabled>
-                                            </mat-form-field>
-                                            <input type="hidden" name="uda" [(ngModel)]="selectedCatEmpresa.uda">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <mat-form-field class="example-full-width">
-                                                <input matInput placeholder="Fecha de creación" type="text" name="fda" [(ngModel)]="selectedCatEmpresa.fda" readonly disabled>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <button mat-raised-button type="submit" class="btn btn-info pull-right" (click)="createOrUpdateCatEmpresa(f)" [disabled]="noPermitido">Guardar</button>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-            </mat-tab>
-
-            <!-- <mat-tab label="Configuración">
+                </div>
+            </div>
+        </div>
+        <!-- <mat-tab label="Configuración">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -237,6 +324,5 @@
                     </div>
                 </div>
             </mat-tab> -->
-        </mat-tab-group>
     </div>
 </div>

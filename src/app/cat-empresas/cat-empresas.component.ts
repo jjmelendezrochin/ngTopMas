@@ -26,7 +26,7 @@ export class CatEmpresasComponent implements OnInit {
   noPermitido = true;
   nombre_empresa: string;
   selectedCatEmpresa: any = { idempresa: null, nombreempresa: null, contacto: null, uda: null, uda_c: null, fda: null, fda_m: null, udc: null, fdc: null, fdc_m: null, idestatus: null, estatus: null, alias: null };
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
 
   constructor(
     private empresasservice: CatEmpresasService,
@@ -44,6 +44,7 @@ export class CatEmpresasComponent implements OnInit {
     this.exportarExcel.nombreArchivo = "empresas";
     this.empresasservice.getEmpresasservicios(/*this.idempresa*/).subscribe((gempresas: any[]) => {
       this.empresas = gempresas;
+      $('#bloqueador_formatos').hide();
       // console.log("lista de empresas, ", this.empresas);
     });
     this.empresasservice.getConfigServicios().subscribe((gconfig: any[]) => {
@@ -54,6 +55,9 @@ export class CatEmpresasComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
+    $('#bloqueador_formatos').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -131,12 +135,16 @@ export class CatEmpresasComponent implements OnInit {
   }
 
   findCatEmpresa(nombreempresa: string, orden: number) {
+
+    $('#bloqueador_formatos').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
     this.empresasservice.getEmpresasserviciosPorNombre(nombreempresa, orden).subscribe((gempresas: any[]) => {
       this.empresas = gempresas;
+      $('#bloqueador_formatos').hide();
       // console.log("lista de empresas, ", this.empresas);
     });
   }
@@ -151,8 +159,8 @@ export class CatEmpresasComponent implements OnInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {

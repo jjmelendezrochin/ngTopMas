@@ -12,6 +12,8 @@ import { UserService } from 'app/user.service';
 import { ExportarExcelService } from 'app/Servicios/exportar-excel.service';
 import { MatPaginator } from '@angular/material';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-formatos',
   templateUrl: './cat-formatos.component.html',
@@ -28,7 +30,7 @@ export class CatFormatosComponent implements OnInit, AfterContentInit {
   formatos: CatFormatos[];
   empresas: CatEmpresa[];
   cadenas: catcadena[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   idcadena = 1;
   noPermitido = true;
   cadena: string;
@@ -54,6 +56,7 @@ export class CatFormatosComponent implements OnInit, AfterContentInit {
     this.exportarExcel.nombreArchivo = "formatos";
     this.formatoservice.getformatosservicios(this.idempresa).subscribe((gformatos: CatFormatos[]) => {
       this.formatos = gformatos;
+      $('#bloqueador_formatos').hide();
       // console.log("lista de formatos, ", this.formatos);
     });
     this.cadcadenaservice.getcadenaservicios(this.idempresa).subscribe((gpocadena: catcadena[]) => {
@@ -67,6 +70,9 @@ export class CatFormatosComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit() {
+
+    $('#bloqueador_formatos').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -163,12 +169,16 @@ export class CatFormatosComponent implements OnInit, AfterContentInit {
   }
 
   findCatFormato(cadena: string, orden: number) {
+
+    $('#bloqueador_formatos').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
     this.formatoservice.getformatosserviciosPorFormato(cadena, orden).subscribe((gpoformato: CatFormatos[]) => {
       this.formatos = gpoformato;
+      $('#bloqueador_formatos').hide();
       // console.log("lista de formatos, ", this.formatos);
     });
   }
@@ -182,8 +192,8 @@ export class CatFormatosComponent implements OnInit, AfterContentInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {

@@ -9,6 +9,8 @@ import { CatPromocionesService } from 'app/Servicios/cat-promociones.service';
 import { UserService } from 'app/user.service';
 import { ToastrService } from 'ngx-toastr';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-promociones',
   templateUrl: './cat-promociones.component.html',
@@ -29,7 +31,7 @@ export class CatPromocionesComponent implements OnInit {
   empresas: CatEmpresa[];
   formatosDisponibles: any[];
   formatosPorPromocion: any[];
-  idempresa : number = Number(localStorage.getItem('idempresa'));
+  idempresa: number = Number(localStorage.getItem('idempresa'));
   noPermitido = true;
   nombre: string;
   finicio: Date;
@@ -58,6 +60,7 @@ export class CatPromocionesComponent implements OnInit {
     this.exportarExcel.nombreArchivo = "promociones";
     this.promocionesService.getpromocionesservicios(/*this.idempresa*/).subscribe((gpromociones: any[]) => {
       this.promociones = gpromociones;
+      $('#bloqueador_promociones').hide();
       /* Obtiene el valueStorage solamente si el motivo del recargado de la pagina fue debido a la actualizacion 
      de la imagen de algun producto */
       this.valueStorage = window.localStorage.getItem("json_promocion");
@@ -70,6 +73,7 @@ export class CatPromocionesComponent implements OnInit {
           this.selectCatPromocion(this.json.promocion); //Selecciona la promocion guardado 
           this.setSelectedTab(this.json.tab);//Se posiciona en la pestaña de detalle de promociones
           console.log(this.json);
+          $('#bloqueador_promociones').hide();
         } catch (err) { }
 
         /* Elimina de la cache el valueStorage */
@@ -84,6 +88,9 @@ export class CatPromocionesComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
+    $('#bloqueador_promociones').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -218,12 +225,14 @@ export class CatPromocionesComponent implements OnInit {
   }
 
   findCatPromocion(nombre: string, orden: number) {
+    $('#bloqueador_promociones').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
     this.promocionesService.getpromocionesserviciosPorNombre(this.idempresa, nombre, orden).subscribe((gpromociones: any[]) => {
       this.promociones = gpromociones;
+      $('#bloqueador_promociones').hide();
       console.log("lista de promociones, ", this.promociones);
     });
   }
@@ -261,8 +270,8 @@ export class CatPromocionesComponent implements OnInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   setAsignaFormatos(selectedformato: any) {
@@ -343,7 +352,7 @@ export class CatPromocionesComponent implements OnInit {
   }
 
   ListaFormatos(id: number) {
-    this.setSelectedTab(2);
+    this.setSelectedTab('formatos_por_promocion');
     if (this.pag1 != null) {
       this.paginacion1.page_number = 0;
       this.pag1.firstPage();
@@ -386,7 +395,7 @@ export class CatPromocionesComponent implements OnInit {
             mediante la instruccion de la linea 348: (window.location.reload()) para que despues se pueda volver
             donde en la parte donde se quedo 
             */
-            window.localStorage.setItem("json_promocion", `{"promocion":${this.toJSON()},"tab":"${this.selected}"}`);
+            window.localStorage.setItem("json_promocion", `{"promocion":${this.toJSON()},"tab":"formatos_por_promocion"}`);
             window.location.reload();
           }, 1000);
           console.log(imagen);

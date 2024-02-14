@@ -15,6 +15,8 @@ import { MatPaginator } from '@angular/material';
 import { CargaImagenService } from '../Servicios/carga-imagen-service.service.service';
 import { environment } from 'environments/environment.prod';
 
+declare var $: any;
+
 /*Interface declarada en maps*/
 interface Marker {
   lat: number;
@@ -83,6 +85,10 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    $('#bloqueador_lista_precios').show();
+    $('#bloqueador_productos').hide();
+
     //    this.idempresa=1;
     if (this.usr.idperfil == 1) {
       this.noPermitido = false;
@@ -94,6 +100,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
           this.selectCatRutas(grutas[0]);
           this.setSelectedTab(parseInt(localStorage.getItem("tab")));
         });
+        $('#bloqueador_lista_precios').hide();
       }
       //this.rutas = grutas;
       this.rutas = grutas;
@@ -101,6 +108,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
       this.mapas.CatRutas(this.maps, this.rutasservice);
       this.mapas.iniciarGMaps_CatRutas();
       this.maps.nativeElement.style.display = "none";
+      $('#bloqueador_lista_precios').hide();
       // console.log("lista de rutas, ", this.rutas);
     });
 
@@ -255,8 +263,9 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
     this.producto_seleccionado = pproducto;
     this.rutasservice.getProductosTiendaPreciosFecha(pidproducto, pidruta).subscribe((gprodtiendapreciosfecha: any[]) => {
       this.productosTiendaFechaPrecio = gprodtiendapreciosfecha;
+      $('#bloqueador_productos').hide();
       // console.log("lista de productos asignados a la tienda, ", this.productosTiendaFechaPrecio);
-    });
+    }, () => { $('#bloqueador_productos').hide(); }, () => { $('#bloqueador_productos').hide(); });
   }
 
   selectUbicacion() {
@@ -291,6 +300,8 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
   }
 
   findCatRutas(Tienda_dir: string, orden: number) {
+    $('#bloqueador_lista_precios').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -309,11 +320,15 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
     }
     this.rutasservice.getrutasserviciosPorTiendaODireccion(Tienda_dir, orden).subscribe((grutas: CatRutas[]) => {
       this.rutas = grutas;
+      $('#bloqueador_lista_precios').hide();
       //console.log("lista de rutas, ", this.rutas);
     });
   }
 
   findCatProducto(producto: string) {
+
+    $('#bloqueador_productos').show();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -341,7 +356,14 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
           document.getElementById("ra").removeAttribute("style");
         }
       }
+
+      $('#bloqueador_productos').hide();
+
       // console.log("lista de productos, ", this.productos_disponibles);
+    }, () => {
+      $('#bloqueador_productos').hide();
+    }, () => {
+      $('#bloqueador_productos').hide();
     });
   }
 
@@ -356,7 +378,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
           positionClass: 'toast-bottom-center'
         });
       } else {
-        localStorage.setItem("tab", "2");
+        localStorage.setItem("tab", "lista_productos");
         localStorage.setItem("idruta", this.selectedCatRutas.idruta.toString());
       }
         return 2;
@@ -364,8 +386,8 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   tabClick(clickEvent: any) {

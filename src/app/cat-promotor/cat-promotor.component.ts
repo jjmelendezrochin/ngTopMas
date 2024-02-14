@@ -100,6 +100,8 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     $('#bloqueador_cat_promotor').show();
+    $('#bloqueador_asigna_rutas').hide();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -374,6 +376,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
   }
 
   findCatPromotor(campos: string, dia: number, orden: number, idempresa: number) {
+    $('#bloqueador_cat_promotor').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -381,11 +384,13 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
     console.log('idEmpresa ', this.idempresa);
     this.promservice.getpromotorserviciosPorNombreOApellidos(campos, dia, orden, idempresa).subscribe((gprom: CatPromotor[]) => {
       this.prom = gprom;
+      $('#bloqueador_cat_promotor').hide();
       // console.log("lista de promotores, ", this.prom);
     });
   }
 
   findCatRuta(cadena: string) {
+    $('#bloqueador_asigna_rutas').show();
     if (this.pag1 != null) {
       this.paginacion1.page_number = 0;
       this.pag1.firstPage();
@@ -397,6 +402,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
       } else {
         document.getElementById("ra").removeAttribute("style");
       }
+      $('#bloqueador_asigna_rutas').hide();
       // console.log("lista de rutas, ", this.rutas);
     });
   }
@@ -412,7 +418,7 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
           positionClass: 'toast-bottom-center'
         });
       } else {
-        localStorage.setItem("tab", "2");
+        localStorage.setItem("tab", "asignacion_rutas");
         localStorage.setItem("idpromotor", this.selectedCatPromotor.idpromotor.toString());
       }
         return 2;
@@ -428,12 +434,12 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
-  setSelectedTab1(index) {
-    this.selected1 = index;
+  setSelectedTab1(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   setAsignaRutas(selectedruta: catcadenaJoinCatRutas) {
