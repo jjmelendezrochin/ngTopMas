@@ -16,6 +16,8 @@ import { CatZonas } from 'app/Objetos/catzonas';
 import { CatUsohorarioService } from 'app/Servicios/cat-usohorario.service';
 import { MatPaginator } from '@angular/material';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cat-supervisor',
   templateUrl: './cat-supervisor.component.html',
@@ -73,14 +75,16 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
     this.exportarExcel.nombreArchivo = "supervisores";
     this.supervisorservice.getsupervisorservicios(this.idempresa).subscribe((gsup: CatSupervisor[]) => {
       this.supervisores = gsup;
+      $('#bloqueador_supervisores').hide();
       // console.log("lista de supervisores, ", this.supervisores);
     });
     this.catempresaService.getCatEmpresa(this.idempresa).subscribe((gempresa: CatEmpresa[]) => {
       this.empresas = gempresa;
       if (localStorage.getItem("tab") != null && localStorage.getItem("idpromotor") != null) {
         this.supervisorservice.getsupervisorPorIdServicios(parseInt(localStorage.getItem("idpromotor"))).subscribe((gsup: CatSupervisor[]) => {
+          $('#bloqueador_supervisores').hide();
           this.selectCatSupervisor(gsup[0]);
-          this.setSelectedTab(parseInt(localStorage.getItem("tab")));
+          this.setSelectedTab(localStorage.getItem("tab"));
         });
       }
       // console.log("lista de empresas, ", this.empresas);
@@ -100,6 +104,10 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
+    $('#bloqueador_supervisores').show();
+    $('#bloqueador_asignacion_promotores').hide();
+
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
@@ -249,17 +257,20 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
   }
 
   findCatSupervisor(campos: string, orden: number) {
+    $('#bloqueador_supervisores').show();
     if (this.pag != null) {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
     this.supervisorservice.getsupervisorserviciosPorNombreOApellidos(campos, orden, this.idempresa).subscribe((gsup: CatSupervisor[]) => {
       this.supervisores = gsup;
+      $('#bloqueador_supervisores').hide();
       // console.log("lista de supervisores, ", this.supervisores);
     });
   }
 
   findCatPromotor(cadena: string) {
+    $('#bloqueador_asignacion_promotores').show();
     if (this.pag1 != null) {
       this.paginacion1.page_number = 0;
       this.pag1.firstPage();
@@ -271,6 +282,8 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
       } else {
         document.getElementById("ra").removeAttribute("style");
       }
+
+      $('#bloqueador_asignacion_promotores').hide();
       // console.log("lista de promotores asignados, ", this.promotoresPorSupervisorD);
     });
   }
@@ -286,7 +299,7 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
           positionClass: 'toast-bottom-center'
         });
       } else {
-        localStorage.setItem("tab", "2");
+        localStorage.setItem("tab", "asignacion_de_promotores");
         localStorage.setItem("idpromotor", this.selectedCatSupervisor.idpromotor.toString());
       }
         return 2;
@@ -294,8 +307,8 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   setAsignaPromotores(selectedpromotor: PromotoresAsignadosASupervisor) {
@@ -352,8 +365,10 @@ export class CatSupervisorComponent implements OnInit, AfterViewInit {
   }
 
   search1(orden: number) {
+    $('#bloqueador_asignacion_promotores').show();
     this.supervisorservice.getSupervisoresPromotoresServicios(orden).subscribe((gsupervisorespromotores: any[]) => {
       this.supervisores_promotores = gsupervisorespromotores;
+      $('#bloqueador_asignacion_promotores').hide();
       // console.log("lista de supervisores y promotores, ", this.supervisores_promotores);
     });
   }

@@ -2,592 +2,728 @@
     <div class="col-md-12">
         <br>
         <br>
-        <mat-tab-group style="margin-left: 50px;width: 94%" [selectedIndex]="selected"
-            (selectedIndexChange)=" tabClick($event)">
-
-            <mat-tab label="Lista de Supervisores">
-                <br>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="input-group no-border">
-                            <input type="text" value="" class="form-control" placeholder="Buscar supervisor"
-                                (keyup)="changeText($event)">
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                    </div>
-
-                    <div class="col-md-3">
-                        <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
-                            <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                search
-                            </i>
-                        </a>
-                    </div>
-
-                    <div class="col-md-3">
-                        <button mat-raised-button type="button" class="btn btn-info pull-right"
-                            (click)="selectNewCatSupervisor();setSelectedTab(1);selectCatSupervisor(selectedCatSupervisor);">Nuevo</button>
+        <div scroll-here class="card">
+            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item active"><a mat-button class="nav-link active" href="#lista_supervisores"
+                                    data-toggle="tab">Lista de Supervisores<div class="ripple-container"></div></a></li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#detalles_supervisor"
+                                    data-toggle="tab">Detalles del supervisor<div class="ripple-container"></div></a>
+                            </li>
+                            <li class="nav-item "><a mat-button class="nav-link " href="#asignacion_de_promotores"
+                                    data-toggle="tab">Asignacion de promotores<div class="ripple-container"></div></a>
+                            </li>
+                            <li class="nav-item "><a mat-button class="nav-link "
+                                    href="#lista_supervisores_y_promotores" data-toggle="tab">Lista de Supervisores y
+                                    promotores<div class="ripple-container"></div></a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title ">Catalogo de supervisores</h4>
-                                <p class="card-category"> Aqui se muestra todos los supervisores disponibles</p>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
+            </div>
 
-                                    <a *ngIf="supervisores != null" class="btn btn-info pull-right"
-                                        href="javascript:void(0)"
-                                        (click)="exportarExcel.exportarExcel(supervisores, encabezados)">
-                                        <i class="material-icons" style="font-size: 20px"
-                                            data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                    </a>
-
-                                    <div class="clearfix"></div>
-
-                                    <mat-paginator #pag *ngIf="supervisores != null" [length]="supervisores.length"
-                                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
-                                        (page)="paginacion.handlePage($event)">
-                                    </mat-paginator>
-
-                                    <table class="table">
-                                        <thead class=" text-info">
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Empresa
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(2)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(1)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Nombre
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(4)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(3)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Apellidos
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(6)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(5)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Usuario
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(8)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(7)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Zona
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(10)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search(9)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Uda
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Fda
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Udc
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Fdc
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Estatus
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Editar
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Eliminar
-                                            </th>
-                                        </thead>
-                                        <tbody *ngIf="supervisores != null">
-                                            <tr
-                                                *ngFor="let supervisor of supervisores | paginate:paginacion.page_size:paginacion.page_number">
-                                                <td>{{ supervisor.nombreempresa }}</td>
-                                                <td>{{ supervisor.nombre }}</td>
-                                                <td>{{ supervisor.apellidos }}</td>
-                                                <td>{{ supervisor.idusuario }}</td>
-                                                <td>{{ supervisor.zona }}</td>
-                                                <td>{{ supervisor.uda }}</td>
-                                                <td>{{ supervisor.fda_m }}</td>
-                                                <td>{{ supervisor.udc }}</td>
-                                                <td>{{ supervisor.fdc_m }}</td>
-                                                <td><button mat-raised-button type="button"
-                                                        class="btn {{supervisor.btn_estilo}} pull-right"
-                                                        (click)="selectCatSupervisor(supervisor,1)"
-                                                        [disabled]="noPermitido">
-                                                        {{ supervisor.estatus_btn }}</button>
-                                                </td>
-                                                <td>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-warning pull-right"
-                                                        (click)="selectCatSupervisor(supervisor);setSelectedTab(1)">Editar</button>
-                                                </td>
-                                                <td><button mat-raised-button type="button"
-                                                        class="btn btn-danger pull-right"
-                                                        (click)="deleteCatSupervisor(supervisor.idpromotor)"
-                                                        [disabled]="noPermitido">Borrar</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-
-            <mat-tab label="Detalles del supervisor">
-                <br>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-info">
-                            <h4 class="card-title">Editar supervisor</h4>
-                            <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
-                        </div>
-                        <div class="card-body">
-                            <form #f="ngForm">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Empresa</mat-label>
-                                            <mat-select [(value)]="idempresa" name="idEmpresa"
-                                                [(ngModel)]="selectedCatSupervisor.idempresa">
-                                                <mat-option [value]="0">--Seleccione una empresa--</mat-option>
-                                                <mat-option *ngFor="let empresa of empresas"
-                                                    [value]="empresa.idEmpresa">
-                                                    {{empresa.nombreempresa}}
-                                                </mat-option>
-                                                <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <!--Campos temporalmente ocultos-->
-                                        <div style="display: none;">
-                                            <mat-form-field class="example-full-width" style="display: none">
-                                                <input matInput placeholder="Supervisor" type="text" name="idsupervisor"
-                                                    [(ngModel)]="selectedCatSupervisor.idsupervisor"
-                                                    style="display: none">
-                                            </mat-form-field>
-                                            <mat-form-field class="example-full-width" style="display: none">
-                                                <input matInput placeholder="Rol" type="text" name="rol"
-                                                    [(ngModel)]="selectedCatSupervisor.rol" style="display: none">
-                                            </mat-form-field>
-                                            <mat-form-field class="example-full-width" style="display: none">
-                                                <input matInput placeholder="Estatus" type="text" name="estatus"
-                                                    [(ngModel)]="selectedCatSupervisor.estatus" style="display: none">
-                                            </mat-form-field>
-                                            <mat-form-field class="example-full-width" style="display: none">
-                                                <input matInput placeholder="QR" type="text" name="QR"
-                                                    [(ngModel)]="selectedCatSupervisor.QR" style="display: none">
-                                            </mat-form-field>
-                                        </div>
-                                        <!--Fin de la seccion de campos temporalmente ocultos-->
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Nombre" type="text" name="nombre"
-                                                [(ngModel)]="selectedCatSupervisor.nombre">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Apellidos" type="text" name="apellidos"
-                                                [(ngModel)]="selectedCatSupervisor.apellidos">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Usuario" type="text" name="idusuario"
-                                                [(ngModel)]="selectedCatSupervisor.idusuario">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Clave" type="text" name="pwd"
-                                                [(ngModel)]="selectedCatSupervisor.pwd">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Confirmacion de la clave" type="text"
-                                                name="pwd_c" [(ngModel)]="selectedCatSupervisor.pwd_c">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Zona</mat-label>
-                                            <mat-select [(value)]="idzona" name="idzona"
-                                                [(ngModel)]="selectedCatSupervisor.idzona">
-                                                <mat-option [value]="0">--Seleccione una zona--</mat-option>
-                                                <mat-option *ngFor="let zona of zonas" [value]="zona.idzona">
-                                                    {{zona.letrazona}}. {{zona.estados}}
-                                                </mat-option>
-                                                <!--Seccion para cargar datos desde el catalogo de zonas-->
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Correo" type="text" name="correo"
-                                                [(ngModel)]="selectedCatSupervisor.correo">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Uso horario</mat-label>
-                                            <mat-select [(value)]="idusohorario" name="idusohorario"
-                                                [(ngModel)]="selectedCatSupervisor.idusohorario">
-                                                <mat-option [value]="0">--Seleccione un horario--</mat-option>
-                                                <mat-option *ngFor="let usohorario of usohorarios"
-                                                    [value]="usohorario.idusohorario">
-                                                    {{usohorario.desc_horario_normal}}
-                                                </mat-option>
-                                                <!--Seccion para cargar datos desde el catalogo de empresa-->
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Usuario de actualización" type="text"
-                                                name="udc1" [(ngModel)]="selectedCatSupervisor.uda_c" readonly disabled>
-                                        </mat-form-field>
-                                        <input type="hidden" name="udc" [(ngModel)]="selectedCatSupervisor.uda_c">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Fecha de actualización" type="text" name="fdc"
-                                                [(ngModel)]="selectedCatSupervisor.fdc" readonly disabled>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Usuario de creación" type="text" name="uda1"
-                                                [(ngModel)]="selectedCatSupervisor.uda" readonly disabled>
-                                        </mat-form-field>
-                                        <input type="hidden" name="uda" [(ngModel)]="selectedCatSupervisor.uda">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Fecha de creación" type="text" name="fda"
-                                                [(ngModel)]="selectedCatSupervisor.fda" readonly disabled>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <button *ngIf="selectedCatSupervisor.idpromotor != null" mat-raised-button type="submit"
-                                    class="btn btn-info pull-right" (click)="setSelectedTab(2)">Asignar
-                                    promotor</button>
-                                <button mat-raised-button type="submit" class="btn btn-info pull-right"
-                                    (click)="createOrUpdateCatSupervisor(f)" [disabled]="noPermitido">Guardar</button>
-                                <div class="clearfix"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-
-            <mat-tab label="Asignacion de promotores">
-                <br>
-                <mat-tab-group>
-                    <mat-tab label="Promotores asignados al supervisor">
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Div dinamico -->
+                    <div class="tab-pane active" id="lista_supervisores">
                         <br>
-                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor != null">
-                            <div class="col-md-12">
-                                <div class="input-group no-border" style="width: 30%">
-                                    <input id="frc" type="text" value="" class="form-control"
-                                        placeholder="Buscar promotores a asignar" (keyup)="changeTextSP($event)">
-
-                                    <button mat-raised-button type="submit" id="btnfrc"
-                                        class="btn btn-white btn-round btn-just-icon" (click)="searchSP()"
-                                        style="visibility: hidden;">
-                                        <i class="material-icons">search</i>
-                                        <div class="ripple-container"></div>
-                                    </button>
-
-                                    <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="searchSP()">
-                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
-                                            search
-                                        </i>
-                                        <div class="ripple-container"></div>
-                                    </a>
-
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group no-border">
+                                    <input type="text" value="" class="form-control" placeholder="Buscar supervisor"
+                                        (keyup)="changeText($event)">
 
                                 </div>
-                                <div id="ra" style="display:none">
-                                    <div class="card">
-                                        <div class="card-header card-header-info">
-                                            <h4 class="card-title ">Promotores disponibles</h4>
+                            </div>
+
+                            <div class="col-md-3">
+                            </div>
+
+                            <div class="col-md-3">
+                                <a class="btn btn-info pull-right" href="javascript:void(0)" (click)="search(0)">
+                                    <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                        search
+                                    </i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button mat-raised-button type="button" class="btn btn-info pull-right"
+                                    (click)="selectNewCatSupervisor();setSelectedTab('detalles_supervisor');selectCatSupervisor(selectedCatSupervisor);">Nuevo</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title ">Catalogo de supervisores</h4>
+                                        <p class="card-category"> Aqui se muestra todos los supervisores disponibles
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+
+                                            <a *ngIf="supervisores != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(supervisores, encabezados)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+
+                                            <div class="clearfix"></div>
+
+                                            <mat-paginator #pag *ngIf="supervisores != null"
+                                                [length]="supervisores.length" [pageSize]="paginacion.page_size"
+                                                [pageSizeOptions]="paginacion.pageSizeOptions"
+                                                (page)="paginacion.handlePage($event)">
+                                            </mat-paginator>
+
+                                            <table class="table">
+                                                <thead class=" text-info">
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Empresa
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(2)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(1)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Nombre
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(4)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(3)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Apellidos
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(6)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(5)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Usuario
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(8)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(7)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Zona
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(10)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search(9)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Uda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fda
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Udc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Fdc
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Estatus
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Editar
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Eliminar
+                                                    </th>
+                                                </thead>
+                                                <tbody *ngIf="supervisores != null">
+                                                    <tr
+                                                        *ngFor="let supervisor of supervisores | paginate:paginacion.page_size:paginacion.page_number">
+                                                        <td>{{ supervisor.nombreempresa }}</td>
+                                                        <td>{{ supervisor.nombre }}</td>
+                                                        <td>{{ supervisor.apellidos }}</td>
+                                                        <td>{{ supervisor.idusuario }}</td>
+                                                        <td>{{ supervisor.zona }}</td>
+                                                        <td>{{ supervisor.uda }}</td>
+                                                        <td>{{ supervisor.fda_m }}</td>
+                                                        <td>{{ supervisor.udc }}</td>
+                                                        <td>{{ supervisor.fdc_m }}</td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn {{supervisor.btn_estilo}} pull-right"
+                                                                (click)="selectCatSupervisor(supervisor,1)"
+                                                                [disabled]="noPermitido">
+                                                                {{ supervisor.estatus_btn }}</button>
+                                                        </td>
+                                                        <td>
+                                                            <button mat-raised-button type="button"
+                                                                class="btn btn-warning pull-right"
+                                                                (click)="selectCatSupervisor(supervisor);setSelectedTab('detalles_supervisor')">Editar</button>
+                                                        </td>
+                                                        <td><button mat-raised-button type="button"
+                                                                class="btn btn-danger pull-right"
+                                                                (click)="deleteCatSupervisor(supervisor.idpromotor)"
+                                                                [disabled]="noPermitido">Borrar</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
                                         </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <mat-paginator #pag1 *ngIf="promotoresPorSupervisorD != null"
-                                                    [length]="promotoresPorSupervisorD.length"
-                                                    [pageSize]="paginacion1.page_size"
-                                                    [pageSizeOptions]="paginacion1.pageSizeOptions"
-                                                    (page)="paginacion1.handlePage($event)">
-                                                </mat-paginator>
-                                                <table class="table">
-                                                    <thead class=" text-primary">
-                                                        <th style="background-color: #007A87; color: #FFFFFF;"> Nombre
-                                                            completo
-                                                        </th>
-                                                        <th style="background-color: #007A87; color: #FFFFFF;">asignar
-                                                        </th>
-                                                    </thead>
-                                                    <tbody *ngIf="promotoresPorSupervisorD != null">
-                                                        <tr
-                                                            *ngFor="let _promotorPorSupervisor of promotoresPorSupervisorD | paginate:paginacion1.page_size:paginacion1.page_number">
-                                                            <td>
-                                                                {{_promotorPorSupervisor.nombre_completo}}
-                                                            </td>
-                                                            <td>
-                                                                <button mat-raised-button type="button"
-                                                                    class="btn btn-warning pull-right"
-                                                                    (click)="setAsignaPromotores(_promotorPorSupervisor)"
-                                                                    [disabled]="noPermitido">Asignar promotor</button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Inicia bloqueador mientras procesa-->
+                        <div id="bloqueador_supervisores" class="row" style="
+                                                        position: absolute;
+                                                        width: 100%;
+                                                        top: 0;
+                                                        left: 0;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                      ">
+                            <div class="col" style="
+                                                          background-color: rgba(10, 9, 9, 0.062);
+                                                          z-index: 1;
+                                                          display: flex;
+                                                          align-items: center;
+                                                        ">
+                                <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                    strokeWidth="10">
+                                </mat-progress-spinner>
+                                <div style="
+                                                            position: absolute;
+                                                            left: calc((100% / 2) - 4%);
+                                                            margin: 0 auto;
+                                                            color: blue;
+                                                          ">
+                                    Cargando...
+                                </div>
+                            </div>
+                        </div>
+                        <!--Fin bloqueador mientras procesa -->
+
+                    </div>
+                    <div class="tab-pane " id="detalles_supervisor">
+                        <br>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-info">
+                                    <h4 class="card-title">Editar supervisor</h4>
+                                    <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+                                </div>
+                                <div class="card-body">
+                                    <form #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Empresa</mat-label>
+                                                    <mat-select [(value)]="idempresa" name="idEmpresa"
+                                                        [(ngModel)]="selectedCatSupervisor.idempresa">
+                                                        <mat-option [value]="0">--Seleccione una
+                                                            empresa--</mat-option>
+                                                        <mat-option *ngFor="let empresa of empresas"
+                                                            [value]="empresa.idEmpresa">
+                                                            {{empresa.nombreempresa}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!--Campos temporalmente ocultos-->
+                                                <div style="display: none;">
+                                                    <mat-form-field class="example-full-width" style="display: none">
+                                                        <input matInput placeholder="Supervisor" type="text"
+                                                            name="idsupervisor"
+                                                            [(ngModel)]="selectedCatSupervisor.idsupervisor"
+                                                            style="display: none">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" style="display: none">
+                                                        <input matInput placeholder="Rol" type="text" name="rol"
+                                                            [(ngModel)]="selectedCatSupervisor.rol"
+                                                            style="display: none">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" style="display: none">
+                                                        <input matInput placeholder="Estatus" type="text" name="estatus"
+                                                            [(ngModel)]="selectedCatSupervisor.estatus"
+                                                            style="display: none">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" style="display: none">
+                                                        <input matInput placeholder="QR" type="text" name="QR"
+                                                            [(ngModel)]="selectedCatSupervisor.QR"
+                                                            style="display: none">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!--Fin de la seccion de campos temporalmente ocultos-->
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Nombre" type="text" name="nombre"
+                                                        [(ngModel)]="selectedCatSupervisor.nombre">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Apellidos" type="text" name="apellidos"
+                                                        [(ngModel)]="selectedCatSupervisor.apellidos">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario" type="text" name="idusuario"
+                                                        [(ngModel)]="selectedCatSupervisor.idusuario">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Clave" type="text" name="pwd"
+                                                        [(ngModel)]="selectedCatSupervisor.pwd">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Confirmacion de la clave" type="text"
+                                                        name="pwd_c" [(ngModel)]="selectedCatSupervisor.pwd_c">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Zona</mat-label>
+                                                    <mat-select [(value)]="idzona" name="idzona"
+                                                        [(ngModel)]="selectedCatSupervisor.idzona">
+                                                        <mat-option [value]="0">--Seleccione una zona--</mat-option>
+                                                        <mat-option *ngFor="let zona of zonas" [value]="zona.idzona">
+                                                            {{zona.letrazona}}. {{zona.estados}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de zonas-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Correo" type="text" name="correo"
+                                                        [(ngModel)]="selectedCatSupervisor.correo">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Uso horario</mat-label>
+                                                    <mat-select [(value)]="idusohorario" name="idusohorario"
+                                                        [(ngModel)]="selectedCatSupervisor.idusohorario">
+                                                        <mat-option [value]="0">--Seleccione un
+                                                            horario--</mat-option>
+                                                        <mat-option *ngFor="let usohorario of usohorarios"
+                                                            [value]="usohorario.idusohorario">
+                                                            {{usohorario.desc_horario_normal}}
+                                                        </mat-option>
+                                                        <!--Seccion para cargar datos desde el catalogo de empresa-->
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de actualización" type="text"
+                                                        name="udc1" [(ngModel)]="selectedCatSupervisor.uda_c" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="udc"
+                                                    [(ngModel)]="selectedCatSupervisor.uda_c">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de actualización" type="text"
+                                                        name="fdc" [(ngModel)]="selectedCatSupervisor.fdc" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Usuario de creación" type="text"
+                                                        name="uda1" [(ngModel)]="selectedCatSupervisor.uda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                                <input type="hidden" name="uda" [(ngModel)]="selectedCatSupervisor.uda">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Fecha de creación" type="text"
+                                                        name="fda" [(ngModel)]="selectedCatSupervisor.fda" readonly
+                                                        disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button *ngIf="selectedCatSupervisor.idpromotor != null" mat-raised-button
+                                            type="submit" class="btn btn-info pull-right"
+                                            (click)="setSelectedTab('asignacion_de_promotores')">Asignar
+                                            promotor</button>
+                                        <button mat-raised-button type="submit" class="btn btn-info pull-right"
+                                            (click)="createOrUpdateCatSupervisor(f)"
+                                            [disabled]="noPermitido">Guardar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane " id="asignacion_de_promotores">
+                        <br>
+                        <div scroll-here class="card">
+                            <div id="ref_scroll" class="card-header card-header-tabs card-header-info">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <!--<span class="nav-tabs-title">Tasks:</span>-->
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item active"><a mat-button class="nav-link active"
+                                                    href="#promotores_asignados_al_supervisor"
+                                                    data-toggle="tab">Promotores asignados al supervisor<div
+                                                        class="ripple-container"></div></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <!-- Div dinamico -->
+                                    <div class="tab-pane active" id="promotores_asignados_al_supervisor">
+                                        <!-- Here is the content -->
+
+                                        <br>
+                                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor != null">
+                                            <div class="col-md-12">
+                                                <div class="input-group no-border" style="width: 30%">
+                                                    <input id="frc" type="text" value="" class="form-control"
+                                                        placeholder="Buscar promotores a asignar"
+                                                        (keyup)="changeTextSP($event)">
+
+                                                    <button mat-raised-button type="submit" id="btnfrc"
+                                                        class="btn btn-white btn-round btn-just-icon"
+                                                        (click)="searchSP()" style="visibility: hidden;">
+                                                        <i class="material-icons">search</i>
+                                                        <div class="ripple-container"></div>
+                                                    </button>
+
+                                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                        (click)="searchSP()">
+                                                        <i class="material-icons" style="font-size: 20px"
+                                                            data-md-tooltip="Buscar">
+                                                            search
+                                                        </i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+
+
+                                                </div>
+                                                <div id="ra" style="display:none">
+                                                    <div class="card">
+                                                        <div class="card-header card-header-info">
+                                                            <h4 class="card-title ">Promotores disponibles</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <mat-paginator #pag1
+                                                                    *ngIf="promotoresPorSupervisorD != null"
+                                                                    [length]="promotoresPorSupervisorD.length"
+                                                                    [pageSize]="paginacion1.page_size"
+                                                                    [pageSizeOptions]="paginacion1.pageSizeOptions"
+                                                                    (page)="paginacion1.handlePage($event)">
+                                                                </mat-paginator>
+                                                                <table class="table">
+                                                                    <thead class=" text-primary">
+                                                                        <th
+                                                                            style="background-color: #007A87; color: #FFFFFF;">
+                                                                            Nombre
+                                                                            completo
+                                                                        </th>
+                                                                        <th
+                                                                            style="background-color: #007A87; color: #FFFFFF;">
+                                                                            asignar
+                                                                        </th>
+                                                                    </thead>
+                                                                    <tbody *ngIf="promotoresPorSupervisorD != null">
+                                                                        <tr
+                                                                            *ngFor="let _promotorPorSupervisor of promotoresPorSupervisorD | paginate:paginacion1.page_size:paginacion1.page_number">
+                                                                            <td>
+                                                                                {{_promotorPorSupervisor.nombre_completo}}
+                                                                            </td>
+                                                                            <td>
+                                                                                <button mat-raised-button type="button"
+                                                                                    class="btn btn-warning pull-right"
+                                                                                    (click)="setAsignaPromotores(_promotorPorSupervisor)"
+                                                                                    [disabled]="noPermitido">Asignar
+                                                                                    promotor</button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor == null">
+                                            <div class="col-md-12">
+                                                <h6>No hay ningun supervisor seleccionado.</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor != null">
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-header card-header-info">
+                                                        <h4 class="card-title ">Promotores Asignados a:
+                                                            {{selectedCatSupervisor.nombre}}
+                                                            {{selectedCatSupervisor.apellidos}}</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <mat-paginator #pag2 *ngIf="promotoresPorSupervisor != null"
+                                                                [length]="promotoresPorSupervisor.length"
+                                                                [pageSize]="paginacion2.page_size"
+                                                                [pageSizeOptions]="paginacion2.pageSizeOptions"
+                                                                (page)="paginacion2.handlePage($event)">
+                                                            </mat-paginator>
+                                                            <table class="table">
+                                                                <thead class=" text-primary">
+                                                                    <th
+                                                                        style="background-color: #007A87; color: #FFFFFF;">
+                                                                        Nombre
+                                                                        completo.</th>
+                                                                    <th
+                                                                        style="background-color: #007A87; color: #FFFFFF;">
+                                                                        Desasignar
+                                                                    </th>
+                                                                </thead>
+                                                                <tbody *ngIf="promotoresPorSupervisor != null">
+                                                                    <tr
+                                                                        *ngFor="let _promotorPorSupervisor of promotoresPorSupervisor | paginate:paginacion2.page_size:paginacion2.page_number">
+                                                                        <td>
+                                                                            {{_promotorPorSupervisor.nombre_completo}}
+                                                                        </td>
+                                                                        <td>
+                                                                            <button mat-raised-button type="button"
+                                                                                class="btn btn-warning pull-right"
+                                                                                [disabled]="noPermitido"
+                                                                                (click)="desasignarPromotorASupervisor(_promotorPorSupervisor.idpromotorasignado)">Desasignar
+                                                                                promotor</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor == null">
-                            <div class="col-md-12">
-                                <h6>No hay ningun supervisor seleccionado.</h6>
+
+                        <!--Inicia bloqueador mientras procesa-->
+                        <div id="bloqueador_asignacion_promotores" class="row" style="
+                                                        position: absolute;
+                                                        width: 100%;
+                                                        top: 0;
+                                                        left: 0;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                      ">
+                            <div class="col" style="
+                                                          background-color: rgba(10, 9, 9, 0.062);
+                                                          z-index: 1;
+                                                          display: flex;
+                                                          align-items: center;
+                                                        ">
+                                <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" diameter="85"
+                                    strokeWidth="10">
+                                </mat-progress-spinner>
+                                <div style="
+                                                            position: absolute;
+                                                            left: calc((100% / 2) - 4%);
+                                                            margin: 0 auto;
+                                                            color: blue;
+                                                          ">
+                                    Cargando...
+                                </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="selectedCatSupervisor.idpromotor != null">
+                        <!--Fin bloqueador mientras procesa -->
+
+                    </div>
+                    <div class="tab-pane " id="lista_supervisores_y_promotores">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header card-header-info">
-                                        <h4 class="card-title ">Promotores Asignados a: {{selectedCatSupervisor.nombre}}
-                                            {{selectedCatSupervisor.apellidos}}</h4>
+                                        <h4 class="card-title ">Lista de supervisores y promotores</h4>
+                                        <p class="card-category"> Aqui se muestra todos los supervisores y
+                                            promotores</p>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <mat-paginator #pag2 *ngIf="promotoresPorSupervisor != null"
-                                                [length]="promotoresPorSupervisor.length"
-                                                [pageSize]="paginacion2.page_size"
-                                                [pageSizeOptions]="paginacion2.pageSizeOptions"
-                                                (page)="paginacion2.handlePage($event)">
-                                            </mat-paginator>
+
+                                            <a *ngIf="supervisores_promotores != null" class="btn btn-info pull-right"
+                                                href="javascript:void(0)"
+                                                (click)="exportarExcel.exportarExcel(supervisores_promotores, encabezados_sp)">
+                                                <i class="material-icons" style="font-size: 20px"
+                                                    data-md-tooltip="Exportar a Excel">
+                                                    cloud_download
+                                                </i>
+                                            </a>
+
+                                            <div class="clearfix"></div>
+
+                                            <!--<mat-paginator *ngIf="supervisores_promotores != null" [length]="supervisores_promotores.length"
+                                    [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
+                                    (page)="paginacion.handlePage($event)">
+                                </mat-paginator>-->
+
                                             <table class="table">
-                                                <thead class=" text-primary">
-                                                    <th style="background-color: #007A87; color: #FFFFFF;">Nombre
-                                                        completo.</th>
-                                                    <th style="background-color: #007A87; color: #FFFFFF;">Desasignar
+                                                <thead class=" text-info">
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Supervisor
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search1(2)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search1(1)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                    </th>
+                                                    <th style="background-color: #007A87; color: #FFFFFF;">
+                                                        Promotor
+                                                        <br>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search1(4)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Desc">
+                                                                arrow_drop_down
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
+                                                        <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                                            (click)="search1(3)">
+                                                            <i class="material-icons" style="font-size: 20px"
+                                                                data-md-tooltip="Orden Asc">
+                                                                arrow_drop_up
+                                                            </i>
+                                                            <div class="ripple-container"></div>
+                                                        </a>
                                                     </th>
                                                 </thead>
-                                                <tbody *ngIf="promotoresPorSupervisor != null">
-                                                    <tr
-                                                        *ngFor="let _promotorPorSupervisor of promotoresPorSupervisor | paginate:paginacion2.page_size:paginacion2.page_number">
-                                                        <td>
-                                                            {{_promotorPorSupervisor.nombre_completo}}
-                                                        </td>
-                                                        <td>
-                                                            <button mat-raised-button type="button"
-                                                                class="btn btn-warning pull-right"
-                                                                [disabled]="noPermitido"
-                                                                (click)="desasignarPromotorASupervisor(_promotorPorSupervisor.idpromotorasignado)">Desasignar
-                                                                promotor</button>
-                                                        </td>
+                                                <tbody *ngIf="supervisores_promotores != null">
+                                                    <tr *ngFor="let supervisor_promotor of supervisores_promotores">
+                                                        <td>{{ supervisor_promotor.Supervisor }}</td>
+                                                        <td>{{ supervisor_promotor.Promotor }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </mat-tab>
-                </mat-tab-group>
-            </mat-tab>
-            <mat-tab label="Lista de Supervisores y promotores">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-info">
-                                <h4 class="card-title ">Lista de supervisores y promotores</h4>
-                                <p class="card-category"> Aqui se muestra todos los supervisores y promotores</p>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-
-                                    <a *ngIf="supervisores_promotores != null" class="btn btn-info pull-right"
-                                        href="javascript:void(0)"
-                                        (click)="exportarExcel.exportarExcel(supervisores_promotores, encabezados_sp)">
-                                        <i class="material-icons" style="font-size: 20px"
-                                            data-md-tooltip="Exportar a Excel">
-                                            cloud_download
-                                        </i>
-                                    </a>
-
-                                    <div class="clearfix"></div>
-
-                                    <!--<mat-paginator *ngIf="supervisores_promotores != null" [length]="supervisores_promotores.length"
-                                        [pageSize]="paginacion.page_size" [pageSizeOptions]="paginacion.pageSizeOptions"
-                                        (page)="paginacion.handlePage($event)">
-                                    </mat-paginator>-->
-
-                                    <table class="table">
-                                        <thead class=" text-info">
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Supervisor
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search1(2)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search1(1)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                            <th style="background-color: #007A87; color: #FFFFFF;">
-                                                Promotor
-                                                <br>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search1(4)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Desc">
-                                                        arrow_drop_down
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                                <a class="btn btn-info pull-right" href="javascript:void(0)"
-                                                    (click)="search1(3)">
-                                                    <i class="material-icons" style="font-size: 20px"
-                                                        data-md-tooltip="Orden Asc">
-                                                        arrow_drop_up
-                                                    </i>
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </th>
-                                        </thead>
-                                        <tbody *ngIf="supervisores_promotores != null">
-                                            <tr *ngFor="let supervisor_promotor of supervisores_promotores">
-                                                <td>{{ supervisor_promotor.Supervisor }}</td>
-                                                <td>{{ supervisor_promotor.Promotor }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
+            </div>
+        </div>
+
     </div>
 </div>

@@ -98,7 +98,7 @@ export class CatRutasComponent implements OnInit, AfterViewInit {
       if (localStorage.getItem("tab") != null && localStorage.getItem("idruta") != null) {
         this.rutasservice.getrutasPorIdServicios(parseInt(localStorage.getItem("idruta"))).subscribe((grutas: CatRutas[]) => {
           this.selectCatRutas(grutas[0]);
-          this.setSelectedTab(parseInt(localStorage.getItem("tab")));
+          this.setSelectedTab(localStorage.getItem("tab"));
         });
         $('#bloqueador_lista_precios').hide();
       }

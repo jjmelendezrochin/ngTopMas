@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ErroresService } from 'app/Servicios/errores.service';
 import { Errores } from 'app/Objetos/errores';
 import { Paginacion } from 'app/Objetos/paginacion';
 import { FiltradoErrores } from 'app/Objetos/filtraerrores';
 import { ToastrService } from 'ngx-toastr';
 
+declare var $: any;
+
 @Component({
   selector: 'app-errores',
   templateUrl: './errores.component.html',
   styleUrls: ['./errores.component.scss']
 })
-export class ErroresComponent implements OnInit {
+export class ErroresComponent implements OnInit, AfterViewInit {
   selected: number;
   form: any;
   errores: Errores[];
@@ -72,6 +74,12 @@ export class ErroresComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    $('#bloqueador_errores').hide();
+    this.setSelectedTab('detalles_error');
+    this.setSelectedTab('lista_errores');
+  }
+
   /* Seccion de eventos de Tabs */
   getSelectedTab(index) {
     switch (index) {
@@ -82,10 +90,12 @@ export class ErroresComponent implements OnInit {
   }
 
   buscaErrores(forma) {
+    $('#bloqueador_errores').show();
     this.form = forma;
     console.log(`FechaInicial: ${forma.value.FechaInicial}, FechaFinal: ${forma.value.FechaFinal}, Usuario: ${forma.value.Usuario}, Fabricante: ${forma.value.Fabricante}, Modelo: ${forma.value.Modelo}`);
     this.erroresService.getErrores(forma.value).subscribe((gerrores: Errores[]) => {
       this.errores = gerrores;
+      $('#bloqueador_errores').hide();
       console.log("lista de errores, ", this.errores);
     });
   }
@@ -104,8 +114,8 @@ export class ErroresComponent implements OnInit {
     }
   }
 
-  setSelectedTab(index) {
-    this.selected = index;
+  setSelectedTab(tab) {
+    $('a[href="#' + tab + '"]').tab('show');
   }
 
   selectErrores(error: Errores) {
