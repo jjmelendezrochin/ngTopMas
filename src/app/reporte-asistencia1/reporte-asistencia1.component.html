@@ -1,0 +1,26 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Reporte asistencia</h4>
+            </div>
+            <div class="card-body">
+
+                <app-filtros-reporte-asistencia1 [filtrado]="filtrado_asistencia" [regs]="regs_asistencia"
+                    (consultarEvt)="consultarAsistencia()"
+                    (generarReporteEvt)="generarReporteAsistencia()"></app-filtros-reporte-asistencia1>
+                <div class="row">
+                    <div class="col-12">
+                        <app-lista-reporte-asistencia1 #ra [filtrado]="filtrado_asistencia"
+                            (regs)="regs_asistencia = $event"></app-lista-reporte-asistencia1>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

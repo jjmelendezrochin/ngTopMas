@@ -88,6 +88,10 @@ import { FiltrosReporteAsistenciaComponent } from '../../reporte-scl/filtros-rep
 import { FiltrosSlideSclComponent } from '../../reporte-scl/filtros-slide-scl/filtros-slide-scl.component';
 import { ListaSlideSclComponent } from '../../reporte-scl/lista-slide-scl/lista-slide-scl.component';
 import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensual/reporte-acumulado-mensual.component';
+import { ReporteAsistencia1Component } from '../../reporte-asistencia1/reporte-asistencia1.component';
+import { FiltrosReporteAsistencia1Component } from '../../reporte-asistencia1/filtros-reporte-asistencia1/filtros-reporte-asistencia1.component';
+import { ListaReporteAsistencia1Component } from '../../reporte-asistencia1/lista-reporte-asistencia1/lista-reporte-asistencia1.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -151,6 +155,9 @@ import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensua
     FiltrosSlideSclComponent,
     ListaSlideSclComponent,
     ReporteAcumuladoMensualComponent,
+    ReporteAsistencia1Component,
+    FiltrosReporteAsistencia1Component,
+    ListaReporteAsistencia1Component,
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },

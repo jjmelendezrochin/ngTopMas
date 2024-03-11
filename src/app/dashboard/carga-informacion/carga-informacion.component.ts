@@ -35,6 +35,7 @@ export class CargaInformacionComponent implements OnInit {
   @Output() ajusta_supervisores_promotores_3: EventEmitter<any[]> = new EventEmitter<any[]>();
 
 
+  @Input() titulo_contador_objetivo_visitas: string = '';
   @Input() titulo_contador_objetivo_tiendas: string = '';
   @Input() titulo_contador_acumulado: string = '';
   @Input() titulo_contador_avance_al_dia: string = '';
@@ -93,6 +94,7 @@ export class CargaInformacionComponent implements OnInit {
   Total_usuarios_activos: string;
   Total_usuarios_inactivos: string;
   Usuarios_transito: string;
+  Total_objetivo_visitas: string;
   Total_tiendas: string;
   Tiendas_visitadas: string;
   Tiendas_sin_visitar: string;
@@ -283,6 +285,7 @@ export class CargaInformacionComponent implements OnInit {
     });
 
     this.fotosservice.obtenerdatospanel(this.idempresa).subscribe((gfoto: any[]) => {
+      this.Total_objetivo_visitas = gfoto[0].CtaVisitasTotales;
       this.Total_tiendas = gfoto[0].Total_tiendas;
       this.Tiendas_visitadas = gfoto[0].Tiendas_visitadas;
       this.Tiendas_sin_visitar = gfoto[0].Tiendas_sin_visitar;

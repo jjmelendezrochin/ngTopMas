@@ -228,6 +228,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           class: "",
           subitems: null,
         },
+        {
+          path: "/reporte_asistencia",
+          title: "Reporte de asistencia",
+          icon: "poll",
+          class: "",
+          subitems: null,
+        },
       ],
     },
     {
