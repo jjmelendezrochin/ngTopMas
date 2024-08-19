@@ -26,7 +26,7 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
   @ViewChild('listaPromotor', { static: false }) listaPromotor: MatSelect;
   @ViewChild('listaActividad', { static: false }) listaActividad: MatSelect;
   @ViewChild('listaCadena', { static: false }) listaCadena: MatSelect;
-  encabezados = { "Nombre": "Nombre", "Tienda": "Tienda", "Actividad": "Actividad", "FechaHora": "Fecha y Hora", "Distancia": "Distancia", "Actividad1": "Actividad 1", "FechaHora1": "Fecha y Hora 1", "Distancia1": "Distancia 1", "Estancia": "Estancia", "Estatus": "Estatus" };
+  encabezados = { "Nombre": "Nombre", "Tienda": "Tienda", "Actividad": "Actividad", "FechaHora": "Fecha y Hora", "Distancia": "Distancia", "Actividad1": "Actividad 1", "FechaHora1": "Fecha y Hora 1", "Distancia1": "Distancia 1", "Estancia": "Estancia", "Estatus": "Estatus", "Traslado": "Traslado" };
   encabezados1 = { "Fecha": "Fecha", "Nombre": "Nombre", "Tienda": "Tienda", "Cadena": "Cadena", "Formato": "Formato", "Objetivo": "El Objetivo", "Checkin": "Cta Checkin", "Checkout": "Cta Checkout" };
   fotodistancia: any[];
   promotores: any[];
@@ -81,6 +81,8 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
       this.pag.firstPage();
     }
 
+    $('#bloqueador_tabla_reporte_distancia').hide();
+
     /* Espera a que se finilize la carga de los registros de todas las cajas desplegables */
     let wait = setInterval(() => {
       if (this.catrutas != null && this.promotores != null && this.actividades != null && this.cadenas != null) {
@@ -98,6 +100,9 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
       this.paginacion.page_number = 0;
       this.pag.firstPage();
     }
+
+    $('#bloqueador_tabla_reporte_distancia').show();
+
     /*if (form.value.FechaInicial != "") {*/
     let obj = Object.assign({}, form.value);
     obj.FechaInicial = this.datePipe.transform(obj.FechaInicial, 'yyyy-MM-dd');
@@ -105,6 +110,7 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
     this.fotosService.getFotosDistanciaServicios(obj).subscribe((fotodistancia: any[]) => {
       this.fotodistancia = fotodistancia;
       console.log("Lista de distancias: ", this.fotodistancia);
+      $('#bloqueador_tabla_reporte_distancia').hide();
     });
     /* } else {
        this.toaster.warning("Debe establecer la fecha inicial y la fecha final", "", {
@@ -116,10 +122,14 @@ export class DistanciaComponent implements OnInit, AfterViewInit {
 
 
   exportarExcel1(form) {
+
+    $('#bloqueador_tabla_reporte_distancia').show();
+
     this.fotosService.getReporte(form).subscribe((reporte: any) => {
       this.exportarExcel.nombreArchivo = "Reporte1";
       this.exportarExcel.exportarExcel(reporte, this.encabezados1);
-      // console.log("reporte generado: ", reporte);
+      $('#bloqueador_tabla_reporte_distancia').hide();
+      // console.log("reporte generado: ", reporte);      
     });
   }
 
