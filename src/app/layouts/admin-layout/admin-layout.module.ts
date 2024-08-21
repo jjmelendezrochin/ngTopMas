@@ -91,6 +91,7 @@ import { ReporteAcumuladoMensualComponent } from '../../reporte-acumulado-mensua
 import { ReporteAsistencia1Component } from '../../reporte-asistencia1/reporte-asistencia1.component';
 import { FiltrosReporteAsistencia1Component } from '../../reporte-asistencia1/filtros-reporte-asistencia1/filtros-reporte-asistencia1.component';
 import { ListaReporteAsistencia1Component } from '../../reporte-asistencia1/lista-reporte-asistencia1/lista-reporte-asistencia1.component';
+import { IncidenciasComponent } from '../../incidencias/incidencias.component';
 
 @NgModule({
   imports: [
@@ -158,6 +159,7 @@ import { ListaReporteAsistencia1Component } from '../../reporte-asistencia1/list
     ReporteAsistencia1Component,
     FiltrosReporteAsistencia1Component,
     ListaReporteAsistencia1Component,
+    IncidenciasComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },

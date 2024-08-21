@@ -34,6 +34,7 @@ import { GestionAjusteAcumuladoComponent } from "app/gestion-ajuste-acumulado/ge
 import { ReporteSclComponent } from "app/reporte-scl/reporte-scl.component";
 import { ReporteAcumuladoMensualComponent } from "app/reporte-acumulado-mensual/reporte-acumulado-mensual.component";
 import { ReporteAsistencia1Component } from "app/reporte-asistencia1/reporte-asistencia1.component";
+import { IncidenciasComponent } from "app/incidencias/incidencias.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -70,5 +71,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "reporte_scl/reporte_desplazamiento", component: ReporteSclComponent, data: { idmodulo: '2', nombre_modulo: 'Reporte desplazamiento' } },
   { path: "reporte_scl/slide_santa_clara", component: ReporteSclComponent, data: { idmodulo: '3', nombre_modulo: 'Generar Slide' } },
   { path: "reporte_acumulado", component: ReporteAcumuladoMensualComponent },
-  { path: "reporte_asistencia", component: ReporteAsistencia1Component }
+  { path: "reporte_asistencia", component: ReporteAsistencia1Component },
+  { path: "incidencias", component: IncidenciasComponent }
 ];

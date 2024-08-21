@@ -245,6 +245,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       subitems: null,
     },
     {
+      path: "/incidencias",
+      title: "Incidencias",
+      icon: "list",
+      class: "",
+      subitems: null,
+    },
+    {
       path: "/logout",
       title: "Salir",
       icon: "exit_to_app",

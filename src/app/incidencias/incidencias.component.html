@@ -1,0 +1,167 @@
+<br>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Busqueda de incidencias</h4>
+                <p class="card-category">Ingrese la informaci&oacute;n solicitada.</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form #f="ngForm">
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="width:100px">
+                                        <input matInput [matDatepicker]="fechainicial" type="text" name="FechaInicialDP"
+                                            placeholder="Fecha inicial" [(ngModel)]="filtrado.fechainicial" disabled>
+                                        <mat-datepicker-toggle matSuffix [for]="fechainicial"></mat-datepicker-toggle>
+                                        <mat-datepicker #fechainicial disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                    <input type="hidden" name="fechainicial" [(ngModel)]="filtrado.FechaInicial">
+                                </div>
+
+                                <div class="col-4">
+                                    <mat-form-field style="width:100px">
+                                        <input matInput [matDatepicker]="fechafinal" type="text" name="FechaFinalDP"
+                                            placeholder="Fecha final" [(ngModel)]="filtrado.fechafinal" disabled>
+                                        <mat-datepicker-toggle matSuffix [for]="fechafinal"></mat-datepicker-toggle>
+                                        <mat-datepicker #fechafinal disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                    <input type="hidden" name="fechafinal" [(ngModel)]="filtrado.fechafinal">
+                                </div>
+
+                                <div class="col-4">
+                                    <a class="btn btn-info pull-right" href="javascript:void(0)"
+                                        data-md-tooltip="Buscar" (click)="buscarIncidencias(false)">
+                                        <i class="material-icons" style="font-size: 20px" data-md-tooltip="Buscar">
+                                            search
+                                        </i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div style="width: 100%;height: 100%;">
+                                    <!-- Paginador -->
+                                    <mat-paginator #pag *ngIf="incidencias != null" [length]="paginacion.total_records"
+                                        [pageSize]="paginacion.page_size"
+                                        [pageSizeOptions]="paginacion.page_size_options" (page)="irAlaPagina($event)"
+                                        style="float: right;">
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Foto
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Promotor
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Tienda
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Fecha y Hora
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Fecha y Hora1
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                                Respuesta
+                                            </th>
+                                            <th style="background-color: #007A87; color: #FFFFFF;">
+                                            </th>
+                                        </thead>
+                                        <tbody *ngIf="incidencias != null">
+                                            <tr *ngFor="let item of incidencias; let i = index">
+                                                <td>
+                                                    <img src="{{ item.foto }}" style="width:100px;height:100px;"
+                                                        (click)="abrirVentanaModal(item.foto)">
+                                                </td>
+                                                <td>{{ item.promotor }}</td>
+                                                <td>{{ item.Tienda }}</td>
+                                                <td>{{ item.FechaHora }}</td>
+                                                <td>{{ item.FechaHora1 }}</td>
+                                                <td>
+                                                    <form #f="ngForm">
+                                                        <mat-form-field>
+                                                            <input matInput type="text" [id]="'respuesta_' + i"
+                                                                [name]="'respuesta_' + i" [(ngModel)]="item.respuesta"
+                                                                required />
+                                                        </mat-form-field>
+                                                        <button mat-raised-button type="button"
+                                                            class="btn btn-info float-right" [disabled]="!f.valid"
+                                                            data-md-tooltip="Guardar respuesta"
+                                                            (click)="darRespuesta(item)">
+                                                            <i class="material-icons">save</i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--Inicia bloqueador mientras procesa-->
+                            <div id="bloqueador_tabla_incidencias" class="row"
+                                style="position: absolute;width:100%;top:0;left:0;width:100%;height:100%">
+                                <div class="col"
+                                    style="background-color:rgba(10, 9, 9, 0.062);z-index:1;display: flex;align-items: center;">
+                                    <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" diameter="85"
+                                        strokeWidth="10">
+                                    </mat-progress-spinner>
+                                    <div style="position:absolute;left:calc((100% /2) - 4%);margin:0 auto;color:blue">
+                                        Cargando...
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Fin bloqueador mientras procesa -->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ventanaImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!--<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal titl</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>-->
+            <div class="modal-body" style="overflow: auto">
+                <img id="imagen">
+            </div>
+            <!--<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>-->
+        </div>
+    </div>
+</div>
