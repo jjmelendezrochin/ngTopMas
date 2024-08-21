@@ -3,6 +3,8 @@ import { IncidenciasService } from 'app/Servicios/incidencias.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
+declare var $: any;
+
 @Component({
   selector: 'app-dar-respuesta',
   templateUrl: './dar-respuesta.component.html',
