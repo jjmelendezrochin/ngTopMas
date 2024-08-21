@@ -92,6 +92,7 @@ import { ReporteAsistencia1Component } from '../../reporte-asistencia1/reporte-a
 import { FiltrosReporteAsistencia1Component } from '../../reporte-asistencia1/filtros-reporte-asistencia1/filtros-reporte-asistencia1.component';
 import { ListaReporteAsistencia1Component } from '../../reporte-asistencia1/lista-reporte-asistencia1/lista-reporte-asistencia1.component';
 import { IncidenciasComponent } from '../../incidencias/incidencias.component';
+import { DarRespuestaComponent } from '../../incidencias/dar-respuesta/dar-respuesta.component';
 
 @NgModule({
   imports: [
@@ -159,7 +160,8 @@ import { IncidenciasComponent } from '../../incidencias/incidencias.component';
     ReporteAsistencia1Component,
     FiltrosReporteAsistencia1Component,
     ListaReporteAsistencia1Component,
-    IncidenciasComponent
+    IncidenciasComponent,
+    DarRespuestaComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: Paginacion },
