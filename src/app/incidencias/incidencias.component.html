@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <form #f="ngForm">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-2">
                                     <mat-form-field style="width:100px">
                                         <input matInput [matDatepicker]="fechainicial" type="text" name="FechaInicialDP"
                                             placeholder="Fecha inicial" [(ngModel)]="filtrado.fechainicial" disabled>
@@ -23,7 +23,7 @@
                                     <input type="hidden" name="fechainicial" [(ngModel)]="filtrado.fechainicial">
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-2">
                                     <mat-form-field style="width:100px">
                                         <input matInput [matDatepicker]="fechafinal" type="text" name="FechaFinalDP"
                                             placeholder="Fecha final" [(ngModel)]="filtrado.fechafinal" disabled>
@@ -32,6 +32,14 @@
                                     </mat-form-field>
                                     <input type="hidden" name="fechafinal" [(ngModel)]="filtrado.fechafinal">
                                 </div>
+
+                                <div class="col"></div>
+
+                                <div class="col"></div>
+
+                                <div class="col"></div>
+
+                                <div class="col"></div>
 
                                 <div class="col-4">
                                     <a class="btn btn-info pull-right" href="javascript:void(0)"
@@ -97,14 +105,14 @@
                                                 </td>
                                                 <td>{{ item.promotor }}</td>
                                                 <td>{{ item.Tienda }}</td>
-                                                <td>{{ item.FechaHora }}</td>
-                                                <td>{{ item.FechaHora1 }}</td>
+                                                <td>{{ item.FechaHoraF }}</td>
+                                                <td>{{ item.FechaHora1F }}</td>
                                                 <td>
                                                     <form #f="ngForm">
                                                         <mat-form-field>
                                                             <textarea matInput type="text" [id]="'respuesta_' + i"
                                                                 [name]="'respuesta_' + i" [(ngModel)]="item.respuesta"
-                                                                required></textarea>
+                                                                required cols="30" rows="3"></textarea>
                                                         </mat-form-field>
                                                         <button mat-raised-button type="button"
                                                             class="btn btn-info float-right" [disabled]="!f.valid"
