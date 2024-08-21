@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { IncidenciasService } from 'app/Servicios/incidencias.service';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { DarRespuestaComponent } from './dar-respuesta/dar-respuesta.component';
 
 declare var $: any;
 
@@ -15,12 +15,14 @@ declare var $: any;
     DatePipe
   ]
 })
-export class IncidenciasComponent implements OnInit, AfterViewInit {
+export class IncidenciasComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('dr', { static: true, read: DarRespuestaComponent }) darRespuesta: DarRespuestaComponent;
   @ViewChild('pag', { static: false }) pag: MatPaginator;
 
   bsBuscar: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   buscar = this.bsBuscar.asObservable();
 
+  private subscription: Subscription;
 
   fecha = new Date().toISOString();
 
@@ -46,24 +48,26 @@ export class IncidenciasComponent implements OnInit, AfterViewInit {
 
   constructor(
     private incidenciasService: IncidenciasService,
-    private datePipe: DatePipe,
-    private toaster: ToastrService
+    private datePipe: DatePipe
   ) {
     this.buscar.subscribe((filtrado: any) => {
       if (filtrado != null || filtrado != undefined) {
-        this.incidenciasService.muestraIncidencias(filtrado, this.datePipe.transform(filtrado.fechainicial, 'yyyy-MM-dd HH:mm:ss'), this.datePipe.transform(filtrado.fechafinal, 'yyyy-MM-dd HH:mm:ss'))
-          .subscribe((response: any) => {
-            this.paginacion.total_records = response.totalRecords;
-            this.paginacion.page_number = response.currentPage;
-            this.paginacion.page_size = response.resultsForPage;
-            this.paginacion.page_size_options = [response.resultsForPage];
-            this.incidencias = response.regs;
+        this.subscription = this.incidenciasService.muestraIncidencias(filtrado, this.datePipe.transform(filtrado.fechainicial, 'yyyy-MM-dd HH:mm:ss'), this.datePipe.transform(filtrado.fechafinal, 'yyyy-MM-dd HH:mm:ss'))
+          .subscribe({
+            next: (response: any) => {
+              this.paginacion.total_records = response.totalRecords;
+              this.paginacion.page_number = response.currentPage;
+              this.paginacion.page_size = response.resultsForPage;
+              this.paginacion.page_size_options = [response.resultsForPage];
+              this.incidencias = response.regs;
 
-            $('#bloqueador_tabla_incidencias').hide();
-          }, () => {
-            $('#bloqueador_tabla_incidencias').hide();
-          }, () => {
-            $('#bloqueador_tabla_incidencias').hide();
+              $('#bloqueador_tabla_incidencias').hide();
+            }, error: () => {
+              $('#bloqueador_tabla_incidencias').hide();
+            }, complete: () => {
+              $('#bloqueador_tabla_incidencias').hide();
+              this.unsubscribe();
+            }
           });
 
       }
@@ -73,9 +77,20 @@ export class IncidenciasComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
+  ngOnDestroy(): void {
+    this.bsBuscar.complete();
+    this.unsubscribe();
+  }
+
   ngAfterViewInit(): void {
     $('#bloqueador_tabla_incidencias').hide();
     this.bsBuscar.next(this.filtrado);
+  }
+
+  unsubscribe() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   buscarIncidencias(nav: boolean = false) {
@@ -104,24 +119,6 @@ export class IncidenciasComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  darRespuesta(item: any) {
-    this.incidenciasService.darRespuesta(item).subscribe((response: any) => {
-      if (parseInt(response.idRes) == 0) {
-        this.toaster.success(response.Mensaje, "", {
-          timeOut: 1000,
-          positionClass: 'toast-bottom-center'
-        });
-        this.bsBuscar.next(this.filtrado);
-      } else {
-        this.toaster.error(response.Mensaje, "", {
-          timeOut: 1000,
-          positionClass: 'toast-bottom-center'
-        });
-      }
-    });
-  }
-
-
   abrirVentanaModal(foto: string): void {
     $('#ventanaImagenes').on("shown.bs.modal", function () {
       $("#imagen").attr("src", foto);
@@ -130,6 +127,14 @@ export class IncidenciasComponent implements OnInit, AfterViewInit {
       $("#imagen").removeAttr("src");
     });
     $('#ventanaImagenes').modal('show');
+  }
+
+  AbrirVentanaDarRespuesta(item: any) {
+    this.darRespuesta.VerRespuesta(item);
+  }
+
+  respuestaDada() {
+    this.bsBuscar.next(this.filtrado);
   }
 
 }
