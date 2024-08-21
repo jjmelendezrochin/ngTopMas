@@ -102,9 +102,9 @@
                                                 <td>
                                                     <form #f="ngForm">
                                                         <mat-form-field>
-                                                            <input matInput type="text" [id]="'respuesta_' + i"
+                                                            <textarea matInput type="text" [id]="'respuesta_' + i"
                                                                 [name]="'respuesta_' + i" [(ngModel)]="item.respuesta"
-                                                                required />
+                                                                required></textarea>
                                                         </mat-form-field>
                                                         <button mat-raised-button type="button"
                                                             class="btn btn-info float-right" [disabled]="!f.valid"
