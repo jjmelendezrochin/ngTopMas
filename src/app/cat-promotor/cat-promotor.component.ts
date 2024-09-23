@@ -202,7 +202,8 @@ export class CatPromotorComponent implements OnInit, AfterViewInit {
           });
 
           setTimeout(function () {
-            window.location.reload();
+            $('a[href="#lista_rutas_promotor"]').tab('show');
+            this.searchSR();
           }.bind(this), 2000);
 
         });
